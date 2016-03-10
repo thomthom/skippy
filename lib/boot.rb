@@ -1,7 +1,7 @@
 require 'colorize'
 
-require_relative 'debug.rb'
-require_relative 'kernel.rb'
+require_relative 'skippy/debug.rb'
+
 
 
 # Set up debugging.
@@ -27,7 +27,6 @@ command_name = ARGV.pop
 path_skippy = File.expand_path(File.join(__dir__, '..'))
 path_bin = File.join(path_skippy, 'bin')
 path_lib = File.join(path_skippy, 'lib')
-path_lib_public = File.join(path_lib, 'public')
 path_commands = File.join(path_skippy, 'commands')
 
 debug.puts 'Skippy Paths:'.cyan
@@ -39,14 +38,16 @@ options[:paths] = {
   :skippy   => path_skippy,
   :bin      => path_bin,
   :lib      => path_lib,
-  :public   => path_lib_public,
   :commands => path_commands,
 }
 
 
 # Add the Skippy lib path to load path.
 
-$LOAD_PATH << options[:paths][:public]
+$LOAD_PATH << options[:paths][:lib]
+
+
+require 'skippy/console/kernel.rb'
 
 
 begin

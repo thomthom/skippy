@@ -1,4 +1,4 @@
-require 'skippy/command'
+require 'skippy/console/command'
 
 module Skippy
   module Console
@@ -11,8 +11,9 @@ module Skippy
       end
 
       def run
-        puts "Creating new project...".cyan
-        puts Dir.pwd.yellow
+        info 'Creating new project...'
+        warning Dir.pwd
+        error 'Not implemented'
       end
 
     end # class

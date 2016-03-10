@@ -1,3 +1,5 @@
+require 'skippy/console/command'
+
 module Skippy
   module Console
 

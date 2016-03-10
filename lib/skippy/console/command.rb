@@ -1,6 +1,10 @@
+require 'skippy/console/printer'
+
 module Skippy
   module Console
     class Command
+
+      include Printer
 
       attr_accessor :signature
 

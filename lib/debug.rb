@@ -1,25 +1,17 @@
+module Skippy
+  class Debug
 
-module Debug
+    def initialize(enabled = false)
+      @enabled = enabled
+    end
 
-  @debug = true
+    def puts(*args)
+      ::Kernel.puts *args if @enabled
+    end
 
-  def self.puts(*args)
-    Kernel.puts *args if @debug
-  end
+    def p(*args)
+      ::Kernel.p *args if @enabled
+    end
 
-  def self.p(*args)
-    Kernel.p *args if @debug
-  end
-
+  end # class
 end # module
-
-
-# Short syntax.
-
-def debug(*args)
-  Debug.puts(*args)
-end
-
-def debug_p(*args)
-  Debug.p(*args)
-end

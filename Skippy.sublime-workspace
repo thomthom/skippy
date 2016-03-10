@@ -1,0 +1,960 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"path",
+				"path_src"
+			],
+			[
+				"com",
+				"command_file"
+			],
+			[
+				"co",
+				"command_file"
+			],
+			[
+				"comm",
+				"command_name"
+			],
+			[
+				"PL",
+				"PLATFORM_WIN"
+			],
+			[
+				"exten",
+				"extensions"
+			],
+			[
+				"change",
+				"changelist"
+			],
+			[
+				"ar",
+				"args_string"
+			],
+			[
+				"pl",
+				"platform_specific"
+			],
+			[
+				"cert",
+				"cert_data"
+			],
+			[
+				"standa",
+				"standard_library"
+			],
+			[
+				"sour",
+				"source_x"
+			],
+			[
+				"tar",
+				"target_folder_content"
+			],
+			[
+				"ruby",
+				"ruby_dll"
+			],
+			[
+				"color",
+				"colorize"
+			],
+			[
+				"me",
+				"method_id"
+			],
+			[
+				"call",
+				"callback_name"
+			],
+			[
+				"RUBY",
+				"RUBY_PLATFORM"
+			],
+			[
+				"load",
+				"load_count"
+			],
+			[
+				"obse",
+				"ObserverForwarder"
+			],
+			[
+				"stat",
+				"start_trace"
+			],
+			[
+				"star",
+				"start_operation	Model-start_operation"
+			],
+			[
+				"testsu",
+				"testsuites"
+			],
+			[
+				"other",
+				"other_tests"
+			],
+			[
+				"dir",
+				"dirname"
+			],
+			[
+				"test",
+				"test_path"
+			],
+			[
+				"dire",
+				"directory"
+			],
+			[
+				"p4",
+				"p4info"
+			],
+			[
+				"test_",
+				"tests_html"
+			],
+			[
+				"tcn",
+				"testcase_names"
+			],
+			[
+				"select",
+				"select_tool	Model-select_tool"
+			],
+			[
+				"fr",
+				"first_run"
+			],
+			[
+				"metho",
+				"method_name"
+			],
+			[
+				"num",
+				"num_tests_being_run"
+			],
+			[
+				"PF",
+				"PLATFORM_X32"
+			],
+			[
+				"ps",
+				"pointer_size"
+			],
+			[
+				"tp",
+				"test_path"
+			],
+			[
+				"shp",
+				"short_path"
+			],
+			[
+				"common",
+				"common_face	Edge-common_face"
+			],
+			[
+				"active",
+				"active_model	Sketchup-active_model"
+			],
+			[
+				"assert",
+				"assert_kind_of"
+			],
+			[
+				"IP",
+				"InputTool"
+			],
+			[
+				"bb",
+				"boundingbox"
+			],
+			[
+				"bou",
+				"bounding_box"
+			],
+			[
+				"close",
+				"close_active	Model-close_active"
+			],
+			[
+				"format",
+				"format_backtrace"
+			],
+			[
+				"es",
+				"entryString"
+			],
+			[
+				"schet",
+				"schemaType"
+			],
+			[
+				"sc",
+				"schemaTypeNames"
+			],
+			[
+				"che",
+				"checked"
+			],
+			[
+				"is_",
+				"is_osx"
+			],
+			[
+				"inl",
+				"indent_level"
+			],
+			[
+				"assert_",
+				"assert_nothing_raised"
+			],
+			[
+				"asse",
+				"assert_equal"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/boot.rb",
+			"settings":
+			{
+				"buffer_size": 1703,
+				"line_ending": "Windows",
+				"name": "puts \"Hello World\""
+			}
+		},
+		{
+			"file": "Skippy.sublime-project",
+			"settings":
+			{
+				"buffer_size": 341,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "bin/skippy.bat",
+			"settings":
+			{
+				"buffer_size": 65,
+				"line_ending": "Windows",
+				"name": "ruby ..\\src\\boot.rb"
+			}
+		},
+		{
+			"file": "/C/Users/tthomas2/SourceTree/yard/bin/yard",
+			"settings":
+			{
+				"buffer_size": 316,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "commands/install.rb",
+			"settings":
+			{
+				"buffer_size": 351,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 219.0,
+		"last_filter": "inap",
+		"selected_items":
+		[
+			[
+				"inap",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 400.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/tthomas2/SourceTree/skippy",
+		"/C/Users/tthomas2/SourceTree/skippy/bin",
+		"/C/Users/tthomas2/SourceTree/skippy/commands",
+		"/C/Users/tthomas2/SourceTree/skippy/lib",
+		"/C/Users/tthomas2/SourceTree/skippy/src"
+	],
+	"file_history":
+	[
+		"/C/Users/tthomas2/SourceTree/skippy/src/skippy/command.rb",
+		"/C/Users/tthomas2/SourceTree/skippy/src/command.rb",
+		"/C/Users/tthomas2/AppData/Roaming/SketchUp/SketchUp 2015/SketchUp/Plugins/!proxy.rb",
+		"/C/Users/tthomas2/SourceTree/SLAPI-Test/temp/image.obj",
+		"/C/Users/tthomas2/AppData/Roaming/SketchUp/SketchUp 2017/SketchUp/Plugins/!proxy.rb",
+		"/C/Users/tthomas2/AppData/Roaming/SketchUp/SketchUp 2016/SketchUp/Plugins/!proxy.rb",
+		"/C/Users/tthomas2/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/scripts/id_to_string_converter.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/third_party/include/ruby/win32_x64/ruby.h",
+		"/C/Users/tthomas2/Desktop/BuildRuby/RubyInstallerArchive/ruby-2.2.4-x64-mingw32/include/ruby-2.2.0/ruby.h",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/third_party/lib-win/ruby/x64/standard_library/platform_specific/rbconfig.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/third_party/lib-win/ruby/x64/standard_library/platform_specific/cacert.pem",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/third_party/include/ruby/win32_x64/ruby/config.h",
+		"/C/Users/tthomas2/SourceTree/ruby/build_dir/Makefile",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/documentation/.yardopts",
+		"/C/Program Files (x86)/SketchUp/SketchUp 2014/Tools/RubyStdLib/test/unit/assertions.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/documentation/su-api_plugin.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/third_party/lib-win/ruby/msvcrt-ruby200_lib_how_to_create.txt",
+		"/C/Users/tthomas2/SourceTree/ruby/build_dir/.ext/include/x64-mswin64_100/ruby/config.h",
+		"/C/Users/tthomas2/SourceTree/ruby/win32/Makefile.sub",
+		"/C/Users/tthomas2/ThirdParty/Ruby-2.2/ruby-2.2.3-x64-mingw32/include/ruby-2.2.0/x64-mingw32/ruby/config.h",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/third_party/include/ruby/win32_x64/x64-mswin64_100/ruby/config.h",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/winapp/Debug_x64/Tools/RubyStdLib/platform_specific/rbconfig.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/SketchUp Ruby API/TC_Sketchup_RenderingOptions.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/SketchUp Ruby API/TC_Array.rb",
+		"/C/Users/tthomas2/Desktop/BuildRuby/build/verconf.mk",
+		"/C/Users/tthomas2/ThirdParty/Ruby-2.2/ruby-2.2.3-x64-mingw32/bin/x64-msvcrt-ruby220.lib",
+		"/C/Users/tthomas2/ThirdParty/Ruby-2.2/ruby-2.2.3-x64-mingw32/bin/x64-msvcrt-ruby220.def",
+		"/C/Users/tthomas2/ThirdParty/Ruby-2.2/ruby-2.2.3-x64-mingw32/bin/x64-msvcrt-ruby220.exp",
+		"/C/Users/tthomas2/Desktop/Ruby-2.2/generate_def.rb",
+		"/C/Users/tthomas2/Desktop/Ruby-2.2/ruby-2.2.3-x64-mingw32/lib/ruby/2.2.0/x64-mingw32/rbconfig.rb",
+		"/C/Users/tthomas2/SourceTree/ruby/build_dir/.ext/include/x64-mswin64_120/ruby/config.h",
+		"/C/Program Files/SketchUp/SketchUp 2016/Tools/extensions.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/third-party/SKUI/src/SKUI/js/bridge.js",
+		"/C/Users/tthomas2/SourceTree/sketchup-slac/README.md",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/testcase.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/SketchUp Ruby API/TC_Sketchup_Camera.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/SketchUp Ruby API/TC_Geom_Point3d.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/connector/su_trimble_connect/api.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/taskbar_progress.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/p4.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sdk/version.txt",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/SketchUp Ruby API/coverage.manifest",
+		"/C/Users/tthomas2/SourceTree/ruby/include/ruby.h",
+		"/C/Users/tthomas2/Desktop/Ruby-2.2/ruby-2.2.3-x64-mingw32/bin/ruby220.exp",
+		"/C/Users/tthomas2/SourceTree/ruby/build_dir/x64-msvcr120-ruby220.def",
+		"/C/Users/tthomas2/SourceTree/ruby/include/ruby/ruby.h",
+		"/C/Users/tthomas2/Desktop/Ruby-2.2/generate_lib.rb",
+		"/C/Windows/System32/cmd.exe",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/sketchup_test_utilities.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/SketchUp Ruby API/TC_Sketchup_Edge.rb",
+		"/C/Users/tthomas2/Desktop/Ruby-2.3/ruby-2.2.3-x64-mingw32/include/ruby-2.2.0/x64-mingw32/ruby/config.h",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/third_party/lib-win/ruby/x64/standard_library/ubygems.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/third_party/src/ruby/how_to_build_ruby_Win.txt",
+		"/C/Users/tthomas2/Desktop/Ruby-2.3/ruby-2.2.3-x64-mingw32/lib/libx64-msvcrt-ruby220-static.a",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode/ã¦ã™ã¨/timeout.rb",
+		"/C/Users/tthomas2/AppData/Roaming/SketchUp/SketchUp 2016/SketchUp/Plugins/AmbientOcclusionPro/AmbientOcclusionProCore.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/third-party/SKUI/src/SKUI/js/sketchup.js",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/debug.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/test_window.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/third-party/SKUI/src/SKUI/window.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/third-party/SKUI/src/SKUI/debug.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/SketchUp Ruby API/TC_Sketchup_Locale.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode/test/support.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/colors.html",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/third-party/SKUI/src/SKUI/js/ui.js",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/third-party/SKUI/src/SKUI/bridge.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/third-party/SKUI/src/SKUI/html/window.html",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/js/test.js",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/documentation/report.log",
+		"/C/Users/tthomas2/AppData/Local/Temp/7zO5E79.tmp/t2h_export_webgl.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/documentation/HowToDocument.md",
+		"/C/Users/tthomas2/Desktop/Extension Review/UnscrambleAll.bat",
+		"/C/Users/tthomas2/Desktop/Extension Review/temp/builder-code.rb",
+		"/C/Users/tthomas2/AppData/Local/Temp/7zOA9EE.tmp/t2h_export_webgl.rb",
+		"/C/Users/tthomas2/Downloads/mc_circum3.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/js/commands.js",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/js/tabs.js",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/third-party/SKUI/src/SKUI/js/string.js",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/js/testup.js",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode/test/support_unicode.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/third-party/SKUI/src/SKUI/js/core.js",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode/Helpers/create_symlink.bat",
+		"/C/Users/tthomas2/Desktop/testsym/create_sym.bat",
+		"/C/src/thomthom-su2016-win/.pulse.properties",
+		"/C/Users/tthomas2/Desktop/testsym/readfile.rb",
+		"/C/Users/tthomas2/Desktop/testsym/make_unicode.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode/てすと/timeout.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/editor.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode/Ã£ÂÂ¦Ã£ÂÂ™Ã£ÂÂ¨/timeout.rb",
+		"/C/Users/tthomas2/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/third-party/SKUI/src/SKUI/js/ui.base.js",
+		"/C/Users/tthomas2/Desktop/Ruby-trunk.sublime-project",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode/empty.rbe",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode/てすと/test.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode/test/test.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/foo/scrambled.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode/てすと/encrypted.rbe",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/foo.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/SketchUp Ruby API/TC_Sketchup_Model.rb",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode/てすと/support.rb",
+		"/C/Users/tthomas2/Desktop/Extension Review/undet_2/undet.rb",
+		"/C/Program Files/SketchUp/SketchUp 2016/Support/SketchUp.dat",
+		"/C/Program Files/SketchUp/SketchUp 2015/Support/SketchUp.dat",
+		"/C/src/thomthom-trunk-pc/src/googleclient/sketchup/source/sketchup/ruby/tests/Ruby/TC_Ruby_Unicode/test/timeout.rb",
+		"/C/php5/php.ini",
+		"/C/Users/tthomas2/SourceTree/software.thomthom.net/.gitignore",
+		"/C/Users/tthomas2/Downloads/test_wd.html",
+		"/C/Users/tthomas2/Downloads/bb.rb",
+		"/C/Users/tthomas2/SourceTree/software.thomthom.net/.idea/software.thomthom.net.iml",
+		"/C/install.ini",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/preferences_window.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/.gitignore",
+		"/C/Users/tthomas2/SourceTree/SUbD/InstallWinRubyBinaries.rb",
+		"/C/Users/tthomas2/AppData/Roaming/SketchUp/SketchUp 2016/SketchUp/Plugins.min/!tc_dev.rb.x",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/core.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/minitest_setup.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/test_discoverer.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/minitest_plugins/minitest/testup_plugin.rb",
+		"/C/Users/tthomas2/SourceTree/testup-2/src/testup/ui.rb",
+		"/C/Users/tthomas2/Desktop/Observers 2.0/Snippets/start_operation.rb",
+		"/C/Users/tthomas2/Desktop/Observers 2.0/Snippets/ObserveChanges.rb",
+		"/C/src/thomthom-observers2-win/src/googleclient/sketchup/source/sketchup/ruby/tests/Observers 2.0/TC_Sketchup_DefinitionObserver.rb",
+		"/C/Users/tthomas2/Desktop/reprise-licensing/my.lic",
+		"/C/ProgramData/SketchUp/SketchUp 2015/EW.lic",
+		"/C/src/thomthom-observers2-win/src/googleclient/sketchup/source/sketchup/ruby/tests/Observers 2.0/TC_Sketchup_PagesObserver.rb"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 138.0,
+		"where_history":
+		[
+			"C:\\src\\thomthom-trunk-pc\\src\\googleclient\\sketchup\\source\\sketchup\\scripts\\ruby\\RubySource",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src\\testup",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src\\testup\\js",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src\\testup\\third-party\\SKUI",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src\\testup\\js",
+			"C:\\src\\thomthom-trunk-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\tests",
+			"C:\\src\\thomthom-trunk-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\tests\\SketchUp Ruby API",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src\\testup\\js",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src\\testup\\third-party\\SKUI\\src",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src",
+			"C:\\Users\\tthomas2\\AppData\\Roaming\\SketchUp\\SketchUp 2014\\SketchUp\\Gems\\gems\\minitest-5.2.1\\lib",
+			"C:\\Program Files (x86)\\SketchUp\\SketchUp 2014\\Tools\\RubyStdLib\\minitest",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src\\testup\\js",
+			"C:\\src\\thomthom-trunk-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\tests\\SketchUp Ruby API",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src\\testup\\third-party\\SKUI\\src",
+			"C:\\Users\\tthomas2\\SourceTree\\testup-2\\src\\testup",
+			"C:\\Users\\tthomas2\\AppData\\Roaming\\SketchUp\\SketchUp 2014\\SketchUp\\Gems\\gems\\minitest-5.2.1\\lib",
+			"C:\\Users\\tthomas2\\AppData\\Roaming\\SketchUp\\SketchUp 2014\\SketchUp\\Gems\\gems\\minitest-5.2.1\\lib\\minitest",
+			"C:\\Program Files (x86)\\SketchUp\\SketchUp 2014\\Tools\\RubyStdLib\\minitest",
+			"C:\\Users\\tthomas2\\AppData\\Roaming\\SketchUp\\SketchUp 2014\\SketchUp\\Gems\\gems\\minitest-5.2.1\\lib",
+			"C:\\Program Files (x86)\\SketchUp\\SketchUp 2014\\Tools\\RubyStdLib\\minitest",
+			"C:\\Program Files (x86)\\SketchUp\\SketchUp 2014\\Tools\\RubyStdLib\\test\\unit",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\sandbox",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\ruby",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\js",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\ruby",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\js",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\ruby",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\js",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\ruby",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\js",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\ruby",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\js",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\ruby",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\js",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\ruby",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\js",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\ruby",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\js",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\ruby",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\js",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\ruby",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents",
+			"C:\\src\\thomthom-su2014-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\js",
+			"C:\\src\\thomthom-trunk-pc\\src\\googleclient\\sketchup\\source\\testing\\testup",
+			"C:\\src\\thomthom-trunk-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents",
+			"C:\\src\\thomthom-trunk-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents\\su_dynamiccomponents\\js",
+			"C:\\src\\thomthom-trunk-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\dynamiccomponents"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"commands",
+			"@",
+			"puts",
+			"backtr",
+			"stacktrace",
+			"$LOAD",
+			"server error",
+			"Unexpected S",
+			"json(",
+			"Sketchup.call",
+			"k.inspect",
+			"get_utf8_list",
+			"json",
+			"to_json",
+			"max_draw_tim",
+			"iconv",
+			"pathch",
+			"changed",
+			"onPlaceComponent",
+			"onAfterComponentSaveAs",
+			"onBeforeComponentSaveAs",
+			"onSaveModel",
+			"onPostSaveModel",
+			"onPreSaveModel",
+			" * @version             SketchUp 6.0\n * @param model         A Model object.\n * @return              nil",
+			" * @file                rubymodelobserver.cpp",
+			"'",
+			"intern",
+			"path_vs_build",
+			"x64-mingw32",
+			"path_ruby_installer_archive",
+			"'x64'",
+			"64",
+			"bitness_code",
+			"'",
+			"exit",
+			"'",
+			"TODO",
+			"HOME",
+			"home",
+			"\\",
+			"edited",
+			"-D",
+			"'",
+			"cyan",
+			"uri",
+			"filename",
+			"\\",
+			"* ",
+			"ruby_installer_stdlib",
+			"sidebar_with",
+			"include_folder",
+			"lib",
+			"dll",
+			"google_client, ",
+			"'third_party'",
+			"third_party_ruby_dll",
+			"\\",
+			"def",
+			"200",
+			"fiddle",
+			"@tid_server",
+			"get_tid_server",
+			"-msvcrt",
+			"bindir",
+			"\\",
+			"config.h",
+			"bat",
+			"vector_to",
+			"SUAPI_",
+			"Added",
+			"callback_handler",
+			"||",
+			"add_callback",
+			"callback_handler",
+			"'||'",
+			"\"||\"",
+			"||",
+			"'||'",
+			"Licensing",
+			" * ",
+			"decimal_separator",
+			" * ",
+			"get_extension_license",
+			"Extension",
+			"\\",
+			"callback_handler",
+			"SKUI_Callback",
+			"add_callback",
+			"callback_handler",
+			"queue_message",
+			"callback_handler",
+			"bridge",
+			"callback_handler",
+			"Sketchup.callback",
+			"require_re",
+			"EXPECTED_DIR_ENTRIES - [\".\", \"..\"]",
+			".entr",
+			"[\".\", \"..\", \"test\", \"てすと\"]",
+			"SKUI_Callback",
+			"bridge",
+			"SKUI_RUBY_BRIDGE",
+			"open_source_file",
+			"_so",
+			"assert_Sketchup_require",
+			"_so",
+			"assert_Sketchup_require",
+			"trace_Sketchup_load",
+			"trace_Sketchup_require",
+			"trace",
+			"puts",
+			"= Sketchup::load",
+			"stderr",
+			"stdout",
+			"mute_puts_statements",
+			"stdout",
+			"Sketchup.require",
+			"result = Sketchup::require",
+			"Sketchup::require",
+			"result = Sketchup::require",
+			"Sketchup.require",
+			"unicode",
+			"_rbe_",
+			"puts",
+			"_rbs_",
+			"encrypted",
+			"dev-",
+			"unicode"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"\",\\n\\t\\t\"",
+			"\\t\\t\",\\n\"",
+			"',\\n'"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/boot.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1703,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								651,
+								651
+							]
+						],
+						"settings":
+						{
+							"auto_name": "puts \"Hello World\"",
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 486.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Skippy.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 341,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								338,
+								338
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "bin/skippy.bat",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 65,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24,
+								24
+							]
+						],
+						"settings":
+						{
+							"auto_name": "ruby ..\\src\\boot.rb",
+							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Users/tthomas2/SourceTree/yard/bin/yard",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 316,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "commands/install.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 351,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								305,
+								305
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 55.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "Skippy.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"rsketchup.cpp",
+				"C:\\src\\thomthom-trunk-pc\\src\\googleclient\\sketchup\\source\\sketchup\\ruby\\observer\\rubymodelobserver.cpp"
+			],
+			[
+				"debug",
+				"testup-2\\src\\testup\\third-party\\SKUI\\src\\SKUI\\debug.rb"
+			],
+			[
+				"testwin",
+				"testup-2\\src\\testup\\test_window.rb"
+			],
+			[
+				"tab",
+				"testup-2\\src\\testup\\js\\tabs.js"
+			],
+			[
+				"test.js",
+				"testup-2\\src\\testup\\js\\test.js"
+			],
+			[
+				"bridge.rb",
+				"testup-2\\src\\testup\\third-party\\SKUI\\src\\SKUI\\bridge.rb"
+			],
+			[
+				"ui.js",
+				"testup-2\\src\\testup\\third-party\\SKUI\\src\\SKUI\\js\\ui.js"
+			],
+			[
+				"window.rb",
+				"testup-2\\src\\testup\\third-party\\SKUI\\src\\SKUI\\window.rb"
+			],
+			[
+				"bridge.js",
+				"testup-2\\src\\testup\\third-party\\SKUI\\src\\SKUI\\js\\bridge.js"
+			],
+			[
+				"testup.js",
+				"testup-2\\src\\testup\\js\\testup.js"
+			],
+			[
+				"skethcup.js",
+				"testup-2\\src\\testup\\third-party\\SKUI\\src\\SKUI\\js\\sketchup.js"
+			],
+			[
+				"window.html",
+				"testup-2\\src\\testup\\third-party\\SKUI\\src\\SKUI\\html\\window.html"
+			],
+			[
+				"core.js",
+				"testup-2\\src\\testup\\third-party\\SKUI\\src\\SKUI\\js\\core.js"
+			],
+			[
+				".html",
+				"testup-2\\src\\testup\\third-party\\SKUI\\src\\SKUI\\html\\window.html"
+			],
+			[
+				".igno",
+				"testup-2\\.gitignore"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 258.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

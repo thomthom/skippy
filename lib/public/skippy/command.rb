@@ -6,11 +6,8 @@ module Skippy
 
       attr_accessor :description
 
-      def initialize
-      end
-
       def run
-        puts  "#{self}.run"
+        raise NotImplementedError
       end
 
     end # class

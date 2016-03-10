@@ -1,20 +1,6 @@
 require 'colorize'
 
-
-# State config.
-
-@debug = true
-
-
-# Debugging utility methods.
-
-def debug(*args)
-  puts *args if @debug
-end
-
-def debug_p(*args)
-  p *args if @debug
-end
+require_relative 'debug.rb'
 
 
 # Extract command line arguments.

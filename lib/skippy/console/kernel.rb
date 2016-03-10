@@ -8,10 +8,10 @@ module Skippy
 
     class Kernel
 
-      # @param [Hash] options
-      def initialize(options)
-        @options = options
-        @commands = load_commands(options)
+      # @param [Skippy::Config] config
+      def initialize(config)
+        @config = config
+        @commands = load_commands(config)
       end
 
       # @param [String] command_name
@@ -47,23 +47,23 @@ module Skippy
         nil
       end
 
-      # @param [Hash] options
+      # @param [Skippy::Config] config
       #
       # @return [Array<Skippy::Console:Command>]
-      def load_commands(options)
-        paths = search_paths(options)
+      def load_commands(config)
+        paths = search_paths(config)
         files = discover(paths)
         load_files(files)
         command_klasses = find_child_classes_of(Skippy::Console::Command)
         command_klasses.map { |klass| klass.new }
       end
 
-      # @param [Hash] options
+      # @param [Skippy::Config] config
       #
       # @return [Array<String>]
-      def search_paths(options)
+      def search_paths(config)
         [
-          options[:paths][:commands],
+          config.path_commands,
           Dir.pwd # TODO: Search for project root.
         ]
       end

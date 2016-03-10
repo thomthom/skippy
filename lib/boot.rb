@@ -1,16 +1,27 @@
 require 'colorize'
 
-require_relative 'skippy/debug.rb'
+require_relative 'skippy/config'
 
 
+config = Skippy::Config.new(__dir__)
 
-# Set up debugging.
+$LOAD_PATH << config.path_lib
+
+
+require 'skippy/console/kernel.rb'
+require 'skippy/debug'
+
 
 options = {
   :debug => ARGV.include?('--debug'),
 }
 
 debug = Skippy::Debug.new(options[:debug])
+
+debug.puts 'Skippy Paths:'.cyan
+debug.puts "BIN: #{config.path_bin}".yellow
+debug.puts "LIB: #{config.path_lib}".yellow
+debug.puts "CMD: #{config.path_commands}".yellow
 
 
 # Extract command line arguments.
@@ -22,36 +33,8 @@ debug.p ARGV
 command_name = ARGV.pop
 
 
-# Set up paths.
-
-path_skippy = File.expand_path(File.join(__dir__, '..'))
-path_bin = File.join(path_skippy, 'bin')
-path_lib = File.join(path_skippy, 'lib')
-path_commands = File.join(path_skippy, 'commands')
-
-debug.puts 'Skippy Paths:'.cyan
-debug.puts "BIN: #{path_bin}".yellow
-debug.puts "LIB: #{path_lib}".yellow
-debug.puts "CMD: #{path_commands}".yellow
-
-options[:paths] = {
-  :skippy   => path_skippy,
-  :bin      => path_bin,
-  :lib      => path_lib,
-  :commands => path_commands,
-}
-
-
-# Add the Skippy lib path to load path.
-
-$LOAD_PATH << options[:paths][:lib]
-
-
-require 'skippy/console/kernel.rb'
-
-
 begin
-  kernel = Skippy::Console::Kernel.new(options)
+  kernel = Skippy::Console::Kernel.new(config)
   command = kernel.command(command_name)
 
   debug.puts 'Command:'.cyan
@@ -60,5 +43,5 @@ begin
 
   command.run
 rescue Skippy::Console::KernelError => error
-  puts error.message.red
+  puts error.message.white.on_red # TODO: Use Skippy::Console::Printer
 end

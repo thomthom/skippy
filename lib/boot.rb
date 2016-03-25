@@ -30,7 +30,7 @@ debug.puts "CMD: #{config.path_commands}".yellow
 debug.puts 'CLI arguments'.cyan
 debug.p ARGV
 
-command_name = ARGV.pop
+command_name = ARGV.shift
 
 
 begin

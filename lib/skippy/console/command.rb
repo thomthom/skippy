@@ -14,6 +14,10 @@ module Skippy
         raise NotImplementedError
       end
 
+      # @param [OptionParser]
+      def options(options)
+      end
+
     end # class
   end # class
 end # module

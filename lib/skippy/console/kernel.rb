@@ -1,4 +1,7 @@
+require 'optparse'
+
 require 'skippy/console/command'
+require 'skippy/console/printer'
 
 module Skippy
   module Console
@@ -7,6 +10,8 @@ module Skippy
     class CommandNotFoundError < KernelError; end
 
     class Kernel
+
+      include Printer
 
       # @param [Skippy::Config] config
       def initialize(config)
@@ -22,10 +27,39 @@ module Skippy
         if command.nil?
           raise CommandNotFoundError, "Command '#{command_name}' not found"
         end
+        init_options(command)
         command
       end
 
       private
+
+      # @param [Skippy::Console::Command] command
+      def init_options(command)
+        option_parser = OptionParser.new do |options|
+          message = "Usage: #{command.signature}\n".cyan
+          message << command.description.yellow
+          options.set_banner(message)
+
+          options.separator("")
+          options.separator("Options:")
+
+          command.setup_options(options)
+
+          options.on_tail("-h", "--help", "Display command usage helps") do
+            $stderr.puts options.help
+            exit 1
+          end
+        end
+        begin
+          option_parser.parse!
+        rescue OptionParser::InvalidOption => error
+          error "ERROR: #{error.message}"
+          $stderr.puts option_parser.help
+          exit 1
+          # TODO: List command help?
+        end
+        nil
+      end
 
       # @param [Array<String>] paths
       #

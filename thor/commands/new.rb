@@ -2,6 +2,7 @@ require 'json'
 
 require 'skippy/command'
 
+# TODO: Refactor into a class.
 module Skippy::Namespace
   def self.valid?(namespace)
     parts = namespace.split('::')

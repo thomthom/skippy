@@ -4,10 +4,8 @@
 # banner for the command help.
 $PROGRAM_NAME = 'skippy'
 
-
 # TODO: Temporary to debugging without having to set the ENV.
-ENV["THOR_SHELL"] = 'Color'
-
+ENV['THOR_SHELL'] = 'Color'
 
 # Thor require DL which under Windows will yield a warning:
 #   DL is deprecated, please use Fiddle
@@ -22,13 +20,9 @@ ensure
   $VERBOSE = original_verbose
 end
 
-
-# Setup the load path.
+# Setup the load path to include Skippy's required files.
 path_lib = File.join(__dir__)
 $LOAD_PATH << path_lib
-
-require 'skippy/error'
-
 
 # Load the default skippy commands.
 path_commands = File.join(__dir__, 'commands')
@@ -37,7 +31,6 @@ Dir.glob(commands_pattern) { |filename|
   require filename
 }
 
-
 # Load the custom skippy commands.
 project_path = Dir.pwd # TODO: Find project root. (skippy.json)
 files_pattern = File.join(project_path, 'skippy', '**' '*.rb')
@@ -45,6 +38,7 @@ Dir.glob(files_pattern) { |filename|
   require filename
 }
 
+# Everything is ready to start the CLI.
 begin
   Skippy::CLI.start
 rescue Skippy::Error => error

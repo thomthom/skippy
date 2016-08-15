@@ -1,5 +1,6 @@
 require "thor"
 
+require 'skippy/error'
 #require 'skippy/printer'
 
 module Skippy

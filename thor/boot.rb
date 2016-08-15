@@ -27,6 +27,8 @@ end
 path_lib = File.join(__dir__)
 $LOAD_PATH << path_lib
 
+require 'skippy/error'
+
 
 # Load the default skippy commands.
 path_commands = File.join(__dir__, 'commands')
@@ -43,4 +45,10 @@ Dir.glob(files_pattern) { |filename|
   require filename
 }
 
+begin
   Skippy::CLI.start
+rescue Skippy::Error => error
+  shell = Thor::Base.shell.new
+  message = shell.set_color(error.message, :red)
+  shell.error message
+end

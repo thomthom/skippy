@@ -4,13 +4,16 @@
 # banner for the command help.
 $PROGRAM_NAME = 'skippy'
 
-# TODO: Temporary to debugging without having to set the ENV.
+# TODO(thomthom): Temporary set for development without having to set the ENV.
+# Thor on Windows will by default not use colors. Using Cmder colors will work.
+# Also in the latest Windows 10 colors appear to work. Not sure how older
+# versions behave.
 ENV['THOR_SHELL'] = 'Color' if $stdout.isatty
 
 # Thor require DL which under Windows will yield a warning:
 #   DL is deprecated, please use Fiddle
 #
-# To avoid this appearing every time this tool is invoked warnings is
+# To avoid this appearing every time this tool is invoked, warnings are
 # temporarily suppressed.
 begin
   original_verbose = $VERBOSE

@@ -2,39 +2,27 @@ require 'json'
 
 require 'skippy/command'
 
-# TODO: Refactor into a class.
-module Skippy::Namespace
-  def self.valid?(namespace)
-    parts = namespace.split('::')
-    parts.all? { |part| /^[[:upper:]]/.match(part) }
-  end
-end
+require_relative 'sketchup/project'
 
 class Skippy::CLI < Skippy::Command
 
   desc 'new', 'Creates a new Skippy project in the current directory'
   def new(namespace)
-    # Check for existing project.
-    # TODO:
+    project = Skippy::Project.new(namespace)
 
-    # Validate namespace.
-    unless Skippy::Namespace.valid?(namespace)
-      raise Skippy::Error, "'#{namespace}' is not a valid Ruby namespace"
+    if project.exist?
+      raise Skippy::Error, "A project already exist: #{project.filename}"
     end
 
-    # Create project folders.
-    # TODO: Use templates from Thor?
+    say project.to_json
+    say project.filename
 
-    # Create project JSON.
-    project = {
-      namespace: namespace,
-      name: 'Untitled',
-      description: 'Lorem Ipsum'
-    }
-    json = JSON.pretty_generate(project)
-    say json
-    skippy_json = File.join(Dir.pwd, 'skippy.json')
-    say skippy_json
+    # TODO(thomthom): Prompt user for title and description?
+
+    # TODO(thomthom): Call init to create project files and folders.
+    # TODO(thomthom): Use templates from Thor?
+    #project.init
+    project.save
 
     say "Project for #{namespace} created.", :green
   end

@@ -1,3 +1,5 @@
+# TODO(thomthom): Test file. Remove this.
+
 require 'skippy/command'
 
 class Skippy::CLI < Skippy::Command

@@ -5,7 +5,7 @@
 $PROGRAM_NAME = 'skippy'
 
 # TODO: Temporary to debugging without having to set the ENV.
-ENV['THOR_SHELL'] = 'Color'
+ENV['THOR_SHELL'] = 'Color' if $stdout.isatty
 
 # Thor require DL which under Windows will yield a warning:
 #   DL is deprecated, please use Fiddle
@@ -15,7 +15,7 @@ ENV['THOR_SHELL'] = 'Color'
 begin
   original_verbose = $VERBOSE
   $VERBOSE = nil
-  require "thor"
+  require 'thor'
 ensure
   $VERBOSE = original_verbose
 end

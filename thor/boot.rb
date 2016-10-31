@@ -33,7 +33,7 @@ Dir.glob(commands_pattern) { |filename|
 
 # Load the custom skippy commands.
 project_path = Dir.pwd # TODO: Find project root. (skippy.json)
-files_pattern = File.join(project_path, 'skippy', '**' '*.rb')
+files_pattern = File.join(project_path, 'skippy', '**', '*.rb')
 Dir.glob(files_pattern) { |filename|
   require filename
 }

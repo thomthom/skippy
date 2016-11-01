@@ -1,0 +1,10 @@
+require 'sketchup.rb'
+
+module <%= config[:namespace] %>
+
+  unless file_loaded?(__FILE__)
+    # Register extension...
+    file_loaded(__FILE__)
+  end
+
+end

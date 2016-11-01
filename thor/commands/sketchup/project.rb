@@ -11,7 +11,7 @@ class Skippy::Project
   attr_accessor :description
 
   def initialize(path)
-    @path = find_project_path(path) || path
+    @path = find_project_path(path) || Pathname.new(path)
     @namespace = Skippy::Namespace.new('Untitled')
     @name = ''
     @description = ''
@@ -26,7 +26,7 @@ class Skippy::Project
   end
 
   def name
-    @name.empty? ? namespace_to_name(@namespace) : @name
+    @name.empty? ? namespace.to_name : @name
   end
 
   def namespace=(namespace)
@@ -47,12 +47,6 @@ class Skippy::Project
   end
 
   private
-
-  def namespace_to_name(namespace)
-    result = namespace.basename.scan(/([[:upper:]]+[[:lower:][:digit:]]*)/)
-    return namespace if result.empty?
-    result.join(' ')
-  end
 
   def find_project_path(path)
     pathname = Pathname.new(path)

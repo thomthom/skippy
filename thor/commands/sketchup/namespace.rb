@@ -15,11 +15,24 @@ class Skippy::Namespace
     parts(@namespace)
   end
 
+  def to_name
+    basename_words(basename).join(' ')
+  end
+
   def to_s
     @namespace.dup
   end
 
+  def to_underscore
+    basename_words(basename).map { |word| word.downcase }.join('_')
+  end
+
   private
+
+  def basename_words(namespace_basename)
+    result = namespace_basename.scan(/[[:upper:]]+[[:lower:][:digit:]]*/)
+    result.empty? ? [namespace_basename.dup] : result
+  end
 
   def parts(namespace)
     namespace.split('::')

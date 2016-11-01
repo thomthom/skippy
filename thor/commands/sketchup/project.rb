@@ -8,9 +8,13 @@ class Skippy::Project
   PROJECT_FILENAME = 'skippy.json'.freeze
 
   attr_reader :namespace, :path
+  attr_accessor :name, :description
 
   def initialize(path)
     @path = find_project_path(path) || path
+    @namespace = Skippy::Namespace.new('Untitled')
+    @name = 'Untitled'
+    @description = ''
   end
 
   def exist?
@@ -31,9 +35,9 @@ class Skippy::Project
 
   def to_json
     project_config = {
-      namespace: @namespace.to_s,
-      name: 'Untitled',
-      description: 'Lorem Ipsum'
+      namespace: @namespace,
+      name: @name,
+      description: @description
     }
     JSON.pretty_generate(project_config)
   end

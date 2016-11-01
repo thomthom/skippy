@@ -15,16 +15,21 @@ class Skippy::CLI < Skippy::Command
     end
 
     project.namespace = namespace
-    # TODO(thomthom): Prompt user for title and description?
+    project.name = project.namespace.basename
 
-    say project.to_json
-    say project.filename
+    say ''
+    say project.filename, :cyan
+    say project.to_json, :cyan
+
+    say ''
+    return if no?('Does this look fine?')
 
     # TODO(thomthom): Call init to create project files and folders.
     # TODO(thomthom): Use templates from Thor?
     #project.init
     project.save
 
+    say ''
     say "Project for #{namespace} created.", :green
   end
 

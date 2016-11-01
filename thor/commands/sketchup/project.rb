@@ -7,13 +7,13 @@ class Skippy::Project
 
   PROJECT_FILENAME = 'skippy.json'.freeze
 
-  attr_reader :namespace, :path
-  attr_accessor :name, :description
+  attr_reader :name, :namespace, :path
+  attr_accessor :description
 
   def initialize(path)
     @path = find_project_path(path) || path
     @namespace = Skippy::Namespace.new('Untitled')
-    @name = 'Untitled'
+    @name = ''
     @description = ''
   end
 
@@ -23,6 +23,10 @@ class Skippy::Project
 
   def filename
     File.join(@path, PROJECT_FILENAME)
+  end
+
+  def name
+    @name.empty? ? namespace_to_name(@namespace) : @name
   end
 
   def namespace=(namespace)
@@ -35,14 +39,20 @@ class Skippy::Project
 
   def to_json
     project_config = {
-      namespace: @namespace,
-      name: @name,
-      description: @description
+      namespace: namespace,
+      name: name,
+      description: description
     }
     JSON.pretty_generate(project_config)
   end
 
   private
+
+  def namespace_to_name(namespace)
+    result = namespace.basename.scan(/([[:upper:]]+[[:lower:][:digit:]]*)/)
+    return namespace if result.empty?
+    result.join(' ')
+  end
 
   def find_project_path(path)
     pathname = Pathname.new(path)

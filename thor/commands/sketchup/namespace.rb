@@ -12,7 +12,7 @@ class Skippy::Namespace
   end
 
   def to_a
-    @namespace.split('::')
+    parts(@namespace)
   end
 
   def to_s
@@ -21,8 +21,12 @@ class Skippy::Namespace
 
   private
 
+  def parts(namespace)
+    namespace.split('::')
+  end
+
   def valid?(namespace)
-    to_a.all? { |part| /^[[:upper:]]/.match(part) }
+    parts(namespace).all? { |part| /^[[:upper:]]/.match(part) }
   end
 
 end

@@ -7,14 +7,10 @@ class Skippy::Project
 
   PROJECT_FILENAME = 'skippy.json'.freeze
 
-  def initialize(namespace)
-    @path = find_project_path || Pathname.pwd
-    if exist?
-      # TODO(thomthom): Load existing project config.
-      #load_project(filename)
-    else
-      @namespace = Skippy::Namespace.new(namespace)
-    end
+  attr_reader :namespace, :path
+
+  def initialize(path)
+    @path = find_project_path(path) || path
   end
 
   def exist?
@@ -23,6 +19,10 @@ class Skippy::Project
 
   def filename
     File.join(@path, PROJECT_FILENAME)
+  end
+
+  def namespace=(namespace)
+    @namespace = Skippy::Namespace.new(namespace)
   end
 
   def save
@@ -40,8 +40,8 @@ class Skippy::Project
 
   private
 
-  def find_project_path
-    pathname = Pathname.new(Pathname.pwd)
+  def find_project_path(path)
+    pathname = Pathname.new(path)
     loop do
       project_file = pathname.join(PROJECT_FILENAME)
       return pathname if project_file.exist?

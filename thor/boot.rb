@@ -35,11 +35,17 @@ Dir.glob(commands_pattern) { |filename|
 }
 
 # Load the custom skippy commands.
-project_path = Dir.pwd # TODO: Find project root. (skippy.json)
-files_pattern = File.join(project_path, 'skippy', '**', '*.rb')
-Dir.glob(files_pattern) { |filename|
-  require filename
-}
+# TODO(thomthom): Make the current project availible to the rest of the app.
+project = Skippy::Project.new(Dir.pwd)
+if project.exist?
+  # TODO(thomthom): Currently searching recursivly. This might not be best thing
+  # to do. Maybe it's better to load only the base directory and let those files
+  # take care of loading from the sub-folders if needed.
+  files_pattern = File.join(project.path, 'skippy', '**', '*.rb')
+  Dir.glob(files_pattern) { |filename|
+    require filename
+  }
+end
 
 # Everything is ready to start the CLI.
 begin

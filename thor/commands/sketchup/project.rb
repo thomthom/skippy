@@ -17,6 +17,13 @@ class Skippy::Project
     @description = ''
   end
 
+  def command_files(&block)
+    files_pattern = File.join(@path, 'skippy', '**', '*.rb')
+    Dir.glob(files_pattern) { |filename|
+      block.call(filename)
+    }
+  end
+
   def exist?
     File.exist?(filename)
   end

@@ -26,6 +26,8 @@ class Skippy::CLI < Skippy::Command
     say ''
     say 'Generating template files...'
     say ''
+    # TODO(thomthom): Refactor this into a separate class that can take a folder
+    # and process it.
     options = { :namespace => project.namespace.to_s }
     basename = project.namespace.to_underscore
     template('new/extension.erb', "src/#{basename}.rb", options)

@@ -34,6 +34,7 @@ Dir.glob(commands_pattern) { |filename|
   require filename
 }
 
+=begin
 # Load the custom skippy commands.
 # TODO(thomthom): Make the current project availible to the rest of the app.
 project = Skippy::Project.new(Dir.pwd)
@@ -46,10 +47,14 @@ if project.exist?
     require filename
   }
 end
+=end
 
 # Everything is ready to start the CLI.
 begin
-  Skippy::CLI.start
+  #Skippy::CLI.start
+  require "thor/runner"
+  $thor_runner = true
+  Skippy::Runner.start
 rescue Skippy::Error => error
   shell = Thor::Base.shell.new
   message = " #{error.message} "

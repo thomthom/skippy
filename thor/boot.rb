@@ -19,13 +19,22 @@ begin
   original_verbose = $VERBOSE
   $VERBOSE = nil
   require 'thor'
+  # The Thor::Runner also needs to be loaded, as Skippy::CLI will call many of
+  # of the same methods - in many cases emulating what it do.
+  require "thor/runner"
+  # This is also needed to be set in order for Thor's utilities to output
+  # command names correctly.
+  $thor_runner = true
 ensure
   $VERBOSE = original_verbose
 end
 
 # Setup the load path to include Skippy's required files.
-path_lib = File.join(__dir__)
-$LOAD_PATH << path_lib
+$LOAD_PATH << __dir__
+
+# Load skippy components the bootstrapper needs.
+require 'skippy/cli'
+require 'skippy/error'
 
 # Load the default skippy commands.
 path_commands = File.join(__dir__, 'commands')
@@ -33,19 +42,6 @@ commands_pattern = File.join(path_commands, '*.rb')
 Dir.glob(commands_pattern) { |filename|
   require filename
 }
-
-# Load the custom skippy commands.
-# TODO(thomthom): Make the current project availible to the rest of the app.
-project = Skippy::Project.new(Dir.pwd)
-if project.exist?
-  # TODO(thomthom): Currently searching recursivly. This might not be best thing
-  # to do. Maybe it's better to load only the base directory and let those files
-  # take care of loading from the sub-folders if needed.
-  files_pattern = File.join(project.path, 'skippy', '**', '*.rb')
-  Dir.glob(files_pattern) { |filename|
-    require filename
-  }
-end
 
 # Everything is ready to start the CLI.
 begin

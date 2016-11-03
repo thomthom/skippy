@@ -1,8 +1,21 @@
 require 'skippy/command'
+require 'skippy/group'
+require 'skippy/project'
 
-require_relative 'sketchup/project'
-
-class Skippy::Runner < Skippy::Command
+# The Skippy::CLI class emulates much of what Thor::Runner do. It takes care of
+# finding skippy projects and loading commands.
+#
+# The difference is mainly in how skippy vs thor present the commands.
+#
+# TODO(thomthom): ...or should it?
+# Thor let you install commands globally, where as skippy does not.
+#
+# TODO(thomthom): Implement this:
+# Skippy will list all known commands when invoked without any arguments.
+#
+# The code in this class will often refer to thor - when things have been copied
+# verbatim. Makes it easier to update if needed.
+class Skippy::CLI < Skippy::Command
 
   # If a command is not found on Thor::Runner, method missing is invoked and
   # Thor::Runner is then responsible for finding the command in all classes.
@@ -71,7 +84,10 @@ class Skippy::Runner < Skippy::Command
   # it shows a table with information extracted from the yaml file.
   #
   def display_klasses(with_modules = false, show_internal = false, klasses = Thor::Base.subclasses)
-    klasses -= [Thor, Thor::Runner, Thor::Group] unless show_internal
+    unless show_internal
+      klasses -= [Thor, Thor::Runner, Thor::Group]
+      klasses -= [Skippy, Skippy::CLI, Skippy::Command, Skippy::Command::Group]
+    end
 
     fail Error, "No Thor commands available" if klasses.empty?
     show_modules if with_modules #&& !thor_yaml.empty?

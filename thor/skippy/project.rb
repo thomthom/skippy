@@ -1,7 +1,7 @@
 require 'json'
 require 'pathname'
 
-require_relative 'namespace'
+require 'skippy/namespace'
 
 class Skippy::Project
 
@@ -18,7 +18,7 @@ class Skippy::Project
   end
 
   def command_files(&block)
-    files_pattern = File.join(@path, 'skippy', '**', '*.rb')
+    files_pattern = File.join(path, 'skippy', '**', '*.rb')
     Dir.glob(files_pattern) { |filename|
       block.call(filename)
     }
@@ -29,7 +29,7 @@ class Skippy::Project
   end
 
   def filename
-    File.join(@path, PROJECT_FILENAME)
+    File.join(path, PROJECT_FILENAME)
   end
 
   def name

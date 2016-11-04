@@ -1,6 +1,7 @@
 require 'skippy/command'
 require 'skippy/group'
 require 'skippy/project'
+require 'skippy/version'
 
 # The Skippy::CLI class emulates much of what Thor::Runner do. It takes care of
 # finding skippy projects and loading commands.
@@ -16,6 +17,21 @@ require 'skippy/project'
 # The code in this class will often refer to thor - when things have been copied
 # verbatim. Makes it easier to update if needed.
 class Skippy::CLI < Skippy::Command
+
+  default_command :list
+
+  # Override Thor#help so it can give information about any class and any method.
+  #
+  def help(meth = nil)
+    if meth && !self.respond_to?(meth)
+      initialize_thorfiles(meth)
+      klass, command = Thor::Util.find_class_and_command_by_namespace(meth)
+      self.class.handle_no_command_error(command, false) if klass.nil?
+      klass.start(["-h", command].compact, :shell => shell)
+    else
+      super
+    end
+  end
 
   # If a command is not found on Thor::Runner, method missing is invoked and
   # Thor::Runner is then responsible for finding the command in all classes.
@@ -42,6 +58,13 @@ class Skippy::CLI < Skippy::Command
       (options[:all] || k.group == group) && k.namespace =~ search
     end
 
+    program_name = shell.set_color($PROGRAM_NAME.capitalize, :green)
+    version = shell.set_color('version', :clear)
+    program_version = shell.set_color(Skippy::VERSION, :yellow)
+    #say "#{$PROGRAM_NAME.capitalize} version #{Skippy::VERSION}"
+    say "#{program_name} #{version} #{program_version}"
+    say
+    say 'Available commands:', :yellow
     display_klasses(false, false, klasses)
   end
 
@@ -90,31 +113,58 @@ class Skippy::CLI < Skippy::Command
     end
 
     fail Error, "No Thor commands available" if klasses.empty?
-    show_modules if with_modules #&& !thor_yaml.empty?
+    #show_modules if with_modules #&& !thor_yaml.empty?
 
     list = Hash.new { |h, k| h[k] = [] }
     groups = klasses.select { |k| k.ancestors.include?(Thor::Group) }
 
     # Get classes which inherit from Thor
-    (klasses - groups).each { |k| list[k.namespace.split(":").first] += k.printable_commands(false) }
+    (klasses - groups).each { |k|
+      #list[k.namespace.split(":").first] += k.printable_commands(false)
+      list[k.namespace.split(":").first] += k.cli_printable_commands(false)
+    }
 
     # Get classes which inherit from Thor::Base
-    groups.map! { |k| k.printable_commands(false).first }
-    list["root"] = groups
+    #groups.map! { |k| k.printable_commands(false).first }
+    #list["root"] = groups
+    groups.map! { |k| k.cli_printable_commands(false).first }
+    list[''] = groups
+    #groups.each { |k|
+      #p k.cli_printable_commands
+      #p k.namespace
+      # TODO(thomthom): Preserve original, but don't say "root", put at top.
+      #list[k.namespace] += k.cli_printable_commands(false)
+    #}
 
     # Order namespaces with default coming first
+    col_width = list.map { |_, rows| rows.map { |col| col.first.size }.max }.max
+    #p col_width
+    #p list
+    #puts JSON.pretty_generate(list)
     list = list.sort { |a, b| a[0].sub(/^default/, "") <=> b[0].sub(/^default/, "") }
-    list.each { |n, commands| display_commands(n, commands) unless commands.empty? }
+    #list.each { |n, commands| display_commands(n, commands) unless commands.empty? }
+    list.each { |n, commands|
+      display_commands(n, commands, col_width * 2) unless commands.empty?
+    }
+
+    #say
   end
 
-  def display_commands(namespace, list) #:nodoc:
+  def display_commands(namespace, list, col_width) #:nodoc:
     list.sort! { |a, b| a[0] <=> b[0] }
 
-    say shell.set_color(namespace, :blue, true)
-    say "-" * namespace.size
+    #say shell.set_color(namespace, :blue, true)
+    #say "-" * namespace.size
+    say shell.set_color(namespace, :yellow, true) unless namespace.empty?
 
-    print_table(list, :truncate => true)
-    say
+    list.each { |row|
+      row[0] = shell.set_color(row[0], :green) + shell.set_color('', :clear)
+    }
+    #print_table(list, :truncate => true, :indent => 2, :colwidth => col_width)
+    print_table(list, :indent => 2, :colwidth => col_width)
+    #print_table(list, :colwidth => 40)
+    #print_table(list, :truncate => true)
+    #say
   end
   alias_method :display_tasks, :display_commands
 

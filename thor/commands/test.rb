@@ -4,9 +4,9 @@ require 'skippy/project'
 
 
 class Hello < Skippy::Command
-  desc 'world NAMESPACE', 'Oh, hi there!'
-  def world(namespace)
-    say "Hello #{namespace}"
+  desc 'world PERSON', 'Oh, hi there!'
+  def world(person)
+    say "Hello #{person}"
   end
   default_command(:world)
 end

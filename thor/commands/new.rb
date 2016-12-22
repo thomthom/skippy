@@ -1,5 +1,6 @@
 require 'skippy/group'
 require 'skippy/project'
+require 'skippy/template'
 
 class New < Skippy::Command::Group
 
@@ -34,12 +35,15 @@ class New < Skippy::Command::Group
     say ''
     say 'Generating template files...'
     say ''
-    # TODO(thomthom): Refactor this into a separate class that can take a folder
-    # and process it.
-    options = { :namespace => project.namespace.to_s }
-    basename = project.namespace.to_underscore
-    template('new/extension.erb', "src/#{basename}.rb", options)
-    template('new/extension/main.erb', "src/#{basename}/main.rb", options)
+    # TODO(thomthom): Take an argument that control which template to use.
+    template_engine = Skippy::Template.new('minimal')
+    template_engine.compile(project) { |*args|
+      # This is a little weird, as Thor::Actions is supposed to be used from
+      # a Thor class. Because of that we use this block to allow this Thor
+      # class to run the `template` method. The Template class takes care of
+      # generating all the input and output parameters.
+      template(*args)
+    }
   end
 
   def finalize
@@ -47,7 +51,7 @@ class New < Skippy::Command::Group
     say "Project for #{namespace} created.", :green
   end
 
-  # Needed as base for Thor::Actions' file actions. 
+  # Needed as base for Thor::Actions' file actions.
   def self.source_root
     path = File.join(__dir__, '..', '..', 'thor', 'templates')
     File.expand_path(path)

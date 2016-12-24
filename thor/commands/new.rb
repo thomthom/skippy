@@ -12,7 +12,10 @@ class New < Skippy::Command::Group
     :type => :string,
     :desc => 'The namespace the extension will use'
 
-  desc 'Creates a new Skippy project in the current directory'
+  class_option :template,
+    :type => :string,
+    :desc => 'The template used to generate the project files',
+    :default => 'minimal'
 
   attr_reader :project
 
@@ -22,6 +25,13 @@ class New < Skippy::Command::Group
       raise Skippy::Error, "A project already exist: #{project.filename}"
     end
     project.namespace = namespace
+  end
+
+  def validate_template
+    template_path = File.join(self.class.source_root, options[:template])
+    unless File.directory?(template_path)
+      raise Skippy::Error, %(Template "#{options[:template]}" not found)
+    end
   end
 
   def create_project_json
@@ -36,9 +46,9 @@ class New < Skippy::Command::Group
   def compile_templates
     say ''
     say 'Generating template files...'
+    say "Template: #{options[:template]}"
     say ''
-    # TODO(thomthom): Take an argument that control which template to use.
-    template_engine = Skippy::Template.new('minimal')
+    template_engine = Skippy::Template.new(options[:template])
     template_engine.compile(project, self)
   end
 

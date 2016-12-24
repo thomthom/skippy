@@ -7,7 +7,7 @@ class Skippy::Project
 
   PROJECT_FILENAME = 'skippy.json'.freeze
 
-  attr_reader :name, :namespace, :path
+  attr_reader :name, :namespace, :path, :author, :copyright, :license
   attr_accessor :description
 
   def initialize(path)
@@ -15,6 +15,9 @@ class Skippy::Project
     @namespace = Skippy::Namespace.new('Untitled')
     @name = ''
     @description = ''
+    @author = 'Unknown'
+    @copyright = "Copyright (c) #{Time.now.year}"
+    @license = 'None'
   end
 
   def command_files(&block)

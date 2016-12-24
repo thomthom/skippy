@@ -12,12 +12,12 @@ class Skippy::Namespace
   end
 
   def open
-    @open ||= parts.map { |part| "module #{part}" }.join("\n")
+    @open ||= to_a.map { |part| "module #{part}" }.join("\n")
     @open
   end
 
   def close
-    @close ||= parts.reverse.map { |part| "end # module #{part}" }.join("\n")
+    @close ||= to_a.reverse.map { |part| "end # module #{part}" }.join("\n")
     @close
   end
 
@@ -44,7 +44,7 @@ class Skippy::Namespace
     result.empty? ? [namespace_basename.dup] : result
   end
 
-  def parts(namespace = @namespace)
+  def parts(namespace)
     namespace.split('::')
   end
 

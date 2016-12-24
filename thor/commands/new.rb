@@ -1,3 +1,5 @@
+require 'json'
+
 require 'skippy/group'
 require 'skippy/project'
 require 'skippy/template'
@@ -31,13 +33,29 @@ class New < Skippy::Command::Group
     project.save
   end
 
-  def create_project_files
+  def compile_templates
     say ''
     say 'Generating template files...'
     say ''
     # TODO(thomthom): Take an argument that control which template to use.
     template_engine = Skippy::Template.new('minimal')
     template_engine.compile(project, self)
+  end
+
+  def create_extension_json
+    extension_info = {
+      name: project.name,
+      description: project.description,
+      creator: project.author,
+      copyright: project.copyright,
+      license: project.license,
+      product_id: project.namespace.to_a.join('_'),
+      version: "0.1.0",
+      build: "1",
+    }
+    json = JSON.pretty_generate(extension_info)
+    json_filename = "src/#{project.namespace.to_underscore}/extension.json"
+    create_file(json_filename, json)
   end
 
   def finalize

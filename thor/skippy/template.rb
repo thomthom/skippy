@@ -13,14 +13,13 @@ class Skippy::Template
     @description = ''
   end
 
-  def compile(project)
-    options = { :namespace => project.namespace.to_s }
+  def compile(project, context)
     basename = project.namespace.to_underscore
     relative_paths.each { |source|
       target = source.to_s
       target.gsub!(/\A#{Regexp.quote(path)}\/extension/, "src/#{basename}")
       target.gsub!(/.erb\z/, '.rb')
-      yield(source.to_s, target, options)
+      context.send(:template, source.to_s, target)
     }
     nil
   end

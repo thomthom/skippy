@@ -1,8 +1,10 @@
-module <%= config[:namespace] %>
+require 'sketchup.rb'
+
+module <%= project.namespace %>
 
   unless file_loaded?(__FILE__)
     # Add menus...
     file_loaded(__FILE__)
   end
 
-end
+end # module

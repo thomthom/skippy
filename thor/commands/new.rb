@@ -37,13 +37,7 @@ class New < Skippy::Command::Group
     say ''
     # TODO(thomthom): Take an argument that control which template to use.
     template_engine = Skippy::Template.new('minimal')
-    template_engine.compile(project) { |*args|
-      # This is a little weird, as Thor::Actions is supposed to be used from
-      # a Thor class. Because of that we use this block to allow this Thor
-      # class to run the `template` method. The Template class takes care of
-      # generating all the input and output parameters.
-      template(*args)
-    }
+    template_engine.compile(project, self)
   end
 
   def finalize

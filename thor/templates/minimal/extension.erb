@@ -1,10 +1,10 @@
 require 'sketchup.rb'
 
-module <%= config[:namespace] %>
+<%= project.namespace.open %>
 
   unless file_loaded?(__FILE__)
     # Register extension...
     file_loaded(__FILE__)
   end
 
-end
+<%= project.namespace.close %>

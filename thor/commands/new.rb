@@ -15,7 +15,7 @@ class New < Skippy::Command::Group
   class_option :template,
     :type => :string,
     :desc => 'The template used to generate the project files',
-    :default => 'minimal'
+    :default => 'standard'
 
   attr_reader :project
 

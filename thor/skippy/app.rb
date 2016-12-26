@@ -1,3 +1,5 @@
+require 'pathname'
+
 require 'skippy/skippy'
 
 class Skippy::App
@@ -12,9 +14,25 @@ class Skippy::App
 
   # @param [String] boot_loader_path
   def initialize(boot_loader_path)
-    @boot_loader_path = boot_loader_path
-    @path = File.dirname(boot_loader_path)
+    @boot_loader_path = File.expand_path(boot_loader_path)
+    @path = File.dirname(@boot_loader_path)
     boot_commands
+  end
+
+  # @return [Array<String>]
+  def templates_source_path
+    Pathname.new(File.join(path, 'templates'))
+  end
+
+  def templates
+    result = []
+    templates_source_path.entries.each { |entry|
+      template_path =  templates_source_path.join(entry)
+      next unless template_path.directory?
+      next if %[. ..].include?(entry.basename.to_s)
+      result << Skippy::Template.new(entry)
+    }
+    result
   end
 
   private

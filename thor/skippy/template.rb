@@ -8,9 +8,9 @@ class Skippy::Template
   attr_accessor :description
 
   # @param [String] relative_template_path Dirname of the template to use.
-  def initialize(relative_template_path)
-    @path = relative_template_path
-    @name = ''
+  def initialize(template_path)
+    @path = Pathname.new(template_path)
+    @name = @path.basename
     @description = ''
   end
 
@@ -46,18 +46,12 @@ class Skippy::Template
 
   # @return [Array<Pathname>] All ERB files in the template.
   def relative_paths
-    pattern = File.join(self.class.source_root, path, '**', '*.erb')
-    source_base = Pathname.new(self.class.source_root)
+    pattern = File.join(path, '**', '*.erb')
+    source_base = path.parent
     Dir.glob(pattern).map { |file|
       pathname = Pathname.new(file)
       pathname.relative_path_from(source_base)
     }
-  end
-
-  # TODO(thomthom): Reuse path with Skippy::New.
-  def self.source_root
-    path = File.join(__dir__, '..', '..', 'thor', 'templates')
-    File.expand_path(path)
   end
 
 end

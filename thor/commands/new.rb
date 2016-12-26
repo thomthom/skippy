@@ -1,5 +1,6 @@
 require 'json'
 
+require 'skippy/app'
 require 'skippy/group'
 require 'skippy/project'
 require 'skippy/template'
@@ -75,8 +76,7 @@ class New < Skippy::Command::Group
 
   # Needed as base for Thor::Actions' file actions.
   def self.source_root
-    path = File.join(__dir__, '..', '..', 'thor', 'templates')
-    File.expand_path(path)
+    Skippy.app.templates_source_path
   end
 
 end

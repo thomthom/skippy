@@ -17,6 +17,19 @@ require 'skippy/version'
 # verbatim. Makes it easier to update if needed.
 class Skippy::CLI < Skippy::Command
 
+  class << self
+
+    # @param [Skippy::Error] error
+    def display_error(error)
+      shell = Thor::Base.shell.new
+      message = " #{error.message} "
+      message = shell.set_color(message, :white)
+      message = shell.set_color(message, :on_red)
+      shell.error message
+    end
+
+  end # Class methods
+
   default_command :list
 
   # Verbatim copy from Thor::Runner:
@@ -173,5 +186,5 @@ class Skippy::CLI < Skippy::Command
     print_table info
     say ""
   end
-  
+
 end

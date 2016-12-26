@@ -33,23 +33,15 @@ end
 $LOAD_PATH << __dir__
 
 # Load skippy components the bootstrapper needs.
+require 'skippy/app'
 require 'skippy/cli'
 require 'skippy/error'
 
-# Load the default skippy commands.
-path_commands = File.join(__dir__, 'commands')
-commands_pattern = File.join(path_commands, '*.rb')
-Dir.glob(commands_pattern) { |filename|
-  require filename
-}
+Skippy::App.boot(__FILE__)
 
 # Everything is ready to start the CLI.
 begin
   Skippy::CLI.start
 rescue Skippy::Error => error
-  shell = Thor::Base.shell.new
-  message = " #{error.message} "
-  message = shell.set_color(message, :white)
-  message = shell.set_color(message, :on_red)
-  shell.error message
+  Skippy::CLI.display_error(error)
 end

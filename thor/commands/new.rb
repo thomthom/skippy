@@ -69,6 +69,13 @@ class New < Skippy::Command::Group
     create_file(json_filename, json)
   end
 
+  def create_example_skippy_command
+    example_path = Skippy.app.resources('example.rb')
+    example = File.read(example_path)
+    filename = 'skippy/example.rb'
+    create_file(filename, example)
+  end
+
   def finalize
     say ''
     say "Project for #{namespace} created.", :green

@@ -9,6 +9,7 @@ class Debug < Skippy::Command
     say "Cleaning out project files..."
     remove_file Skippy::Project::PROJECT_FILENAME
     remove_dir 'src'
+    remove_dir 'skippy'
   end
 
 end

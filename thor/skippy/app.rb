@@ -19,6 +19,11 @@ class Skippy::App
     boot_commands
   end
 
+  def resources(item = nil)
+    resource = Pathname.new(File.join(path, 'resources'))
+    item ? resource.join(item) : resource
+  end
+
   # @return [Array<String>]
   def templates_source_path
     Pathname.new(File.join(path, 'templates'))

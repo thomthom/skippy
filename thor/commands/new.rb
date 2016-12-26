@@ -49,7 +49,8 @@ class New < Skippy::Command::Group
     say 'Generating template files...'
     say "Template: #{options[:template]}"
     say ''
-    template_engine = Skippy::Template.new(options[:template])
+    template_path = File.join(self.class.source_root, options[:template])
+    template_engine = Skippy::Template.new(template_path)
     template_engine.compile(project, self)
   end
 

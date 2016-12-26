@@ -7,7 +7,7 @@ class Skippy::Template
   attr_reader :name, :path
   attr_accessor :description
 
-  # @param [String] relative_template_path Dirname of the template to use.
+  # @param [String] template_path Dirname of the template to use.
   def initialize(template_path)
     @path = Pathname.new(template_path)
     @name = @path.basename
@@ -25,7 +25,7 @@ class Skippy::Template
       # Example: (Namespace: DeveloperName/AwesomeTool)
       #   extension.rb.erb      => awesome_tool.rb.erb
       #   extension/main.rb.erb => awesome_tool/main.rb.erb
-      target.gsub!(/\A#{Regexp.quote(path)}\/extension/, "src/#{basename}")
+      target.gsub!(/\A#{Regexp.quote(name.to_s)}\/extension/, "src/#{basename}")
       # Assumes the ERB template file contain the target file extension of the
       # target file.
       # Example:
@@ -46,11 +46,11 @@ class Skippy::Template
 
   # @return [Array<Pathname>] All ERB files in the template.
   def relative_paths
+    source_root = path.parent
     pattern = File.join(path, '**', '*.erb')
-    source_base = path.parent
     Dir.glob(pattern).map { |file|
       pathname = Pathname.new(file)
-      pathname.relative_path_from(source_base)
+      pathname.relative_path_from(source_root)
     }
   end
 

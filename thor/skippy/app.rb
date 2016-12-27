@@ -1,5 +1,8 @@
 require 'pathname'
 
+require 'skippy/command'
+require 'skippy/group'
+require 'skippy/template'
 require 'skippy/skippy'
 
 class Skippy::App
@@ -8,6 +11,7 @@ class Skippy::App
   # @return [Skippy::App]
   def self.boot(boot_loader_path)
     Skippy.app = Skippy::App.new(boot_loader_path)
+    Skippy.app.boot
   end
 
   attr_reader :path
@@ -16,6 +20,9 @@ class Skippy::App
   def initialize(boot_loader_path)
     @boot_loader_path = File.expand_path(boot_loader_path)
     @path = File.dirname(@boot_loader_path)
+  end
+
+  def boot
     boot_commands
   end
 

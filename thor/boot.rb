@@ -34,12 +34,11 @@ $LOAD_PATH << __dir__
 
 # Load skippy components the bootstrapper needs.
 require 'skippy/app'
-require 'skippy/cli'
-require 'skippy/error'
-
 Skippy::App.boot(__FILE__)
 
 # Everything is ready to start the CLI.
+require 'skippy/cli'
+require 'skippy/error'
 begin
   Skippy::CLI.start
 rescue Skippy::Error => error

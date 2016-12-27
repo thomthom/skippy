@@ -18,6 +18,8 @@ class New < Skippy::Command::Group
     :desc => 'The template used to generate the project files',
     :default => 'standard'
 
+  source_paths << Skippy.app.resources
+
   attr_reader :project
 
   def initialize_project
@@ -71,10 +73,7 @@ class New < Skippy::Command::Group
   end
 
   def create_example_skippy_command
-    example_path = Skippy.app.resources('example.rb')
-    example = File.read(example_path)
-    filename = 'skippy/example.rb'
-    create_file(filename, example)
+    copy_file('commands/example.rb', 'skippy/example.rb')
   end
 
   def finalize

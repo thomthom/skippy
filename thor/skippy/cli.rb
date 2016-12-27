@@ -1,3 +1,4 @@
+require 'skippy/app'
 require 'skippy/command'
 require 'skippy/group'
 require 'skippy/project'

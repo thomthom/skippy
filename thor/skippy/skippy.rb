@@ -1,3 +1,5 @@
+require 'skippy/version'
+
 module Skippy
 
   class << self

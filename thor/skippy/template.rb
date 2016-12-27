@@ -34,10 +34,15 @@ class Skippy::Template
       path, filename = File.split(target)
       filename = File.basename(filename, '.erb')
       target = File.join(path, filename)
-      # Render the template with the context of the Skippy::Command that runs
-      # the template. This means the binding of the Skippy::Command is
-      # available to the ERB template.
-      context.send(:template, source.to_s, target)
+      if source.extname == '.erb'
+        # Render the template with the context of the Skippy::Command that runs
+        # the template. This means the binding of the Skippy::Command is
+        # available to the ERB template.
+        context.send(:template, source.to_s, target)
+      else
+        # All other files are simply copied
+        context.send(:copy_file, source.to_s, target)
+      end
     }
     nil
   end
@@ -47,11 +52,14 @@ class Skippy::Template
   # @return [Array<Pathname>] All ERB files in the template.
   def relative_paths
     source_root = path.parent
-    pattern = File.join(path, '**', '*.erb')
+    pattern = File.join(path, '**', '*')
+    files = []
     Dir.glob(pattern).map { |file|
       pathname = Pathname.new(file)
-      pathname.relative_path_from(source_root)
+      next if pathname.directory?
+      files << pathname.relative_path_from(source_root)
     }
+    files
   end
 
 end

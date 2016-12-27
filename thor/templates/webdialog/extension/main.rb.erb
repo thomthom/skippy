@@ -1,0 +1,24 @@
+require 'sketchup.rb'
+
+module <%= project.namespace %>
+
+  unless file_loaded?(__FILE__)
+    menu = UI.menu('Plugins').add_submenu(EXTENSION[:name])
+    menu.add_item('Open Dialog') { self.open_dialog }
+    menu.add_separator
+    menu.add_item('Help...') { self.open_help }
+    file_loaded(__FILE__)
+  end
+
+  def self.open_dialog
+    file_path = File.join(PATH, 'html', 'dialog.html')
+    @dialog = UI::WebDialog.new
+    @dialog.set_file(file_path)
+    @dialog.show
+  end
+
+  def self.open_help
+    UI.openURL(EXTENSION[:url])
+  end
+
+end # module

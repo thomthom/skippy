@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+#require 'foodie/cli'
+#Foodie::CLI.start
+
+require_relative '../thor/boot'

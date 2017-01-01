@@ -29,9 +29,6 @@ ensure
   $VERBOSE = original_verbose
 end
 
-# Setup the load path to include Skippy's required files.
-$LOAD_PATH << __dir__
-
 # Load skippy components the bootstrapper needs.
 require 'skippy/app'
 Skippy::App.boot(__FILE__)

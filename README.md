@@ -1,28 +1,48 @@
 # Skippy
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/skippy`. To experiment with that code, run `bin/console` for an interactive prompt.
+Skippy is a Command Line Interface which aims to automate common developer tasks for SketchUp Ruby extension development.
 
-TODO: Delete this and the text above, and describe your gem
+It is currently in very early stage of development so many things are incomplete. Feedback and contributions are welcome.
+
+Some of the main goals are:
+
+* Automate common tasks
+  * Packaging the extension
+  * Running build scripts
+* Easy interface to add per-project custom commands/tasks
+* Quick initialization of new project with templates
+* Library dependency management
+  * Pull in third-party modules into extension namespace
+  * Add/Remove/Update dependencies
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'skippy'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
 
     $ gem install skippy
 
 ## Usage
 
-TODO: Write usage instructions here
+TODO: Write more detailed usage instructions here.
+
+Install the gem on your system, afterwards the `skippy` command should become available.
+
+### Quick-Reference
+
+Type `skippy` to list available commands.
+
+Type `skippy help [COMMAND]` for more information on how to use each command.
+
+Use `skippy new` to create a new project in the current folder.
+
+You can add custom per-project commands to a `skippy` folder in your project. Look at `skippy/example.rb` for an example of a simple custom command.
+
+### Power of Thor
+
+Skippy is built on [Thor](https://github.com/erikhuda/thor). Refer to [Thor's Website](http://whatisthor.com/) and [documentation](http://www.rubydoc.info/github/wycats/thor/index) for details on creating commands.
+
+When creating Skippy command use the following replacements:
+
+* Instead of class `Thor`, use `Skippy::Command`
+* Instead of class `Thor::Group`, use `Skippy::Command::Group`
 
 ## Development
 
@@ -32,7 +52,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/skippy.
+Bug reports and pull requests are welcome on GitHub at https://github.com/thomthom/skippy.
 
 
 ## License

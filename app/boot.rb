@@ -10,7 +10,7 @@ $PROGRAM_NAME = 'skippy'
 # versions behave.
 ENV['THOR_SHELL'] = 'Color' if $stdout.isatty
 
-# Thor require DL which under Windows will yield a warning:
+# Thor require DL which under Windows and Ruby 2.0 will yield a warning:
 #   DL is deprecated, please use Fiddle
 #
 # To avoid this appearing every time this tool is invoked, warnings are

@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Thomas Thomassen"]
   spec.email         = ["thomas@thomthom.net"]
 
-  spec.summary       = %q{CLI Development tool for SketchUp extensions.}
+  spec.summary       = %q{CLI development tool for SketchUp extensions.}
   spec.description   = %q{Automate common tasks for SketchUp extension development, including managing library dependencies.}
   spec.homepage      = "https://github.com/thomthom/skippy"
   spec.license       = "MIT"

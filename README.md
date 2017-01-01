@@ -1,5 +1,7 @@
 # Skippy
 
+[![Gem Version](https://badge.fury.io/rb/skippy.svg)](https://badge.fury.io/rb/skippy)
+
 Skippy is a Command Line Interface which aims to automate common developer tasks for SketchUp Ruby extension development.
 
 It is currently in very early stage of development so many things are incomplete. Feedback and contributions are welcome.

@@ -50,9 +50,7 @@ class New < Skippy::Command::Group
     say ''
     say "Compiling template '#{options[:template]}'..."
     say ''
-    template_path = File.join(self.class.source_root, options[:template])
-    template_engine = Skippy::Template.new(template_path)
-    template_engine.compile(project, self)
+    directory(options[:template], 'src')
   end
 
   def create_extension_json
@@ -79,6 +77,17 @@ class New < Skippy::Command::Group
     say ''
     say "Project for #{namespace} created.", :green
   end
+
+  # These are methods to be used by the template engine when it compiles the
+  # templates and expands the filenames.
+  no_commands do
+
+    # @return [String] The basename for the extension files.
+    def ext_name
+      project.namespace.to_underscore
+    end
+
+  end # no_commands
 
   # Needed as base for Thor::Actions' file actions.
   def self.source_root

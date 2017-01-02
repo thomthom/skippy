@@ -1,3 +1,3 @@
 module Skippy
-  VERSION = '0.1.0.a'.freeze
+  VERSION = '0.1.1.a'.freeze
 end

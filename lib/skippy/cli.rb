@@ -31,7 +31,14 @@ class Skippy::CLI < Skippy::Command
 
   end # Class methods
 
+  map "-v" => :version
+
   default_command :list
+
+  desc "version", "Show Skippy version"
+  def version
+    display_app_banner
+  end
 
   # Verbatim copy from Thor::Runner:
   # Override Thor#help so it can give information about any class and any method.

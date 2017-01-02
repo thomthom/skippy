@@ -2,7 +2,6 @@ require 'pathname'
 
 require 'skippy/command'
 require 'skippy/group'
-require 'skippy/template'
 require 'skippy/skippy'
 
 class Skippy::App
@@ -42,7 +41,7 @@ class Skippy::App
       template_path =  templates_source_path.join(entry)
       next unless template_path.directory?
       next if %[. ..].include?(entry.basename.to_s)
-      result << Skippy::Template.new(entry)
+      result << entry
     }
     result
   end

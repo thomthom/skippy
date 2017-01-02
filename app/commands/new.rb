@@ -3,7 +3,6 @@ require 'json'
 require 'skippy/app'
 require 'skippy/group'
 require 'skippy/project'
-require 'skippy/template'
 
 class New < Skippy::Command::Group
 

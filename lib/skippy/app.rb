@@ -1,8 +1,8 @@
 require 'pathname'
 
+require 'skippy'
 require 'skippy/command'
 require 'skippy/group'
-require 'skippy/skippy'
 
 class Skippy::App
 

@@ -1,5 +1,9 @@
 require "skippy/version"
 
 module Skippy
-  # Your code goes here...
-end
+
+  class << self
+    attr_accessor :app
+  end
+
+end # module

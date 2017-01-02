@@ -1,3 +1,5 @@
+require 'skippy/error'
+
 class Skippy::Namespace
 
   def initialize(namespace)

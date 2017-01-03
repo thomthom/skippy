@@ -11,7 +11,7 @@ class SkippyNamespaceTest < Minitest::Test
   end
 
 
-  def test_no_nesting_one_word
+  def test_that_it_accept_a_namespace_with_no_nesting
     namespace = Skippy::Namespace.new('Example')
     assert_equal('Example', namespace.basename)
     assert_equal(%w{Example}, namespace.to_a)
@@ -21,7 +21,7 @@ class SkippyNamespaceTest < Minitest::Test
     assert_equal("end # module Example", namespace.close)
   end
 
-  def test_one_nesting_two_words
+  def test_that_it_accept_nested_namespaces
     namespace = Skippy::Namespace.new('Example::HelloWorld')
     assert_equal('HelloWorld', namespace.basename)
     assert_equal(%w{Example HelloWorld}, namespace.to_a)
@@ -35,7 +35,7 @@ class SkippyNamespaceTest < Minitest::Test
       namespace.close)
   end
 
-  def test_invalid_namespaces
+  def test_that_it_reject_invalid_namespaces
     assert_invalid('123_number_first')
     assert_invalid('lower_case_first')
     assert_invalid('$_symbol_first')

@@ -8,7 +8,7 @@ class Template < Skippy::Command
       say '  No templates found'
     else
       templates.each { |template|
-        say "  #{template}", :green
+        say "  #{template.basename}", :green
       }
     end
   end

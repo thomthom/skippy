@@ -11,6 +11,7 @@ class Skippy::App
   def self.boot(boot_loader_path)
     Skippy.app = Skippy::App.new(boot_loader_path)
     Skippy.app.boot
+    Skippy.app
   end
 
   attr_reader :path
@@ -35,20 +36,20 @@ class Skippy::App
     Pathname.new(File.join(path, 'templates'))
   end
 
+  # @return [Array<Pathname>]
   def templates
     result = []
     templates_source_path.entries.each { |entry|
       template_path =  templates_source_path.join(entry)
       next unless template_path.directory?
       next if %[. ..].include?(entry.basename.to_s)
-      result << entry
+      result << entry.expand_path(templates_source_path)
     }
     result
   end
 
   private
 
-  # @return [Array<String>] loaded files
   def boot_commands
     # Load the default skippy commands.
     path_commands = File.join(path, 'commands')

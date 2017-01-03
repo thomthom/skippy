@@ -7,7 +7,7 @@ class Skippy::Project
 
   PROJECT_FILENAME = 'skippy.json'.freeze
 
-  attr_reader :name, :namespace, :path, :author, :copyright, :license
+  attr_reader :namespace, :path, :author, :copyright, :license
   attr_accessor :description
 
   # Initialize a project for the provided path. If the path is within a project
@@ -17,12 +17,13 @@ class Skippy::Project
   # @param [Pathname, String] path
   def initialize(path)
     @path = find_project_path(path) || Pathname.new(path)
-    @namespace = Skippy::Namespace.new('Untitled')
-    @name = ''
-    @description = ''
-    @author = 'Unknown'
-    @copyright = "Copyright (c) #{Time.now.year}"
-    @license = 'None'
+    config = load_config
+    @namespace = Skippy::Namespace.new(config[:namespace] || 'Untitled')
+    @name = config[:name] || ''
+    @description = config[:description] || ''
+    @author = config[:author] || 'Unknown'
+    @copyright = config[:copyright] || "Copyright (c) #{Time.now.year}"
+    @license = config[:license] || 'None'
   end
 
   # @yield [filename]
@@ -85,6 +86,13 @@ class Skippy::Project
       pathname = pathname.parent
     end
     nil
+  end
+
+  # return [Hash]
+  def load_config
+    return {} unless exist?
+    json = File.read(filename)
+    JSON.parse(json, symbolize_names: true)
   end
 
 end

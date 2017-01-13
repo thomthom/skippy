@@ -69,7 +69,7 @@ class New < Skippy::Command::Group
   end
 
   def create_example_skippy_command
-    copy_file('commands/example.rb', 'skippy/example.rb')
+    copy_file('commands/example.rb', 'skippy/commands/example.rb')
   end
 
   def finalize

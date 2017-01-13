@@ -9,7 +9,7 @@ Feature: Project
     Then a file named "src/hello_world.rb" should exist
     Then a file named "src/hello_world/main.rb" should exist
     Then a file named "src/hello_world/extension.json" should exist
-    Then a file named "skippy/example.rb" should exist
+    Then a file named "skippy/commands/example.rb" should exist
 
   Scenario: Create new project with custom template
     When I run `skippy new Example::WebDialog --template=webdialog`
@@ -18,4 +18,4 @@ Feature: Project
     Then a file named "src/web_dialog/main.rb" should exist
     Then a file named "src/web_dialog/extension.json" should exist
     Then a file named "src/web_dialog/html/dialog.html" should exist
-    Then a file named "skippy/example.rb" should exist
+    Then a file named "skippy/commands/example.rb" should exist

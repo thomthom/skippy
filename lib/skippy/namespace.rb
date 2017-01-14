@@ -35,6 +35,10 @@ class Skippy::Namespace
     @namespace.dup
   end
 
+  def to_str
+    to_s
+  end
+
   def to_underscore
     basename_words(basename).map { |word| word.downcase }.join('_')
   end

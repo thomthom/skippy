@@ -41,9 +41,9 @@ Feature: Libraries
         "version": "1.2.3"
       }
       """
-    And an empty file named ".skippy/libs/my_lib/src/command"
-    And an empty file named ".skippy/libs/my_lib/src/geom"
-    And an empty file named ".skippy/libs/my_lib/src/tool"
+    And an empty file named ".skippy/libs/my_lib/src/command.rb"
+    And an empty file named ".skippy/libs/my_lib/src/geom.rb"
+    And an empty file named ".skippy/libs/my_lib/src/tool.rb"
     When I run `skippy lib:list`
     Then the output should contain "my_lib/command"
     And the output should contain "my_lib/geom"

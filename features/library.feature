@@ -33,7 +33,15 @@ Feature: Libraries
     And the output should contain "Installed library: my_lib (1.2.3)"
 
   Scenario: List installed libraries
-    Given an empty file named ".skippy/libs/my_lib/src/command"
+    Given a file named ".skippy/libs/my_lib/skippy.json" with:
+      """
+      {
+        "library": true,
+        "name": "My Shiny Library",
+        "version": "1.2.3"
+      }
+      """
+    And an empty file named ".skippy/libs/my_lib/src/command"
     And an empty file named ".skippy/libs/my_lib/src/geom"
     And an empty file named ".skippy/libs/my_lib/src/tool"
     When I run `skippy lib:list`

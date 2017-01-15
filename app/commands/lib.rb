@@ -18,14 +18,17 @@ class Lib < Skippy::Command
       #  }
       #}
       project = Skippy::Project.new(Dir.pwd)
-      lib_path = project.path.join('.skippy/libs')
-      lib_path.entries.each { |library|
+      libs_path = project.path.join('.skippy/libs')
+      libs_path.entries.each { |library|
         next if %w(. ..).include?(library.to_s)
+        lib_path = libs_path.join(library)
+        lib_json = lib_path.join('skippy.json').read
+        lib_config = JSON.parse(lib_json, symbolize_names: true)
         say
-        say library, :green
-        lib_path.join(library, 'src').entries.each { |lib_module|
+        say "#{library} (#{lib_config[:version]})", [:bold, :yellow]
+        lib_path.join('src').entries.each { |lib_module|
           next if %w(. ..).include?(lib_module.to_s)
-          say "  #{library}/#{lib_module.basename('.*')}", :yellow
+          say "  #{library}/#{lib_module.basename('.*')}", :green
         }
       }
     #end

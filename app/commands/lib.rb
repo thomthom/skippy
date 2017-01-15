@@ -17,7 +17,7 @@ class Lib < Skippy::Command
         say
         say "#{library.title} (#{library.version})", [:bold, :yellow]
         library.modules.each { |lib_module|
-          say "  #{library.name}/#{lib_module}", :green
+          say "  #{lib_module}", :green
         }
       }
     end

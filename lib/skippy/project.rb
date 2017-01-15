@@ -1,14 +1,27 @@
 require 'json'
 require 'pathname'
 
+require 'skippy/helpers/file'
+require 'skippy/library'
 require 'skippy/namespace'
 
 class Skippy::Project
+
+  include Skippy::Helpers::File
 
   PROJECT_FILENAME = 'skippy.json'.freeze
 
   attr_reader :namespace, :path, :author, :copyright, :license
   attr_accessor :description
+
+  class ProjectNotFoundError < RuntimeError; end
+
+  # @return [Skippy::Project]
+  def self.current_or_fail
+    project = Skippy::Project.new(Dir.pwd)
+    raise ProjectNotFoundError unless project.exist?
+    project
+  end
 
   # Initialize a project for the provided path. If the path is within a project
   # path the base path of the project will be found. Otherwise it's assumed that
@@ -44,6 +57,17 @@ class Skippy::Project
   # @return [String]
   def filename
     File.join(path, PROJECT_FILENAME)
+  end
+
+  # @return [Array<Skippy::Library>]
+  def libraries
+    directories(libraries_path).map { |lib_path|
+      Skippy::Library.new(lib_path)
+    }
+  end
+
+  def libraries_path
+    path.join('.skippy/libs')
   end
 
   # @return [String]

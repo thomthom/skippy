@@ -8,30 +8,19 @@ class Lib < Skippy::Command
   desc 'list', 'List installed libraries'
   def list
     say 'Available libraries:', :yellow
-    #libraries = Skippy.app.libraries
-    #if libraries.empty?
-    #  say '  No libraries available'
-    #else
-      #libraries.each { |library|
-      #  library.modules.each { |lib_module|
-      #    say "  #{lib_module}", :green
-      #  }
-      #}
-      project = Skippy::Project.new(Dir.pwd)
-      libs_path = project.path.join('.skippy/libs')
-      libs_path.entries.each { |library|
-        next if %w(. ..).include?(library.to_s)
-        lib_path = libs_path.join(library)
-        lib_json = lib_path.join('skippy.json').read
-        lib_config = JSON.parse(lib_json, symbolize_names: true)
+    project = Skippy::Project.current_or_fail
+    libraries = project.libraries
+    if libraries.empty?
+      say '  No libraries available'
+    else
+      libraries.each { |library|
         say
-        say "#{library} (#{lib_config[:version]})", [:bold, :yellow]
-        lib_path.join('src').entries.each { |lib_module|
-          next if %w(. ..).include?(lib_module.to_s)
-          say "  #{library}/#{lib_module.basename('.*')}", :green
+        say "#{library.title} (#{library.version})", [:bold, :yellow]
+        library.modules.each { |lib_module|
+          say "  #{library.name}/#{lib_module}", :green
         }
       }
-    #end
+    end
   end
   default_command(:list)
 

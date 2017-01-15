@@ -7,8 +7,8 @@ class Lib < Skippy::Command
 
   desc 'list', 'List installed libraries'
   def list
-    say 'Available libraries:', :yellow
     project = Skippy::Project.current_or_fail
+    say 'Available libraries:', :yellow
     libraries = project.libraries
     if libraries.empty?
       say '  No libraries available'
@@ -26,6 +26,8 @@ class Lib < Skippy::Command
 
   desc 'install', 'Install a new library'
   def install(source)
+    project = Skippy::Project.current_or_fail
+
     lib_name = File.basename(source)
     target = File.join('.skippy/libs', lib_name)
 
@@ -37,7 +39,6 @@ class Lib < Skippy::Command
 
     version = lib_config[:version]
 
-    project = Skippy::Project.new(Dir.pwd)
     project_json = File.read(project.filename)
     project_config = JSON.parse(project_json, symbolize_names: true)
 
@@ -55,8 +56,7 @@ class Lib < Skippy::Command
 
   desc 'use', 'Use a library module'
   def use(module_path)
-    #project = Skippy::Project.current_or_fail
-    project = Skippy::Project.new(Dir.pwd)
+    project = Skippy::Project.current_or_fail
 
     lib_name, module_name = module_path.split('/')
     # project.path(relative_path)

@@ -9,7 +9,7 @@
   "args": ["exec", "rake"],
   "tasks": [{
       "taskName": "test",
-      "args": [],
+      "args": ["TEST=${relativeFile}"],
       "isTestCommand": true,
       "isBuildCommand": true
    }]

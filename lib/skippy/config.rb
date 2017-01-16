@@ -8,11 +8,15 @@ class Skippy::Config < Hash
   class MissingPathError < RuntimeError; end
 
   def self.load(path, defaults = {})
-    json = File.read(path)
-    config = JSON.parse(json,
-      symbolize_names: true,
-      object_class: self
-    )
+    if path.exist?
+      json = File.read(path)
+      config = JSON.parse(json,
+        symbolize_names: true,
+        object_class: self
+      )
+    else
+      config = self.new
+    end
     # Need to merge nested defaults.
     config.merge!(defaults) { |key, value, default|
       if value.is_a?(Hash) && default.is_a?(Hash)

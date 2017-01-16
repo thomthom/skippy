@@ -49,6 +49,10 @@ Feature: Libraries
     And the output should contain "my_lib/geom"
     And the output should contain "my_lib/tool"
 
+  Scenario: List no installed libraries
+    When I run `skippy lib:list`
+    Then the output should contain "No libraries installed"
+
   Scenario: Use a library component
     Given a file named ".skippy/libs/my_lib/src/command.rb" with:
       """

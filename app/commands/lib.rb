@@ -8,11 +8,11 @@ class Lib < Skippy::Command
   desc 'list', 'List installed libraries'
   def list
     project = Skippy::Project.current_or_fail
-    say 'Available libraries:', :yellow
     libraries = project.libraries
     if libraries.empty?
-      say '  No libraries available'
+      say 'No libraries installed', :yellow
     else
+      say 'Installed libraries:', :yellow
       libraries.each { |library|
         say
         say "#{library.title} (#{library.version})", [:bold, :yellow]

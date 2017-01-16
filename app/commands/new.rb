@@ -27,6 +27,7 @@ class New < Skippy::Command::Group
       raise Skippy::Error, "A project already exist: #{project.filename}"
     end
     project.namespace = namespace
+    project.name = project.namespace.to_name
   end
 
   def validate_template

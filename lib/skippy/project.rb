@@ -2,17 +2,23 @@ require 'json'
 require 'pathname'
 
 require 'skippy/helpers/file'
+require 'skippy/config'
+require 'skippy/config_accessors'
 require 'skippy/library'
 require 'skippy/namespace'
 
 class Skippy::Project
 
+  extend Skippy::ConfigAccessors
+
   include Skippy::Helpers::File
 
   PROJECT_FILENAME = 'skippy.json'.freeze
 
-  attr_reader :namespace, :path, :author, :copyright, :license
-  attr_accessor :description
+  attr_reader :path
+
+  config_attr :author, :copyright, :description, :license, :name
+  config_attr :namespace, type: Skippy::Namespace
 
   class ProjectNotFoundError < RuntimeError; end
 
@@ -30,13 +36,7 @@ class Skippy::Project
   # @param [Pathname, String] path
   def initialize(path)
     @path = find_project_path(path) || Pathname.new(path)
-    config = load_config
-    @namespace = Skippy::Namespace.new(config[:namespace] || 'Untitled')
-    @name = config[:name] || ''
-    @description = config[:description] || ''
-    @author = config[:author] || 'Unknown'
-    @copyright = config[:copyright] || "Copyright (c) #{Time.now.year}"
-    @license = config[:license] || 'None'
+    @config = Skippy::Config.load(filename, defaults)
   end
 
   # @yield [filename]
@@ -50,13 +50,13 @@ class Skippy::Project
 
   # Checks if a project exist on disk. If not it's just transient.
   def exist?
-    File.exist?(filename)
+    filename.exist?
   end
 
   # Full path to the project's configuration file. This file may not exist.
-  # @return [String]
+  # @return [Pathname]
   def filename
-    File.join(path, PROJECT_FILENAME)
+    path.join(PROJECT_FILENAME)
   end
 
   # @return [Array<Skippy::Library>]
@@ -70,32 +70,28 @@ class Skippy::Project
     path.join('.skippy/libs')
   end
 
-  # @return [String]
-  def name
-    @name.empty? ? namespace.to_name : @name
-  end
-
-  # @param [String] namespace
-  def namespace=(namespace)
-    @namespace = Skippy::Namespace.new(namespace)
-  end
-
   # Commits the project to disk.
   def save
-    File.write(filename, to_json)
+    @config.save_as(filename)
   end
 
   # @return [String]
   def to_json
-    project_config = {
-      namespace: namespace,
-      name: name,
-      description: description
-    }
-    JSON.pretty_generate(project_config)
+    JSON.pretty_generate(@config)
   end
 
   private
+
+  def defaults
+    {
+      name: 'Untitled',
+      description: '',
+      namespace: Skippy::Namespace.new('Untitled'),
+      author: 'Unknown',
+      copyright: "Copyright (c) #{Time.now.year}",
+      license: 'None',
+    }
+  end
 
   # Finds the root of a project based on any path within the project.
   #
@@ -110,13 +106,6 @@ class Skippy::Project
       pathname = pathname.parent
     end
     nil
-  end
-
-  # return [Hash]
-  def load_config
-    return {} unless exist?
-    json = File.read(filename)
-    JSON.parse(json, symbolize_names: true)
   end
 
 end

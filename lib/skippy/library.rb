@@ -2,9 +2,13 @@ require 'json'
 require 'pathname'
 
 require 'skippy/helpers/file'
+require 'skippy/config'
+require 'skippy/config_accessors'
 require 'skippy/lib_module'
 
 class Skippy::Library
+
+  extend Skippy::ConfigAccessors
 
   include Skippy::Helpers::File
 
@@ -12,24 +16,19 @@ class Skippy::Library
 
   attr_reader :path
 
+  config_attr_reader :title, key: :name # TODO(thomthom): Clean up this kludge.
+  config_attr_reader :version
+
   class LibraryNotFoundError < RuntimeError; end
 
   def initialize(path)
     @path = Pathname.new(path)
     raise LibraryNotFoundError, @path.to_s unless @path.exist?
-    @config = load_library_config
+    @config = Skippy::Config.load(config_file)
   end
 
   def name
     path.basename.to_s
-  end
-
-  def title
-    @config[:name]
-  end
-
-  def version
-    @config[:version]
   end
 
   def modules
@@ -45,16 +44,13 @@ class Skippy::Library
 
   private
 
-  def modules_path
-    path.join('src')
+  def config_file
+    path.join(CONFIG_FILENAME)
   end
 
-  # TODO(thomthom): Refactor this into a mix-in module. Use custom attributes
-  # to define accessors to config members. Maybe wrap the hash in a custom class
-  # to easily read, write and access data.
-  def load_library_config
-    json = path.join(CONFIG_FILENAME).read
-    JSON.parse(json, symbolize_names: true)
+  def modules_path
+    # TODO(thomthom): Make this configurable and default to 'lib'?
+    path.join('src')
   end
 
 end

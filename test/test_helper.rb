@@ -17,6 +17,11 @@ class Skippy::Test < Minitest::Test
     }
   end
 
+  def assert_end_with(exp, act, msg = nil)
+    msg = message(msg, E) { diff exp, act }
+    assert(act.end_with?(exp), msg)
+  end
+
   private
 
   def fixture(fixture_name)

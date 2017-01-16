@@ -10,6 +10,7 @@ class Debug < Skippy::Command
     remove_file Skippy::Project::PROJECT_FILENAME
     remove_dir 'src'
     remove_dir 'skippy'
+    remove_dir '.skippy'
   end
 
 end

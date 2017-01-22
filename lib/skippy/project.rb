@@ -36,6 +36,7 @@ class Skippy::Project
   # @param [Pathname, String] path
   def initialize(path)
     @path = find_project_path(path) || Pathname.new(path)
+    # noinspection RubyResolve
     @config = Skippy::Config.load(filename, defaults)
   end
 

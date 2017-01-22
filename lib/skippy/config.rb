@@ -18,12 +18,12 @@ class Skippy::Config < Hash
       config = self.new
     end
     # Need to merge nested defaults.
-    config.merge!(defaults) { |key, value, default|
+    config.merge!(defaults) { |_key, value, default|
       if value.is_a?(Hash) && default.is_a?(Hash)
         # Deep merge in order to merge nested hashes.
         # Note: This currently doesn't merge arrays.
         # http://stackoverflow.com/a/9381776/486990
-        merger = proc { |key, v1, v2|
+        merger = proc { |_k, v1, v2|
           Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2
         }
         default.merge(value, &merger)
@@ -80,7 +80,7 @@ class Skippy::Config < Hash
   private
 
   def update_from_hash(hash)
-    merger = proc { |key, v1, v2|
+    merger = proc { |_key, v1, v2|
       Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2
     }
     merge!(hash, &merger)

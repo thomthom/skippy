@@ -7,7 +7,7 @@ class Hello < Skippy::Command
   default_command(:world)
 
   desc 'universe', 'Greets the universe in general'
-  def universe(person)
+  def universe
     say "DARK IN HERE, ISN'T IT?"
   end
 

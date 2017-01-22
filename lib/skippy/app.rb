@@ -42,7 +42,7 @@ class Skippy::App
     templates_source_path.entries.each { |entry|
       template_path =  templates_source_path.join(entry)
       next unless template_path.directory?
-      next if %[. ..].include?(entry.basename.to_s)
+      next if %w[. ..].include?(entry.basename.to_s)
       result << entry.expand_path(templates_source_path)
     }
     result
@@ -55,6 +55,7 @@ class Skippy::App
     path_commands = File.join(path, 'commands')
     commands_pattern = File.join(path_commands, '*.rb')
     Dir.glob(commands_pattern) { |filename|
+      # noinspection RubyResolve
       require filename
     }
   end

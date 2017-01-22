@@ -1,6 +1,7 @@
 require 'test_helper'
 require 'skippy/config'
 
+# noinspection RubyResolve
 class SkippyConfigTest < Skippy::Test
 
   def json_path
@@ -18,8 +19,8 @@ class SkippyConfigTest < Skippy::Test
   def test_that_it_can_load_json
     config = Skippy::Config.load(json_path)
     assert_equal(json_path, config.path)
-    assert_equal("My Shiny Library", config[:name])
-    assert_equal("1.2.3", config[:version])
+    assert_equal('My Shiny Library', config[:name])
+    assert_equal('1.2.3', config[:version])
   end
 
   def test_that_it_can_load_json_with_defaults
@@ -30,9 +31,9 @@ class SkippyConfigTest < Skippy::Test
     }
     config = Skippy::Config.load(json_path, defaults)
     assert_equal(json_path, config.path)
-    assert_equal("My Shiny Library", config[:name])
-    assert_equal("1.2.3", config[:version])
-    assert_equal("Apache", config[:license])
+    assert_equal('My Shiny Library', config[:name])
+    assert_equal('1.2.3', config[:version])
+    assert_equal('Apache', config[:license])
   end
 
   def test_that_it_can_load_json_with_nested_defaults
@@ -117,12 +118,9 @@ class SkippyConfigTest < Skippy::Test
   end
 
   def test_it_raises_error_if_saving_config_not_loaded_from_path
-    Dir.mktmpdir do |dir|
-      config_json = Pathname.new(dir).join('config.json')
-      config = config_example
-      assert_raises(Skippy::Config::MissingPathError) do
-        config.save
-      end
+    config = config_example
+    assert_raises(Skippy::Config::MissingPathError) do
+      config.save
     end
   end
 

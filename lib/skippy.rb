@@ -1,4 +1,4 @@
-require "skippy/version"
+require 'skippy/version'
 
 module Skippy
 

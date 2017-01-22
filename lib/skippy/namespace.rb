@@ -15,12 +15,10 @@ class Skippy::Namespace
 
   def open
     @open ||= to_a.map { |part| "module #{part}" }.join("\n")
-    @open
   end
 
   def close
     @close ||= to_a.reverse.map { |part| "end # module #{part}" }.join("\n")
-    @close
   end
 
   def to_a

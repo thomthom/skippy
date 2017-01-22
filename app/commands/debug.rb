@@ -6,7 +6,7 @@ class Debug < Skippy::Command
 
   desc 'clean', 'Cleans out project files'
   def clean
-    say "Cleaning out project files..."
+    say 'Cleaning out project files...'
     remove_file Skippy::Project::PROJECT_FILENAME
     remove_dir 'src'
     remove_dir 'skippy'

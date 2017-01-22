@@ -21,7 +21,7 @@ begin
   require 'thor'
   # The Thor::Runner also needs to be loaded, as Skippy::CLI will call many of
   # of the same methods - in many cases emulating what it do.
-  require "thor/runner"
+  require 'thor/runner'
   # This is also needed to be set in order for Thor's utilities to output
   # command names correctly.
   $thor_runner = true

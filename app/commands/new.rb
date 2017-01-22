@@ -61,8 +61,8 @@ class New < Skippy::Command::Group
       copyright: project.copyright,
       license: project.license,
       product_id: project.namespace.to_a.join('_'),
-      version: "0.1.0",
-      build: "1",
+      version: '0.1.0',
+      build: '1',
     }
     json = JSON.pretty_generate(extension_info)
     json_filename = "src/#{project.namespace.to_underscore}/extension.json"

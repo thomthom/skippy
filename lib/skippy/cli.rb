@@ -31,11 +31,11 @@ class Skippy::CLI < Skippy::Command
 
   end # Class methods
 
-  map "-v" => :version
+  map '-v' => :version
 
   default_command :list
 
-  desc "version", "Show Skippy version"
+  desc 'version', 'Show Skippy version'
   def version
     display_app_banner
   end
@@ -48,7 +48,7 @@ class Skippy::CLI < Skippy::Command
       initialize_thorfiles(meth)
       klass, command = Thor::Util.find_class_and_command_by_namespace(meth)
       self.class.handle_no_command_error(command, false) if klass.nil?
-      klass.start(["-h", command].compact, :shell => shell)
+      klass.start(['-h', command].compact, :shell => shell)
     else
       super
     end
@@ -68,14 +68,14 @@ class Skippy::CLI < Skippy::Command
   end
 
   # Verbatim copy from Thor::Runner:
-  desc "list [SEARCH]", "List the available #{$PROGRAM_NAME} commands (--substring means .*SEARCH)"
+  desc 'list [SEARCH]', "List the available #{$PROGRAM_NAME} commands (--substring means .*SEARCH)"
   method_options :substring => :boolean, :group => :string, :all => :boolean, :debug => :boolean
-  def list(search = "")
+  def list(search = '')
     initialize_thorfiles
 
-    search = ".*#{search}" if options["substring"]
+    search = ".*#{search}" if options['substring']
     search = /^#{search}.*/i
-    group  = options[:group] || "standard"
+    group  = options[:group] || 'standard'
 
     klasses = Thor::Base.subclasses.select do |k|
       (options[:all] || k.group == group) && k.namespace =~ search
@@ -120,7 +120,7 @@ class Skippy::CLI < Skippy::Command
   end
 
   # Based on Thor::Runner:
-  def display_klasses(with_modules = false, show_internal = false, klasses = Thor::Base.subclasses)
+  def display_klasses(_with_modules = false, show_internal = false, klasses = Thor::Base.subclasses)
     unless show_internal
       klasses -= [
         Thor, Thor::Runner, Thor::Group,
@@ -135,7 +135,7 @@ class Skippy::CLI < Skippy::Command
 
     # Get classes which inherit from Thor
     (klasses - groups).each { |k|
-      list[k.namespace.split(":").first] += k.printable_commands(false)
+      list[k.namespace.split(':').first] += k.printable_commands(false)
     }
 
     # Get classes which inherit from Thor::Base
@@ -156,7 +156,7 @@ class Skippy::CLI < Skippy::Command
 
     # Order namespaces with default coming first
     list = list.sort { |a, b|
-      a[0].sub(/^default/, "") <=> b[0].sub(/^default/, "")
+      a[0].sub(/^default/, '') <=> b[0].sub(/^default/, '')
     }
     list.each { |n, commands|
       display_commands(n, commands, col_width) unless commands.empty?
@@ -189,10 +189,10 @@ class Skippy::CLI < Skippy::Command
     labels = %w[Modules Namespaces]
 
     info << labels
-    info << ["-" * labels[0].size, "-" * labels[1].size]
+    info << ['-' * labels[0].size, '-' * labels[1].size]
 
     print_table info
-    say ""
+    say ''
   end
 
 end

@@ -17,8 +17,8 @@ class SkippyNamespaceTest < Minitest::Test
     assert_equal(%w{Example}, namespace.to_a)
     assert_equal('Example', namespace.to_name)
     assert_equal('example', namespace.to_underscore)
-    assert_equal("module Example", namespace.open)
-    assert_equal("end # module Example", namespace.close)
+    assert_equal('module Example', namespace.open)
+    assert_equal('end # module Example', namespace.close)
   end
 
   def test_that_it_accept_nested_namespaces

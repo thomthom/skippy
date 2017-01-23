@@ -1,0 +1,8 @@
+{
+  "name": "Hello World",
+  "description": "",
+  "namespace": "Example::HelloWorld",
+  "author": "Unknown",
+  "copyright": "Copyright (c) 2017",
+  "license": "None"
+}

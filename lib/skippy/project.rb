@@ -4,7 +4,9 @@ require 'pathname'
 require 'skippy/helpers/file'
 require 'skippy/config'
 require 'skippy/config_accessors'
+require 'skippy/error'
 require 'skippy/library'
+require 'skippy/library_manager'
 require 'skippy/namespace'
 
 class Skippy::Project
@@ -15,12 +17,14 @@ class Skippy::Project
 
   PROJECT_FILENAME = 'skippy.json'.freeze
 
-  attr_reader :path
+  attr_reader :config
+  attr_reader :libraries
 
   config_attr :author, :copyright, :description, :license, :name
   config_attr :namespace, type: Skippy::Namespace
 
-  class ProjectNotFoundError < RuntimeError; end
+  class ProjectNotFoundError < Skippy::Error; end
+  class ProjectNotSavedError < Skippy::Error; end
 
   # @return [Skippy::Project]
   def self.current_or_fail
@@ -38,6 +42,7 @@ class Skippy::Project
     @path = find_project_path(path) || Pathname.new(path)
     # noinspection RubyResolve
     @config = Skippy::Config.load(filename, defaults)
+    @libraries = Skippy::LibraryManager.new(self)
   end
 
   # @yield [filename]
@@ -60,15 +65,10 @@ class Skippy::Project
     path.join(PROJECT_FILENAME)
   end
 
-  # @return [Array<Skippy::Library>]
-  def libraries
-    directories(libraries_path).map { |lib_path|
-      Skippy::Library.new(lib_path)
-    }
-  end
-
-  def libraries_path
-    path.join('.skippy/libs')
+  # @param [Pathname, String] sub_path
+  # @return [Pathname]
+  def path(sub_path = '')
+    @path.join(sub_path)
   end
 
   # Commits the project to disk.

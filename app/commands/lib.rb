@@ -1,6 +1,9 @@
 require 'fileutils'
 require 'json'
 
+require 'skippy/library'
+require 'skippy/project'
+
 class Lib < Skippy::Command
 
   include Thor::Actions
@@ -24,50 +27,30 @@ class Lib < Skippy::Command
   end
   default_command(:list)
 
-  desc 'install', 'Install a new library'
+  desc 'install SOURCE', 'Install a new library'
   def install(source)
     project = Skippy::Project.current_or_fail
-
-    lib_name = File.basename(source)
-    target = File.join('.skippy/libs', lib_name)
-
-    FileUtils.mkdir_p('.skippy/libs')
-    FileUtils.copy_entry(source, target)
-
-    lib_json = File.read(File.join(target, 'skippy.json'))
-    lib_config = JSON.parse(lib_json, symbolize_names: true)
-
-    version = lib_config[:version]
-
-    project_json = File.read(project.filename)
-    project_config = JSON.parse(project_json, symbolize_names: true)
-
-    project_config[:libraries] ||= []
-    project_config[:libraries] << {
-      name: lib_name,
-      version: version,
-      source: source
-    }
-
-    File.write(project.filename, JSON.pretty_generate(project_config))
-
-    say "Installed library: #{lib_name} (#{version})"
+    library = project.libraries.install(source)
+    say "Installed library: #{library.name} (#{library.version})"
   end
 
-  desc 'use', 'Use a library module'
+  desc 'use MODULE', 'Use a library module'
   def use(module_path)
     project = Skippy::Project.current_or_fail
 
+    # TODO(thomthom): project.modules.use(module_path)
     lib_name, module_name = module_path.split('/')
     # project.path(relative_path)
     lib_file = File.join(project.path, ".skippy/libs/#{lib_name}/src/#{module_name}.rb")
 
     # project.vendor_path(lib_name)
+    # project.modules.path(lib_name)
     vendor_file = File.join(project.path, "src/#{project.namespace.to_underscore}/vendor/#{lib_name}/#{module_name}.rb")
 
     source_paths << project.path
 
     copy_file lib_file, vendor_file do |content|
+      # Transform library namespace to project namespace.
       content.gsub!('SkippyLib', project.namespace)
       content
     end

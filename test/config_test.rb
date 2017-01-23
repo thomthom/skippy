@@ -168,4 +168,22 @@ class SkippyConfigTest < Skippy::Test
     assert_equal('Baz', config.get('biz'))
   end
 
+  def test_it_can_push_to_array_key
+    config = Skippy::Config.new
+    config.push('hello/nested/world', 1.618)
+    config.push('hello/nested/world', 3.14)
+    result = config.get('hello/nested/world')
+    assert_kind_of(Array, result)
+    assert_equal([1.618, 3.14], config[:hello][:nested][:world])
+  end
+
+  def test_it_cannot_push_to_key_that_is_not_an_array
+    config = Skippy::Config.new
+    config.set('hello/nested/world', 1.618)
+    assert_raises(ArgumentError) do
+      config.push('hello/nested/world', 3.14)
+    end
+    assert_equal(1.618, config[:hello][:nested][:world])
+  end
+
 end

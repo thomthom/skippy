@@ -4,7 +4,7 @@ class Skippy::LibModule
 
   attr_reader :path
 
-  class ModuleNotFoundError < RuntimeError; end
+  class ModuleNotFoundError < Skippy::Error; end
 
   def initialize(path)
     @path = Pathname.new(path)

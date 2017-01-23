@@ -19,7 +19,7 @@ class Skippy::Library
   config_attr_reader :title, key: :name # TODO(thomthom): Clean up this kludge.
   config_attr_reader :version
 
-  class LibraryNotFoundError < RuntimeError; end
+  class LibraryNotFoundError < Skippy::Error; end
 
   def initialize(path)
     @path = Pathname.new(path)

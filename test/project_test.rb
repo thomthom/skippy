@@ -3,7 +3,7 @@ require 'skippy/project'
 require 'json'
 require 'pathname'
 
-class SkippyProjectTest < Minitest::Test
+class SkippyProjectTest < Skippy::Test
 
   def test_that_it_can_create_transient_project
     test_path = Pathname.new(__dir__)
@@ -60,6 +60,26 @@ class SkippyProjectTest < Minitest::Test
     assert(json.key?(:namespace))
     assert(json.key?(:name))
     assert(json.key?(:description))
+  end
+
+  def test_project_path_return_the_projects_path
+    Dir.mktmpdir do |dir|
+      project = Skippy::Project.new(dir)
+      expected = Pathname(dir)
+      result = project.path
+      assert_kind_of(Pathname, result)
+      assert_equal(expected, result)
+    end
+  end
+
+  def test_project_path_return_can_return_a_folder_relative_to_project_root
+    Dir.mktmpdir do |dir|
+      project = Skippy::Project.new(dir)
+      result = project.path('.skippy/libs/my_lib')
+      expected = Pathname.new(dir).join('.skippy/libs/my_lib')
+      assert_kind_of(Pathname, result)
+      assert_equal(expected, result)
+    end
   end
 
 end

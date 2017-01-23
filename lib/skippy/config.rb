@@ -1,11 +1,13 @@
 require 'json'
 require 'pathname'
 
+require 'skippy/error'
+
 class Skippy::Config < Hash
 
   attr_accessor :path
 
-  class MissingPathError < RuntimeError; end
+  class MissingPathError < Skippy::Error; end
 
   def self.load(path, defaults = {})
     if path.exist?
@@ -41,6 +43,13 @@ class Skippy::Config < Hash
 
   def set(key_path, value)
     set_item(key_path, value)
+  end
+
+  def push(key_path, value)
+    item = get_item(key_path)
+    item = set_item(key_path, []) if item.nil?
+    raise ArgumentError, 'key path is not an Array' unless item.is_a?(Array)
+    item << value
   end
 
   def export(target_path)
@@ -120,7 +129,7 @@ class Skippy::Config < Hash
       item = item[key]
     }
     item[last_key] = value
-    nil
+    value
   end
 
 end

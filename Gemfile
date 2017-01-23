@@ -4,6 +4,6 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  #gem 'aruba', :git => 'https://github.com/daynix/aruba.git', :branch => 'd-win-fix'
-  gem 'aruba', :github => 'daynix/aruba', :branch => 'd-win-fix'
+  gem 'aruba', :git => 'https://github.com/daynix/aruba.git', :branch => 'd-win-fix'
+  #gem 'aruba', :github => 'daynix/aruba', :branch => 'd-win-fix'
 end

@@ -23,7 +23,7 @@ class Skippy::Library
 
   def initialize(path)
     @path = Pathname.new(path)
-    raise LibraryNotFoundError, @path.to_s unless @path.exist?
+    raise LibraryNotFoundError, @path.to_s unless @path.directory?
     # noinspection RubyResolve
     @config = Skippy::Config.load(config_file)
   end

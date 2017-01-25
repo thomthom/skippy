@@ -5,9 +5,9 @@ require 'skippy/helpers/file'
 require 'skippy/config'
 require 'skippy/config_accessors'
 require 'skippy/error'
-require 'skippy/library'
 require 'skippy/library_manager'
 require 'skippy/namespace'
+require 'skippy/module_manager'
 
 class Skippy::Project
 
@@ -19,6 +19,7 @@ class Skippy::Project
 
   attr_reader :config
   attr_reader :libraries
+  attr_reader :modules
 
   config_attr :author, :copyright, :description, :license, :name
   config_attr :namespace, type: Skippy::Namespace
@@ -43,6 +44,7 @@ class Skippy::Project
     # noinspection RubyResolve
     @config = Skippy::Config.load(filename, defaults)
     @libraries = Skippy::LibraryManager.new(self)
+    @modules = Skippy::ModuleManager.new(self)
   end
 
   # @yield [filename]

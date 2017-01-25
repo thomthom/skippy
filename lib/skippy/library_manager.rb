@@ -20,13 +20,24 @@ class Skippy::LibraryManager
 
   # @yield [Skippy::Library]
   def each
-    directories(path).map { |lib_path|
+    directories(path).each { |lib_path|
       yield Skippy::Library.new(lib_path)
     }
+    self
   end
 
   def empty?
     to_a.empty?
+  end
+
+  # @param [String] module_path
+  # @return [Skippy::LibModule, nil]
+  def find_module(module_path)
+    library_name, module_name = module_path.split('/')
+    raise ArgumentError, 'expected a module path' if library_name.nil? || module_name.nil?
+    library = find { |lib| lib.name == library_name }
+    return nil if library.nil?
+    library.modules.find { |mod| mod.name == module_name }
   end
 
   # @param [Pathname, String] source

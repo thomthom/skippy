@@ -8,8 +8,8 @@ class SkippyLibModuleTest < Skippy::Test
     module_path = lib_path.join('src', 'command.rb')
     lib_module = Skippy::LibModule.new(module_path)
     assert_equal(module_path, lib_module.path)
-    assert_equal('command', lib_module.name)
-    assert_equal('my_lib/command', lib_module.to_s)
+    assert_equal('command', lib_module.basename)
+    assert_equal('my_lib/command', lib_module.name)
   end
 
   def test_that_it_fails_when_module_path_does_not_exist

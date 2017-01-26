@@ -27,9 +27,14 @@ class Skippy::Project
   class ProjectNotFoundError < Skippy::Error; end
   class ProjectNotSavedError < Skippy::Error; end
 
+  # @return [Skippy::Project, nil]
+  def self.current
+    Skippy::Project.new(Dir.pwd)
+  end
+
   # @return [Skippy::Project]
   def self.current_or_fail
-    project = Skippy::Project.new(Dir.pwd)
+    project = self.current
     raise ProjectNotFoundError unless project.exist?
     project
   end

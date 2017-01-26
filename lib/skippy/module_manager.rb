@@ -34,13 +34,27 @@ class Skippy::ModuleManager
     to_a.empty?
   end
 
-  # @param [String] module_path
+  # @param [String] module_name
+  # @return [Skippy::LibModule, nil]
+  def find_module(module_name)
+    find { |lib_module| lib_module.name == module_name }
+  end
+
+  # @param [Skippy::LibModule, String] lib_module
+  def installed?(lib_module)
+    module_name = lib_module.is_a?(Skippy::LibModule) ? lib_module.name : lib_module
+    project = Skippy::Project.current
+    project && project.config.get(:modules, []).any? { |mod| mod == module_name }
+  end
+
+  # @param [String] module_name
   # @return [Skippy::LibModule]
-  def use(module_path)
+  def use(module_name)
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
 
-    lib_module = project.libraries.find_module(module_path)
-    raise Skippy::Error, "module '#{module_path}' not found" if lib_module.nil?
+    lib_module = project.libraries.find_module(module_name)
+    raise Skippy::LibModule::ModuleNotFoundError,
+          "module '#{module_name}' not found" if lib_module.nil?
 
     source = lib_module.path
     target = path.join(lib_module.library.name, lib_module.path.basename)

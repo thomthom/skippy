@@ -35,7 +35,7 @@ class SkippyLibraryManagerTest < Skippy::Test::Fixture
 
     result = project.libraries.find_module('my_lib/command')
     assert_kind_of(Skippy::LibModule, result)
-    assert_equal('command', result.name)
+    assert_equal('my_lib/command', result.name)
   end
 
 end

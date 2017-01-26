@@ -8,23 +8,30 @@ class Skippy::LibModule
 
   class ModuleNotFoundError < Skippy::Error; end
 
+  # @param [String] path
   def initialize(path)
     @path = Pathname.new(path)
     raise ModuleNotFoundError, @path.to_s unless @path.file?
   end
 
   # @param [String]
-  def name
+  def basename
     path.basename('.*').to_s
   end
 
+  # @return [Skippy::Library]
   def library
     Skippy::Library.new(library_path)
   end
 
   # @param [String]
+  def name
+    "#{library_name}/#{basename}"
+  end
+
+  # @param [String]
   def to_s
-    "#{library_name}/#{name}"
+    name
   end
 
   private

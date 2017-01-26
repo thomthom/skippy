@@ -14,12 +14,12 @@ class Template < Skippy::Command
   end
   default_command(:list)
 
-  desc 'install', 'Install a new template'
+  desc 'install SOURCE', 'Install a new template'
   def install(source)
     raise Skippy::Error, 'Not implemented'
   end
 
-  desc 'remove', 'Remove an installed template'
+  desc 'remove TEMPLATE', 'Remove an installed template'
   def remove(template_name)
     raise Skippy::Error, 'Not implemented'
   end

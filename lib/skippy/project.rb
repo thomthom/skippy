@@ -34,7 +34,7 @@ class Skippy::Project
 
   # @return [Skippy::Project]
   def self.current_or_fail
-    project = self.current
+    project = current
     raise ProjectNotFoundError unless project.exist?
     project
   end
@@ -54,10 +54,10 @@ class Skippy::Project
 
   # @yield [filename]
   # @yieldparam [String] filename the path to custom Skippy command
-  def command_files(&block)
+  def command_files
     files_pattern = File.join(path, 'skippy', '**', '*.rb')
     Dir.glob(files_pattern) { |filename|
-      block.call(filename)
+      yield filename
     }
   end
 

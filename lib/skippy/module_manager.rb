@@ -20,13 +20,13 @@ class Skippy::ModuleManager
 
   # @yield [Skippy::LibModule]
   def each
-    directories(path).each { |library_path|
-      library_path.each_child { |module_file|
+    directories(path).each do |library_path|
+      library_path.each_child do |module_file|
         next unless module_file.file?
         next unless module_file.extname == '.rb'
         yield Skippy::LibModule.new(module_file)
-      }
-    }
+      end
+    end
     self
   end
 
@@ -42,9 +42,10 @@ class Skippy::ModuleManager
 
   # @param [Skippy::LibModule, String] lib_module
   def installed?(lib_module)
-    module_name = lib_module.is_a?(Skippy::LibModule) ? lib_module.name : lib_module
+    module_name = lib_module.to_s
     project = Skippy::Project.current
-    project && project.config.get(:modules, []).any? { |mod| mod == module_name }
+    modules = project && project.config.get(:modules, [])
+    modules.any? { |mod| mod == module_name }
   end
 
   # @param [String] module_name
@@ -52,9 +53,7 @@ class Skippy::ModuleManager
   def use(module_name)
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
 
-    lib_module = project.libraries.find_module(module_name)
-    raise Skippy::LibModule::ModuleNotFoundError,
-          "module '#{module_name}' not found" if lib_module.nil?
+    lib_module = project.libraries.find_module_or_fail(module_name)
 
     source = lib_module.path
     target = path.join(lib_module.library.name, lib_module.path.basename)
@@ -72,7 +71,7 @@ class Skippy::ModuleManager
   def length
     to_a.length
   end
-  alias :size :length
+  alias size length
 
   # @return [Pathname]
   def path

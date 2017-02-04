@@ -27,7 +27,7 @@ class SkippyConfigTest < Skippy::Test
     defaults = {
       name: 'Untitled',
       version: '1.0.0',
-      license: 'Apache'
+      license: 'Apache',
     }
     config = Skippy::Config.load(json_path, defaults)
     assert_equal(json_path, config.path)
@@ -46,10 +46,10 @@ class SkippyConfigTest < Skippy::Test
         hello: {
           nested: {
             world: 'default_value',
-            space: 'time'
-          }
+            space: 'time',
+          },
         },
-        foo: 123
+        foo: 123,
       }
       config = Skippy::Config.load(config_json, defaults)
       assert_equal(1.618, config.get('hello/nested/world'))
@@ -138,15 +138,15 @@ class SkippyConfigTest < Skippy::Test
 
   def test_it_can_bulk_update_with_normal_hash
     config = config_example
-    config.update({
+    config.update(
       hello: {
         nested: {
           world: 'new value',
-          foo: 123
-        }
+          foo: 123,
+        },
       },
       biz: 'Baz'
-    })
+    )
     assert_equal('new value', config.get('hello/nested/world'))
     assert_equal(123, config.get('hello/nested/foo'))
     assert_equal(3.14, config.get('hello/nested/universe'))
@@ -156,11 +156,11 @@ class SkippyConfigTest < Skippy::Test
 
   def test_it_can_bulk_update_with_key_paths
     config = config_example
-    config.update({
+    config.update(
       'hello/nested/world' => 'new value',
       'hello/nested/foo' => 123,
-      'biz' => 'Baz',
-    })
+      'biz' => 'Baz'
+    )
     assert_equal('new value', config.get('hello/nested/world'))
     assert_equal(123, config.get('hello/nested/foo'))
     assert_equal(3.14, config.get('hello/nested/universe'))

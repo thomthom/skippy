@@ -5,7 +5,7 @@ require 'skippy/error'
 
 class Skippy::Config < Hash
 
-  attr_accessor :path
+  attr_reader :path
 
   class MissingPathError < Skippy::Error; end
 
@@ -14,25 +14,24 @@ class Skippy::Config < Hash
       json = File.read(path)
       config = JSON.parse(json,
         symbolize_names: true,
-        object_class: self
-      )
+        object_class: self)
     else
-      config = self.new
+      config = new
     end
     # Need to merge nested defaults.
-    config.merge!(defaults) { |_key, value, default|
+    config.merge!(defaults) do |_key, value, default|
       if value.is_a?(Hash) && default.is_a?(Hash)
         # Deep merge in order to merge nested hashes.
         # Note: This currently doesn't merge arrays.
         # http://stackoverflow.com/a/9381776/486990
         merger = proc { |_k, v1, v2|
-          Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2
+          v1.is_a?(Hash) && v2.is_a?(Hash) ? v1.merge(v2, &merger) : v2
         }
         default.merge(value, &merger)
       else
         value || default
       end
-    }
+    end
     config.path = path
     config
   end
@@ -90,22 +89,22 @@ class Skippy::Config < Hash
 
   def update_from_hash(hash)
     merger = proc { |_key, v1, v2|
-      Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2
+      v1.is_a?(Hash) && v2.is_a?(Hash) ? v1.merge(v2, &merger) : v2
     }
     merge!(hash, &merger)
   end
 
   def update_from_key_paths(key_paths)
-    key_paths.each { |key_path, value|
+    key_paths.each do |key_path, value|
       set(key_path, value)
-    }
+    end
   end
 
   def key_parts(key_path)
     if key_path.is_a?(Symbol)
       [key_path]
     else
-      key_path.split('/').map { |key| key.intern }
+      key_path.split('/').map(&:intern)
     end
   end
 
@@ -113,10 +112,10 @@ class Skippy::Config < Hash
     parts = key_parts(key_path)
     return nil if parts.empty?
     item = self
-    parts.each { |key|
+    parts.each do |key|
       return nil if item.nil?
       item = item[key]
-    }
+    end
     item
   end
 
@@ -124,10 +123,10 @@ class Skippy::Config < Hash
     item = self
     parts = key_parts(key_path)
     last_key = parts.pop
-    parts.each { |key|
+    parts.each do |key|
       item[key] ||= self.class.new
       item = item[key]
-    }
+    end
     item[last_key] = value
     value
   end

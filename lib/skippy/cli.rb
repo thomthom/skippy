@@ -41,14 +41,15 @@ class Skippy::CLI < Skippy::Command
   end
 
   # Verbatim copy from Thor::Runner:
-  # Override Thor#help so it can give information about any class and any method.
+  # Override Thor#help so it can give information about any class and any
+  # method.
   #
   def help(meth = nil)
-    if meth && !self.respond_to?(meth)
+    if meth && !respond_to?(meth)
       initialize_thorfiles(meth)
       klass, command = Thor::Util.find_class_and_command_by_namespace(meth)
       self.class.handle_no_command_error(command, false) if klass.nil?
-      klass.start(['-h', command].compact, :shell => shell)
+      klass.start(['-h', command].compact, shell: shell)
     else
       super
     end
@@ -64,12 +65,16 @@ class Skippy::CLI < Skippy::Command
     klass, command = Thor::Util.find_class_and_command_by_namespace(meth)
     self.class.handle_no_command_error(command, false) if klass.nil?
     args.unshift(command) if command
-    klass.start(args, :shell => shell)
+    klass.start(args, shell: shell)
   end
 
   # Verbatim copy from Thor::Runner:
-  desc 'list [SEARCH]', "List the available #{$PROGRAM_NAME} commands (--substring means .*SEARCH)"
-  method_options :substring => :boolean, :group => :string, :all => :boolean, :debug => :boolean
+  desc 'list [SEARCH]',
+    "List the available #{$PROGRAM_NAME} commands (--substring means .*SEARCH)"
+  method_options substring: :boolean,
+                 group:     :string,
+                 all:       :boolean,
+                 debug:     :boolean
   def list(search = '')
     initialize_thorfiles
 
@@ -77,14 +82,12 @@ class Skippy::CLI < Skippy::Command
     search = /^#{search}.*/i
     group  = options[:group] || 'standard'
 
-    klasses = Thor::Base.subclasses.select do |k|
+    klasses = Thor::Base.subclasses.select { |k|
       (options[:all] || k.group == group) && k.namespace =~ search
-    end
+    }
 
     display_klasses(false, false, klasses)
   end
-
-  private
 
   # Based on Thor::Runner, with exception of program name.
   def self.banner(command, all = false, subcommand = false)
@@ -95,6 +98,8 @@ class Skippy::CLI < Skippy::Command
   def self.exit_on_failure?
     true
   end
+
+  private
 
   # This is one of the places this runner differ from Thor::Runner. It will
   # instead load files for the current project.
@@ -120,11 +125,14 @@ class Skippy::CLI < Skippy::Command
   end
 
   # Based on Thor::Runner:
-  def display_klasses(_with_modules = false, show_internal = false, klasses = Thor::Base.subclasses)
+  def display_klasses(_with_modules = false,
+    show_internal = false,
+    klasses = Thor::Base.subclasses)
+
     unless show_internal
       klasses -= [
         Thor, Thor::Runner, Thor::Group,
-        Skippy, Skippy::CLI, Skippy::Command, Skippy::Command::Group
+        Skippy, Skippy::CLI, Skippy::Command, Skippy::Command::Group,
       ]
     end
 
@@ -169,24 +177,24 @@ class Skippy::CLI < Skippy::Command
 
     say shell.set_color(namespace, :yellow, true) unless namespace.empty?
 
-    list.each { |row|
+    list.each do |row|
       row[0] = shell.set_color(row[0], :green) + shell.set_color('', :clear)
-    }
+    end
     # TODO(thomthom): For some reason the column appear as half the width.
     # Not sure why, so for now we apply this hack.
     # TODO(thomthom): Because of the odd issue with col_width mentioned in
     # `display_klasses` the table isn't truncated. Can probably re-enable if
     # the col_width issue is fixed.
-    #print_table(list, :truncate => true, :indent => 2, :colwidth => col_width)
+    # print_table(list, :truncate => true, :indent => 2, :colwidth => col_width)
     width = (col_width + 2) * 2
-    print_table(list, :indent => 2, :colwidth => width)
+    print_table(list, indent: 2, colwidth: width)
   end
-  alias_method :display_tasks, :display_commands
+  alias display_tasks display_commands
 
   # Based on Thor::Runner, skipping the yaml stuff:
   def show_modules
-    info  = []
-    labels = %w[Modules Namespaces]
+    info = []
+    labels = %w(Modules Namespaces)
 
     info << labels
     info << ['-' * labels[0].size, '-' * labels[1].size]

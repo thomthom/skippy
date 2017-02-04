@@ -49,7 +49,7 @@ end
 
 class Skippy::Test::Fixture < Skippy::Test
 
-  attr :work_path
+  attr_reader :work_path
 
   def setup
     super
@@ -81,7 +81,7 @@ module SkippyTestHelper
   def ignored_commands
     [
       Thor, Thor::Group,
-      Skippy::Command, Skippy::Command::Group
+      Skippy::Command, Skippy::Command::Group,
     ]
   end
 

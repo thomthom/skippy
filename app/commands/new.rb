@@ -9,13 +9,13 @@ class New < Skippy::Command::Group
   include Thor::Actions
 
   argument :namespace,
-    :type => :string,
-    :desc => 'The namespace the extension will use'
+    type: :string,
+    desc: 'The namespace the extension will use'
 
   class_option :template,
-    :type => :string,
-    :desc => 'The template used to generate the project files',
-    :default => 'standard'
+    type: :string,
+    desc: 'The template used to generate the project files',
+    default: 'standard'
 
   source_paths << Skippy.app.resources
 

@@ -4,7 +4,7 @@ require 'skippy/project'
 
 class SkippyModuleManagerTest < Skippy::Test::Fixture
 
-  attr :project
+  attr_reader :project
 
   def setup
     super

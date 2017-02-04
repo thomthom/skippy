@@ -34,13 +34,17 @@ class Skippy::Library
 
   def modules
     libs = modules_path.children(false).select { |file|
-      file.extname.downcase == '.rb'
+      file.extname.casecmp('.rb').zero?
     }
-    libs.map! { |lib|
+    libs.map! do |lib|
       path = modules_path.join(lib)
       Skippy::LibModule.new(path)
-    }
+    end
     libs
+  end
+
+  def to_s
+    name
   end
 
   private

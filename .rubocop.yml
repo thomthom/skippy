@@ -1,0 +1,52 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'exe/**/*'
+    - 'fixtures/**/*'
+    - 'tmp/**/*'
+
+Metrics/AbcSize:
+  Enabled: false
+  Exclude:
+    - test/**/*
+
+Metrics/ClassLength:
+  Exclude:
+    - test/**/*
+
+Metrics/LineLength:
+  Exclude:
+    - features/step_definitions/**/*
+
+Metrics/MethodLength:
+  Exclude:
+    - test/**/*
+
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Style/BlockDelimiters:
+  EnforcedStyle: semantic
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/EmptyLines:
+  Enabled: false
+
+Style/EmptyLinesAroundClassBody:
+  EnforcedStyle: empty_lines_except_namespace
+
+Style/EmptyLinesAroundModuleBody:
+  EnforcedStyle: empty_lines_except_namespace
+
+Style/EndOfLine:
+  Enabled: false
+
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: consistent_comma

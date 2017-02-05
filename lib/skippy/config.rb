@@ -19,7 +19,7 @@ class Skippy::Config < Hash
       config = new
     end
     # Need to merge nested defaults.
-    config.merge!(defaults) do |_key, value, default|
+    config.merge!(defaults) { |_key, value, default|
       if value.is_a?(Hash) && default.is_a?(Hash)
         # Deep merge in order to merge nested hashes.
         # Note: This currently doesn't merge arrays.
@@ -31,7 +31,7 @@ class Skippy::Config < Hash
       else
         value || default
       end
-    end
+    }
     config.path = path
     config
   end
@@ -95,9 +95,9 @@ class Skippy::Config < Hash
   end
 
   def update_from_key_paths(key_paths)
-    key_paths.each do |key_path, value|
+    key_paths.each { |key_path, value|
       set(key_path, value)
-    end
+    }
   end
 
   def key_parts(key_path)
@@ -112,10 +112,10 @@ class Skippy::Config < Hash
     parts = key_parts(key_path)
     return nil if parts.empty?
     item = self
-    parts.each do |key|
+    parts.each { |key|
       return nil if item.nil?
       item = item[key]
-    end
+    }
     item
   end
 
@@ -123,10 +123,10 @@ class Skippy::Config < Hash
     item = self
     parts = key_parts(key_path)
     last_key = parts.pop
-    parts.each do |key|
+    parts.each { |key|
       item[key] ||= self.class.new
       item = item[key]
-    end
+    }
     item[last_key] = value
     value
   end

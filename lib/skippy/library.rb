@@ -36,10 +36,10 @@ class Skippy::Library
     libs = modules_path.children(false).select { |file|
       file.extname.casecmp('.rb').zero?
     }
-    libs.map! do |lib|
+    libs.map! { |lib|
       path = modules_path.join(lib)
       Skippy::LibModule.new(path)
-    end
+    }
     libs
   end
 

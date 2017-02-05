@@ -20,9 +20,9 @@ class Skippy::LibraryManager
 
   # @yield [Skippy::Library]
   def each
-    directories(path).each do |lib_path|
+    directories(path).each { |lib_path|
       yield Skippy::Library.new(lib_path)
-    end
+    }
     self
   end
 

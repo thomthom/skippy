@@ -179,9 +179,9 @@ class Skippy::CLI < Skippy::Command
 
     say shell.set_color(namespace, :yellow, true) unless namespace.empty?
 
-    list.each do |row|
+    list.each { |row|
       row[0] = shell.set_color(row[0], :green) + shell.set_color('', :clear)
-    end
+    }
     # TODO(thomthom): For some reason the column appear as half the width.
     # Not sure why, so for now we apply this hack.
     # TODO(thomthom): Because of the odd issue with col_width mentioned in

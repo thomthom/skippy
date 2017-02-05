@@ -27,9 +27,12 @@ Metrics/MethodLength:
 Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
-# TODO(thomthom): Revise this.
+# Prefer { ... } over do ... end except for control flow and
+# method defintions. Unfortunatly, no cop configuration for this.
+# https://github.com/chneukirchen/styleguide/blob/e60de37b478d3f892f6985a58d573016f33f0269/RUBY-STYLE#L63-L67
 Style/BlockDelimiters:
   EnforcedStyle: semantic
+  Enabled: false
 
 # Generally prefer compact style to reduce indentation. But no hard rule.
 Style/ClassAndModuleChildren:

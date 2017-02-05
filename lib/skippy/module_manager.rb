@@ -20,13 +20,13 @@ class Skippy::ModuleManager
 
   # @yield [Skippy::LibModule]
   def each
-    directories(path).each do |library_path|
-      library_path.each_child do |module_file|
+    directories(path).each { |library_path|
+      library_path.each_child { |module_file|
         next unless module_file.file?
         next unless module_file.extname == '.rb'
         yield Skippy::LibModule.new(module_file)
-      end
-    end
+      }
+    }
     self
   end
 

@@ -59,7 +59,7 @@ class Skippy::CLI < Skippy::Command
   # If a command is not found on Thor::Runner, method missing is invoked and
   # Thor::Runner is then responsible for finding the command in all classes.
   #
-  def method_missing(meth, *args)
+  def method_missing(meth, *args) # rubocop:disable Style/MethodMissing
     meth = meth.to_s
     initialize_thorfiles(meth)
     klass, command = Thor::Util.find_class_and_command_by_namespace(meth)

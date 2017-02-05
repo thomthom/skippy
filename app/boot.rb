@@ -24,8 +24,7 @@ begin
   require 'thor/runner'
   # This is also needed to be set in order for Thor's utilities to output
   # command names correctly.
-  # rubocop:disable Style/GlobalVars
-  $thor_runner = true
+  $thor_runner = true # rubocop:disable Style/GlobalVars
 ensure
   $VERBOSE = original_verbose
 end

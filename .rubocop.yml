@@ -27,15 +27,20 @@ Metrics/MethodLength:
 Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
+# TODO(thomthom): Revise this.
 Style/BlockDelimiters:
   EnforcedStyle: semantic
 
+# Generally prefer compact style to reduce indentation. But no hard rule.
 Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
   Enabled: false
 
+# TODO(thomthom): Consider turning this back on.
 Style/Documentation:
   Enabled: false
 
+# It's ok to have more than one empty line to create a 'paragrapth'.
 Style/EmptyLines:
   Enabled: false
 
@@ -45,8 +50,19 @@ Style/EmptyLinesAroundClassBody:
 Style/EmptyLinesAroundModuleBody:
   EnforcedStyle: empty_lines_except_namespace
 
+# Add lines as needed.
+Style/EmptyLinesAroundBlockBody:
+  Enabled: false
+
+# Rely on Git to normalize end of lines.
 Style/EndOfLine:
   Enabled: false
 
+# Conflict too often with Metric/LineLength.
+# https://github.com/bbatsov/rubocop/issues/1332#issuecomment-277503854
+Style/GuardClause:
+  Enabled: false
+
+# Add trailing comma so it's easy to duplicate/add lines.
 Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: consistent_comma

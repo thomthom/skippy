@@ -136,7 +136,9 @@ class Skippy::CLI < Skippy::Command
       ]
     end
 
-    fail Error, "No #{$PROGRAM_NAME.capitalize} commands available" if klasses.empty?
+    if klasses.empty?
+      raise Error, "No #{$PROGRAM_NAME.capitalize} commands available"
+    end
 
     list = Hash.new { |h, k| h[k] = [] }
     groups = klasses.select { |k| k.ancestors.include?(Thor::Group) }

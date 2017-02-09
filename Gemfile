@@ -5,5 +5,5 @@ gemspec
 
 group :development do
   gem 'aruba', git: 'https://github.com/daynix/aruba.git', branch: 'd-win-fix'
-  # gem 'aruba', :github => 'daynix/aruba', :branch => 'd-win-fix'
+  gem 'rubocop', '~> 0.47.1', require: false
 end

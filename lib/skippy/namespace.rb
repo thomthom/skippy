@@ -38,7 +38,7 @@ class Skippy::Namespace
   end
 
   def to_underscore
-    basename_words(basename).map { |word| word.downcase }.join('_')
+    basename_words(basename).map(&:downcase).join('_')
   end
 
   private

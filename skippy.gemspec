@@ -1,4 +1,6 @@
 # coding: utf-8
+# rubocop:disable all
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'skippy/version'
@@ -23,11 +25,13 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'thor', '~> 0.19'
+
   spec.add_development_dependency 'bundler', '~> 1.13'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'minitest', '~> 5.0'
-  spec.add_development_dependency 'cucumber'
-  spec.add_development_dependency 'aruba'
-
-  spec.add_dependency 'thor'
+  # TODO(thomthom): Need to lock to 2.3 because 2.4 fails with the custom
+  # aruba build.
+  spec.add_development_dependency 'cucumber', '~> 2.3.0'
+  spec.add_development_dependency 'aruba', '~> 0.14.1'
 end

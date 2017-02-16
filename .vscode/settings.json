@@ -1,5 +1,8 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-  "editor.wrappingColumn": 80,
-  "files.insertFinalNewline": true
+  "editor.wordWrap": false,
+  "files.insertFinalNewline": true,
+  "ruby.lint": {
+    "rubocop": true
+  },
 }

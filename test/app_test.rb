@@ -9,7 +9,7 @@ class SkippyAppTest < Minitest::Test
   def test_that_it_boots_the_app_commands
     # Cannot assert there are not loaded commands because the other
     # tests might have booted the app.
-    #assert_equal(0, loaded_commands.size, loaded_commands)
+    # assert_equal(0, loaded_commands.size, loaded_commands)
     Skippy::App.boot(boot_loader_path)
     refute_equal(0, loaded_commands.size, loaded_commands)
   end

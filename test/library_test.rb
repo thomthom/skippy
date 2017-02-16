@@ -24,8 +24,20 @@ class SkippyLibraryTest < Skippy::Test
     assert_all_kind_of(Skippy::LibModule, library.modules)
     assert_same_elements(
       %w(my_lib/command my_lib/geometry my_lib/tool),
-      library.modules.map { |mod| mod.to_s }
+      library.modules.map(&:to_s)
     )
+  end
+
+  def test_that_it_return_its_name
+    lib_path = fixture('my_lib')
+    library = Skippy::Library.new(lib_path)
+    assert_equal('my_lib', library.name)
+  end
+
+  def test_that_it_convert_to_string_as_name
+    lib_path = fixture('my_lib')
+    library = Skippy::Library.new(lib_path)
+    assert_equal('my_lib', library.to_s)
   end
 
 end

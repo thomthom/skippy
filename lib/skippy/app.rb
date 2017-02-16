@@ -40,9 +40,9 @@ class Skippy::App
   def templates
     result = []
     templates_source_path.entries.each { |entry|
-      template_path =  templates_source_path.join(entry)
+      template_path = templates_source_path.join(entry)
       next unless template_path.directory?
-      next if %w[. ..].include?(entry.basename.to_s)
+      next if %w(. ..).include?(entry.basename.to_s)
       result << entry.expand_path(templates_source_path)
     }
     result

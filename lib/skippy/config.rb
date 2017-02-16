@@ -5,7 +5,7 @@ require 'skippy/error'
 
 class Skippy::Config < Hash
 
-  attr_accessor :path
+  attr_reader :path
 
   class MissingPathError < Skippy::Error; end
 
@@ -14,25 +14,11 @@ class Skippy::Config < Hash
       json = File.read(path)
       config = JSON.parse(json,
         symbolize_names: true,
-        object_class: self
-      )
+        object_class: self)
     else
-      config = self.new
+      config = new
     end
-    # Need to merge nested defaults.
-    config.merge!(defaults) { |_key, value, default|
-      if value.is_a?(Hash) && default.is_a?(Hash)
-        # Deep merge in order to merge nested hashes.
-        # Note: This currently doesn't merge arrays.
-        # http://stackoverflow.com/a/9381776/486990
-        merger = proc { |_k, v1, v2|
-          Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2
-        }
-        default.merge(value, &merger)
-      else
-        value || default
-      end
-    }
+    config.merge_defaults(defaults)
     config.path = path
     config
   end
@@ -77,7 +63,7 @@ class Skippy::Config < Hash
     if hash.keys.first.is_a?(String)
       update_from_key_paths(hash)
     else
-      update_from_hash(hash)
+      deep_merge!(hash)
     end
     self
   end
@@ -86,11 +72,30 @@ class Skippy::Config < Hash
     "#{super}:#{self.class.name}"
   end
 
+  # @param [Hash] defaults
+  def merge_defaults(defaults)
+    merge!(defaults) { |_key, value, default|
+      if value.is_a?(Hash) && default.is_a?(Hash)
+        # Deep merge in order to merge nested hashes.
+        # Note: This currently doesn't merge arrays.
+        # http://stackoverflow.com/a/9381776/486990
+        merger = proc { |_k, v1, v2|
+          v1.is_a?(Hash) && v2.is_a?(Hash) ? v1.merge(v2, &merger) : v2
+        }
+        default.merge(value, &merger)
+      else
+        # TODO(thomthom): Should `merger` include this logic?
+        value || default
+      end
+    }
+  end
+
   private
 
-  def update_from_hash(hash)
+  # @param [Hash] hash
+  def deep_merge!(hash)
     merger = proc { |_key, v1, v2|
-      Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2
+      v1.is_a?(Hash) && v2.is_a?(Hash) ? v1.merge(v2, &merger) : v2
     }
     merge!(hash, &merger)
   end
@@ -105,7 +110,7 @@ class Skippy::Config < Hash
     if key_path.is_a?(Symbol)
       [key_path]
     else
-      key_path.split('/').map { |key| key.intern }
+      key_path.split('/').map(&:intern)
     end
   end
 

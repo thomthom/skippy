@@ -12,31 +12,31 @@ module Skippy::ConfigAccessors
   end
 
   def config_attr_reader(*symbols, key: nil, type: nil)
-    self.class_eval {
+    class_eval do
       symbols.each { |symbol|
         raise TypeError unless symbol.is_a?(Symbol)
-        define_method(symbol) {
+        define_method(symbol) do
           value = @config.get(key || symbol)
           value = type.new(value) if type && !value.is_a?(type)
           value
-        }
+        end
       }
-    }
+    end
     nil
   end
 
   def config_attr_writer(*symbols, key: nil, type: nil)
-    self.class_eval {
+    class_eval do
       symbols.each { |symbol|
         raise TypeError unless symbol.is_a?(Symbol)
         symbol_set = "#{symbol}=".intern
-        define_method(symbol_set) { |value|
+        define_method(symbol_set) do |value|
           value = type.new(value) if type && !value.is_a?(type)
           @config.set(key || symbol, value)
           value
-        }
+        end
       }
-    }
+    end
     nil
   end
 

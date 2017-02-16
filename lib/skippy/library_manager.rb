@@ -34,10 +34,24 @@ class Skippy::LibraryManager
   # @return [Skippy::LibModule, nil]
   def find_module(module_name)
     library_name, module_name = module_name.split('/')
-    raise ArgumentError, 'expected a module path' if library_name.nil? || module_name.nil?
+    if library_name.nil? || module_name.nil?
+      raise ArgumentError, 'expected a module path'
+    end
     library = find { |lib| lib.name == library_name }
     return nil if library.nil?
     library.modules.find { |mod| mod.basename == module_name }
+  end
+
+  # @raise [Skippy::LibModule::ModuleNotFoundError]
+  # @param [String] module_name
+  # @return [Skippy::LibModule]
+  def find_module_or_fail(module_name)
+    lib_module = find_module(module_name)
+    if lib_module.nil?
+      raise Skippy::LibModule::ModuleNotFoundError,
+        "module '#{module_name}' not found"
+    end
+    lib_module
   end
 
   # @param [Pathname, String] source
@@ -50,11 +64,10 @@ class Skippy::LibraryManager
     FileUtils.mkdir_p(path)
     FileUtils.copy_entry(source, target)
 
-    project.config.push(:libraries, {
+    project.config.push(:libraries,
       name: library.name,
       version: library.version,
-      source: source
-    })
+      source: source)
 
     project.save
 
@@ -65,7 +78,7 @@ class Skippy::LibraryManager
   def length
     to_a.length
   end
-  alias :size :length
+  alias size length
 
   # @return [Pathname]
   def path

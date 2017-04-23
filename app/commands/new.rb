@@ -65,7 +65,7 @@ class New < Skippy::Command::Group
       build: '1',
     }
     json = JSON.pretty_generate(extension_info)
-    json_filename = "src/#{project.namespace.to_underscore}/extension.json"
+    json_filename = "src/#{ext_name}/extension.json"
     create_file(json_filename, json)
   end
 
@@ -84,7 +84,8 @@ class New < Skippy::Command::Group
 
     # @return [String] The basename for the extension files.
     def ext_name
-      project.namespace.to_underscore
+      # TODO: Add option to generate name based on lower case.
+      project.namespace.short_name
     end
 
   end # no_commands

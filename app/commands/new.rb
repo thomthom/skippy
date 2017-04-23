@@ -60,7 +60,7 @@ class New < Skippy::Command::Group
       creator: project.author,
       copyright: project.copyright,
       license: project.license,
-      product_id: project.namespace.to_a.join('_'),
+      product_id: project.namespace.short_name,
       version: '0.1.0',
       build: '1',
     }

@@ -4,6 +4,11 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'aruba', git: 'https://github.com/daynix/aruba.git', branch: 'd-win-fix'
+  # Original fork with bug-fix. Appear to be gone now.
+  # gem 'aruba', git: 'https://github.com/daynix/aruba.git', branch: 'd-win-fix'
+  # Backup fork of the bug fix:
+  gem 'aruba', git: 'https://github.com/thomthom/aruba.git', branch: 'd-win-fix'
+  # TODO: This might be a newer fix:
+  # gem 'aruba', git: 'https://github.com/rbld/aruba.git', branch: 'aruba-win-fix'
   gem 'rubocop', '~> 0.47.1', require: false
 end

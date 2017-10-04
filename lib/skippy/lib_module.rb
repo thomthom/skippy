@@ -41,6 +41,7 @@ class Skippy::LibModule
   end
 
   def library_path
+    # Modules are located in the 'src' directory of the library.
     path.parent.parent
   end
 

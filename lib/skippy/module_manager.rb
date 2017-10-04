@@ -23,7 +23,7 @@ class Skippy::ModuleManager
     directories(path).each { |library_path|
       library_path.each_child { |module_file|
         next unless module_file.file?
-        next unless module_file.extname == '.rb'
+        next unless module_file.extname == '.rb' # TODO: .casecmp
         yield Skippy::LibModule.new(module_file)
       }
     }
@@ -42,7 +42,7 @@ class Skippy::ModuleManager
 
   # @param [Skippy::LibModule, String] lib_module
   def installed?(lib_module)
-    module_name = lib_module.to_s
+    module_name = lib_module.name
     project = Skippy::Project.current
     modules = project && project.config.get(:modules, [])
     modules.any? { |mod| mod == module_name }
@@ -60,7 +60,7 @@ class Skippy::ModuleManager
 
     copy_module(source, target)
 
-    project.config.push(:modules, lib_module.to_s)
+    project.config.push(:modules, lib_module.name)
 
     project.save
 

@@ -33,6 +33,7 @@ class Skippy::Library
   end
 
   def modules
+    # .rb files in the library's modules_path are considered modules.
     libs = modules_path.children(false).select { |file|
       file.extname.casecmp('.rb').zero?
     }
@@ -54,7 +55,7 @@ class Skippy::Library
   end
 
   def modules_path
-    # TODO(thomthom): Make this configurable and default to 'lib'?
+    # TODO(thomthom): Make this configurable and default to 'lib' or 'modules'?
     path.join('src')
   end
 

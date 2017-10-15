@@ -14,7 +14,7 @@ class Sketchup < Skippy::Command
   end
 
   desc 'launch VERSION', 'Start SketchUp'
-  def install(version)
+  def launch(version)
     sketchup = find_sketchup(version)
     command = %("#{sketchup}"")
     spawn(command)

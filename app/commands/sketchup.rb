@@ -31,7 +31,7 @@ class Sketchup < Skippy::Command
       # TODO(thomthom): Use print_table ?
       output = StringIO.new
       output.write '  '
-      output.write shell.set_color(sketchup_name, :green, true)
+      output.write shell.set_color(sketchup_name, :green, false)
       output.write '   '
       output.write bitness
       output.write '   '

@@ -80,11 +80,11 @@ class Sketchup < Skippy::Command
     result = []
     program_files_paths.each { |program_files|
       # pattern = File.join(program_files, 'SketchUp', 'SketchUp *')
-      pattern = "#{program_files}/{Google,SketchUp}/*SketchUp *"
+      pattern = "#{program_files}/{@Last Software,Google,SketchUp}/*SketchUp *"
       Dir.glob(pattern) { |path|
         exe = File.join(path, 'SketchUp.exe')
         debug_dll = File.join(path, 'SURubyDebugger.dll')
-        version = File.basename(path).match(/\d+$/)[0].to_i
+        version = File.basename(path).match(/[0-9.]+$/)[0].to_i
         result << {
           executable: exe,
           version: version,

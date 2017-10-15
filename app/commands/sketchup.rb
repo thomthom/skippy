@@ -10,14 +10,14 @@ class Sketchup < Skippy::Command
   def debug(version)
     sketchup = find_sketchup(version)
     command = %("#{sketchup}" -rdebug "ide port=#{options.port}")
-    spawn(command)
+    execute_command(command)
   end
 
   desc 'launch VERSION', 'Start SketchUp'
   def launch(version)
     sketchup = find_sketchup(version)
-    command = %("#{sketchup}"")
-    spawn(command)
+    command = %("#{sketchup}")
+    execute_command(command)
   end
 
   desc 'list', 'List all known SketchUp versions'
@@ -42,6 +42,19 @@ class Sketchup < Skippy::Command
   default_command(:list)
 
   private # TODO(thomthom): Move private methods to System module.
+
+  def execute_command(command)
+    # Something with a Thor application like skippy get the 'RUBYLIB'
+    # environment set which prevents SketchUp from finding its StdLib
+    # directories. (At least under Windows.) This relates to child processes
+    # inheriting the environment variables of its parent.
+    # To work around this we unset RUBYLIB before launching SketchUp. This
+    # doesn't affect skippy as it's about to exit as soon as SketchUp starts
+    # any way.
+    ENV['RUBYLIB'] = nil if ENV['RUBYLIB']
+    id = spawn(command)
+    Process.detach(id)
+  end
 
   def program_files_paths
     paths = []

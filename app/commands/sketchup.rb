@@ -82,9 +82,8 @@ class Sketchup < Skippy::Command
     raise NotImplementedError, 'Mac support not implemented'
   end
 
-  POINTER_SIZE = ['a'].pack('P').size * 8
-  SYSTEM_64BIT = POINTER_SIZE == 64
-  SYSTEM_32BIT = POINTER_SIZE == 32
+  SYSTEM_32BIT = ENV['ProgramFiles(x86)'].nil? && ENV['ProgramW6432'].nil?
+  SYSTEM_64BIT = !SYSTEM_32BIT
 
   PROGRAM_FILES_64BIT = File.expand_path(ENV['ProgramW6432'])
 

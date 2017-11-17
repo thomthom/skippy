@@ -8,6 +8,31 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
 
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+# It's ok to have more than one empty line to create a 'paragrapth'.
+Layout/EmptyLines:
+  Enabled: false
+
+Layout/EmptyLinesAroundClassBody:
+  EnforcedStyle: empty_lines_except_namespace
+
+Layout/EmptyLinesAroundModuleBody:
+  EnforcedStyle: empty_lines_except_namespace
+
+# Normally one line in between, but two allowed for "paragraphs".
+Layout/EmptyLineBetweenDefs:
+  NumberOfEmptyLines: [1, 2]
+
+# Rely on Git to normalize end of lines.
+Layout/EndOfLine:
+  Enabled: false
+
+# Add lines as needed.
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
+
 Metrics/AbcSize:
   Enabled: false
   Exclude:
@@ -25,9 +50,6 @@ Metrics/MethodLength:
   Exclude:
     - test/**/*
 
-Style/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-
 # Prefer { ... } over do ... end except for control flow and
 # method defintions. Unfortunatly, no cop configuration for this.
 # https://github.com/chneukirchen/styleguide/blob/e60de37b478d3f892f6985a58d573016f33f0269/RUBY-STYLE#L63-L67
@@ -40,32 +62,24 @@ Style/ClassAndModuleChildren:
   EnforcedStyle: compact
   Enabled: false
 
+# Nah, it's ok.
+Style/CommentedKeyword:
+  Enabled: false
+
 # TODO(thomthom): Consider turning this back on.
 Style/Documentation:
-  Enabled: false
-
-# It's ok to have more than one empty line to create a 'paragrapth'.
-Style/EmptyLines:
-  Enabled: false
-
-Style/EmptyLinesAroundClassBody:
-  EnforcedStyle: empty_lines_except_namespace
-
-Style/EmptyLinesAroundModuleBody:
-  EnforcedStyle: empty_lines_except_namespace
-
-# Add lines as needed.
-Style/EmptyLinesAroundBlockBody:
-  Enabled: false
-
-# Rely on Git to normalize end of lines.
-Style/EndOfLine:
   Enabled: false
 
 # Conflict too often with Metric/LineLength.
 # https://github.com/bbatsov/rubocop/issues/1332#issuecomment-277503854
 Style/GuardClause:
   Enabled: false
+
+# %w and %i etc isn't really intuitive unless you are really familiar with the
+# syntax. %w seems used often enough. But [:symbol, :foo] reads clearer than
+# %i(symbol foo).
+Style/SymbolArray:
+  Enabled: False
 
 # Add trailing comma so it's easy to duplicate/add lines.
 Style/TrailingCommaInLiteral:

@@ -15,3 +15,10 @@ Metrics/ClassLength:
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
   Max: 28
+
+# TODO: Eventually remove this.
+# This changed from 0.48 to 0.51. Since rubocop-sketchup isn't updated the old
+# style if used for now.
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%w': ()

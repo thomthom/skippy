@@ -12,5 +12,5 @@ group :development do
   # TODO: This might be a newer fix:
   # gem 'aruba', git: 'https://github.com/rbld/aruba.git',
   #              branch: 'aruba-win-fix'
-  gem 'rubocop', '~> 0.47.1', require: false
+  gem 'rubocop', '~> 0.51.0', require: false
 end

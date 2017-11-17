@@ -6,6 +6,7 @@ AllCops:
     - 'exe/**/*'
     - 'fixtures/**/*'
     - 'tmp/**/*'
+    - 'vendor/**/*'
 
 Metrics/AbcSize:
   Enabled: false

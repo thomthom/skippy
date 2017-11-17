@@ -15,17 +15,17 @@ class Skippy::Namespace
 
   # Creates a compact string from the namespace. First part composed of the
   # capitals from the first part followed by the last item of the namespace.
-  # 
+  #
   # The prefix will always have at least two characters.
-  # 
+  #
   # If the namespace isn't nested it will just return the namespace string.
-  # 
+  #
   # @return [String]
   def short_name
     items = to_a
     return to_s unless items.size > 1
     initials = items.first.scan(/[[:upper:]]/)
-    prefix = (initials.size > 1) ? initials.join : items.first[0, 2]
+    prefix = initials.size > 1 ? initials.join : items.first[0, 2]
     "#{prefix}_#{items.last}"
   end
 

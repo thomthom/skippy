@@ -24,9 +24,12 @@ class SkippyLibraryManagerTest < Skippy::Test::Fixture
     assert_equal(1, project.libraries.size)
     assert_directory(project.path('.skippy/libs/my_lib'))
     assert_file(project.path('.skippy/libs/my_lib/skippy.json'))
-    assert_file(project.path('.skippy/libs/my_lib/src/command.rb'))
-    assert_file(project.path('.skippy/libs/my_lib/src/geometry.rb'))
-    assert_file(project.path('.skippy/libs/my_lib/src/tool.rb'))
+    assert_file(project.path('.skippy/libs/my_lib/modules/command.rb'))
+    assert_file(project.path('.skippy/libs/my_lib/modules/geometry.rb'))
+    assert_file(project.path('.skippy/libs/my_lib/modules/gl.rb'))
+    assert_file(project.path('.skippy/libs/my_lib/modules/gl/control.rb'))
+    assert_file(project.path('.skippy/libs/my_lib/modules/gl/container.rb'))
+    assert_file(project.path('.skippy/libs/my_lib/modules/tool.rb'))
   end
 
   def test_that_it_can_find_library_module

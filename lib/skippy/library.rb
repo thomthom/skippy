@@ -55,8 +55,7 @@ class Skippy::Library
   end
 
   def modules_path
-    # TODO(thomthom): Make this configurable and default to 'lib' or 'modules'?
-    path.join('src')
+    path.join('modules')
   end
 
 end

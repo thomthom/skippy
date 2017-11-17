@@ -1,3 +1,5 @@
+
+require 'fileutils'
 require 'json'
 require 'pathname'
 
@@ -58,7 +60,7 @@ class Skippy::ModuleManager
     source = lib_module.path
     target = path.join(lib_module.library.name, lib_module.path.basename)
 
-    copy_module(source, target)
+    copy_module(lib_module, source, target)
 
     project.config.push(:modules, lib_module.name)
 
@@ -80,13 +82,46 @@ class Skippy::ModuleManager
 
   private
 
+  # @param [Skippy::LibModule] lib_module
   # @param [Pathname, String] source
   # @param [Pathname, String] target
-  def copy_module(source, target)
+  def copy_module(lib_module, source, target)
+    # Copy the main library file.
+    copy_file(lib_module, source, target)
+    # Copy optional support folder.
+    basename = source.basename('.*')
+    source_support_folder = source.parent.join(basename)
+    return unless source_support_folder.directory?
+    target_support_folder = target.parent.join(basename)
+    copy_directory(lib_module, source_support_folder, target_support_folder)
+  end
+
+  # @param [Skippy::LibModule] lib_module
+  # @param [Pathname, String] source
+  # @param [Pathname, String] target
+  def copy_directory(lib_module, source_path, target_path)
+    Dir.glob("#{source_path}/**/*") { |filename|
+      source = Pathname.new(filename)
+      next unless source.file?
+      relative_path = source.relative_path_from(source_path)
+      target = target_path.join(relative_path)
+      copy_file(lib_module, source, target)
+    }
+  end
+
+  # @param [Skippy::LibModule] lib_module
+  # @param [Pathname, String] source
+  # @param [Pathname, String] target
+  def copy_file(lib_module, source, target)
     FileUtils.mkdir_p(target.parent)
-    content = File.read(source)
-    transform_module(content)
-    File.write(target, content)
+    if source.extname.casecmp('.rb').zero?
+      content = File.read(source)
+      transform_require(lib_module, content)
+      transform_module(content)
+      File.write(target, content)
+    else
+      File.copy(source, target)
+    end
   end
 
   # Transform the module content with `SkippyLib` placeholder replaced with
@@ -96,6 +131,21 @@ class Skippy::ModuleManager
   # @return [String]
   def transform_module(content)
     content.gsub!('SkippyLib', project.namespace)
+    content
+  end
+
+  LIB_REQUIRE_PATTERN = /(\brequire ["'])(modules)(\/[^"']*["'])/.freeze
+
+  # Transform the require statements to the target destination.
+  #
+  # @param [Skippy::LibModule] lib_module
+  # @param [String] content
+  # @return [String]
+  def transform_require(lib_module, content)
+    extension_source = project.path.join('src') # TODO: Move to Project
+    relative_path = path.relative_path_from(extension_source)
+    target_path = relative_path.join(lib_module.library.name)
+    content.gsub!(LIB_REQUIRE_PATTERN, "\\1#{target_path}\\3")
     content
   end
 

@@ -5,7 +5,7 @@ class SkippyLibModuleTest < Skippy::Test
 
   def test_that_it_can_load_module_info
     lib_path = fixture('my_lib')
-    module_path = lib_path.join('src', 'command.rb')
+    module_path = lib_path.join('modules', 'command.rb')
     lib_module = Skippy::LibModule.new(module_path)
     assert_equal(module_path, lib_module.path)
     assert_equal('command', lib_module.basename)

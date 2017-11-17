@@ -1,3 +1,5 @@
+require 'pathname'
+
 require 'skippy/app'
 require 'skippy/command'
 require 'skippy/group'
@@ -112,7 +114,16 @@ class Skippy::CLI < Skippy::Command
     return unless project.exist?
     project.command_files { |filename|
       unless Thor::Base.subclass_files.keys.include?(File.expand_path(filename))
-        Thor::Util.load_thorfile(filename, nil, options[:debug])
+        begin
+          Thor::Util.load_thorfile(filename, nil, options[:debug])
+        rescue ScriptError, StandardError => error
+          command_path = Pathname.new(filename).relative_path_from(project.path)
+          say "Error loading: #{command_path} (#{error})", :red
+          if options[:debug]
+            say error.inspect, :red
+            say error.backtrace.join("\n"), :red
+          end
+        end
       end
     }
   end

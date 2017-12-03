@@ -7,8 +7,8 @@ class SkippyLibraryTest < Skippy::Test
     lib_path = fixture('my_lib')
     library = Skippy::Library.new(lib_path)
     assert_equal(lib_path, library.path)
-    assert_equal('My Shiny Library', library.title)
-    assert_equal('my_lib', library.name)
+    assert_equal('my-lib', library.title)
+    assert_equal('my-lib', library.name)
     assert_equal('1.2.3', library.version)
   end
 
@@ -31,13 +31,13 @@ class SkippyLibraryTest < Skippy::Test
   def test_that_it_return_its_name
     lib_path = fixture('my_lib')
     library = Skippy::Library.new(lib_path)
-    assert_equal('my_lib', library.name)
+    assert_equal('my-lib', library.name)
   end
 
   def test_that_it_convert_to_string_as_name
     lib_path = fixture('my_lib')
     library = Skippy::Library.new(lib_path)
-    assert_equal('my_lib', library.to_s)
+    assert_equal('my-lib', library.to_s)
   end
 
 end

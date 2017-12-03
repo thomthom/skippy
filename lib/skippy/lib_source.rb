@@ -104,11 +104,17 @@ class Skippy::LibrarySource
   # @param [String] source
   # @return [String]
   def resolve_from_lib_name(source, domains)
+    # puts 'resolve_from_lib_name'
+    # p domains
     domains.each { |domain|
       uri_str = "https://#{domain}/#{source}.git"
+      # puts "> #{uri_str}"
       uri = URI.parse(uri_str)
       response = Net::HTTP.get_response(uri)
-      return uri_str if response.is_a?(Net::HTTPSuccess)
+      # puts "> Response: #{response.code}"
+      # p response.to_hash
+      # puts "> Body: #{response.body}" if response.is_a?(Net::HTTPRedirection)
+      return uri_str if response.is_a?(Net::HTTPSuccess) || response.is_a?(Net::HTTPRedirection)
     }
     raise LibraryNotFoundError, "Library '#{source}' not found"
   end

@@ -19,7 +19,7 @@ class SkippyConfigTest < Skippy::Test
   def test_that_it_can_load_json
     config = Skippy::Config.load(json_path)
     assert_equal(json_path, config.path)
-    assert_equal('My Shiny Library', config[:name])
+    assert_equal('my-lib', config[:name])
     assert_equal('1.2.3', config[:version])
   end
 
@@ -31,7 +31,7 @@ class SkippyConfigTest < Skippy::Test
     }
     config = Skippy::Config.load(json_path, defaults)
     assert_equal(json_path, config.path)
-    assert_equal('My Shiny Library', config[:name])
+    assert_equal('my-lib', config[:name])
     assert_equal('1.2.3', config[:version])
     assert_equal('Apache', config[:license])
   end

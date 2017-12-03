@@ -1,4 +1,6 @@
+require 'git'
 require 'json'
+require 'naturally'
 require 'pathname'
 
 require 'skippy/helpers/file'
@@ -65,12 +67,14 @@ class Skippy::LibraryManager
     if lib_source.local?
       library = install_from_local(source)
     elsif lib_source.git?
-      library = install_from_git(source, options)
+      # library = install_from_git(source. options)
+      library = install_from_git(lib_source)
     else
       # TODO: Review error type.
       raise Skippy::Error, "Unable to handle source: #{source}"
     end
 
+    # TODO: Check for existing entry.
     project.config.push(:libraries,
       name: library.name,
       version: library.version,
@@ -102,15 +106,27 @@ class Skippy::LibraryManager
     Skippy::Library.new(target)
   end
 
-  # 'edge', 'latest', '1.2.3'
+  # @param [Skippy::LibrarySource] source
+  # @param [String] version 'edge', 'latest' or a tag (E.g.: '1.2.3')
+  # @param [String] branch
   def install_from_git(source, version: 'latest', branch: nil)
-    raise NotImplementedError
+    puts "Installing #{source.basename} from #{source.origin}..."
+    target = path.join(source.lib_path)
+    puts "> Target: #{target}"
     # Clone the repository into the project's library path:
-    # TODO: If library already exist, pull latest instead of clone.
-    git = Git.clone(source.origin, source.lib_path, path: path)
+    if target.directory?
+      puts '> Updating...'
+      git = Git.open(target)
+      git.reset_hard
+      git.pull
+    else
+      puts '> Cloning...'
+      git = Git.clone(source.origin, source.lib_path, path: path)
+    end
     # Check out given branch - otherwise rely fall back on default branch.
     if branch
       branches = git.braches.map(&:name)
+      puts "> Branches: #{branches.inspect}"
       unless branches.include?(branch)
         # TODO: Review error type.
         raise Skippy::Error, "Unable to checkout branch: '#{branch}'"
@@ -120,6 +136,8 @@ class Skippy::LibraryManager
     # Check out given version - otherwise fall back to latest version.
     unless edge_version?(version)
       tags = Naturally.sort(git.tags.map(&:name))
+      # TODO: Might be no tags.
+      puts "> Tags: #{tags.inspect}"
       tag = latest_version?(version) ? tags.last : resolve_tag(tags, version)
       if tag.nil?
         # TODO: Review error type.
@@ -128,7 +146,7 @@ class Skippy::LibraryManager
       git.checkout(tag)
     end
     # Return a library object representing the cloned git source.
-    target = path.join(source.lib_path)
+    # target = path.join(source.lib_path)
     library = Skippy::Library.new(target)
     # TODO: Verify this is a Skippy library.
     # TODO: Verify library version.

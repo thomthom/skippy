@@ -17,6 +17,7 @@ class Skippy::Library
   attr_reader :path
 
   config_attr_reader :title, key: :name # TODO(thomthom): Clean up this kludge.
+  config_attr_reader :name
   config_attr_reader :version
 
   class LibraryNotFoundError < Skippy::Error; end
@@ -26,10 +27,6 @@ class Skippy::Library
     raise LibraryNotFoundError, @path.to_s unless @path.directory?
     # noinspection RubyResolve
     @config = Skippy::Config.load(config_file)
-  end
-
-  def name
-    path.basename.to_s
   end
 
   def modules

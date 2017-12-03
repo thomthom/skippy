@@ -22,23 +22,23 @@ class SkippyLibraryManagerTest < Skippy::Test::Fixture
     assert_kind_of(Skippy::Library, result)
 
     assert_equal(1, project.libraries.size)
-    assert_directory(project.path('.skippy/libs/my_lib'))
-    assert_file(project.path('.skippy/libs/my_lib/skippy.json'))
-    assert_file(project.path('.skippy/libs/my_lib/modules/command.rb'))
-    assert_file(project.path('.skippy/libs/my_lib/modules/geometry.rb'))
-    assert_file(project.path('.skippy/libs/my_lib/modules/gl.rb'))
-    assert_file(project.path('.skippy/libs/my_lib/modules/gl/control.rb'))
-    assert_file(project.path('.skippy/libs/my_lib/modules/gl/container.rb'))
-    assert_file(project.path('.skippy/libs/my_lib/modules/tool.rb'))
+    assert_directory(project.path('.skippy/libs/my-lib'))
+    assert_file(project.path('.skippy/libs/my-lib/skippy.json'))
+    assert_file(project.path('.skippy/libs/my-lib/modules/command.rb'))
+    assert_file(project.path('.skippy/libs/my-lib/modules/geometry.rb'))
+    assert_file(project.path('.skippy/libs/my-lib/modules/gl.rb'))
+    assert_file(project.path('.skippy/libs/my-lib/modules/gl/control.rb'))
+    assert_file(project.path('.skippy/libs/my-lib/modules/gl/container.rb'))
+    assert_file(project.path('.skippy/libs/my-lib/modules/tool.rb'))
   end
 
   def test_that_it_can_find_library_module
     library_source = fixture('my_lib')
     project.libraries.install(library_source)
 
-    result = project.libraries.find_module('my_lib/command')
+    result = project.libraries.find_module('my-lib/command')
     assert_kind_of(Skippy::LibModule, result)
-    assert_equal('my_lib/command', result.name)
+    assert_equal('my-lib/command', result.name)
   end
 
 end

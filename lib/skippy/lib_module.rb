@@ -26,7 +26,7 @@ class Skippy::LibModule
 
   # @param [String]
   def name
-    "#{library_name}/#{basename}"
+    "#{library.name}/#{basename}"
   end
 
   # @param [String]
@@ -36,12 +36,7 @@ class Skippy::LibModule
 
   private
 
-  def library_name
-    library_path.basename.to_s
-  end
-
   def library_path
-    # Modules are located in the 'src' directory of the library.
     path.parent.parent
   end
 

@@ -23,7 +23,7 @@ class SkippyLibraryTest < Skippy::Test
     library = Skippy::Library.new(lib_path)
     assert_all_kind_of(Skippy::LibModule, library.modules)
     assert_same_elements(
-      %w(my_lib/command my_lib/geometry my_lib/tool),
+      %w(my-lib/command my-lib/geometry my-lib/tool),
       library.modules.map(&:to_s)
     )
   end

@@ -58,6 +58,20 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Run induvidual tests: `bundle exec rake test TEST=test/library_source.rb`
 
+## SSL Errors?
+
+https://github.com/oneclick/rubyinstaller/issues/324#issuecomment-221383285
+
+> Download newset certs (cacert.pem) from here
+>
+> https://curl.haxx.se/docs/caextract.html
+>
+> Set enviroment variable to the full path location of the downloaded file. Eg:
+>
+>     set SSL_CERT_FILE=C:\somewhere\cacert.pem
+>
+> To make it permanent, set `SSL_CERT_FILE` in "Advanced System Settings"
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/thomthom/skippy.

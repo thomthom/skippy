@@ -23,6 +23,7 @@ class SkippyLibrarySourceTest < Skippy::Test
     assert(source.relative?, 'Relative')
     refute(source.absolute?, 'Absolute')
     assert_equal(filename, source.origin)
+    assert_match(/^my_lib_local_/, source.lib_path)
   end
 
   def test_it_understand_absolute_local_filenames
@@ -33,6 +34,15 @@ class SkippyLibrarySourceTest < Skippy::Test
     refute(source.relative?, 'Relative')
     assert(source.absolute?, 'Absolute')
     assert_equal(filename, source.origin)
+    assert_match(/^my_lib_local_/, source.lib_path)
+  end
+
+  def test_it_hashes_absolute_paths_for_local_sources
+    path_relative = '../my_lib'
+    source_relative = Skippy::LibrarySource.new(path_relative)
+    path_absolute = File.expand_path('../my_lib')
+    source_absolute = Skippy::LibrarySource.new(path_absolute)
+    assert_equal(source_absolute.lib_path, source_relative.lib_path)
   end
 
   def test_it_understand_git_urls
@@ -44,6 +54,7 @@ class SkippyLibrarySourceTest < Skippy::Test
     assert(source.absolute?, 'Absolute')
     expected = 'https://bitbucket.org/thomthom/tt-library-2.git'
     assert_equal(expected, source.origin)
+    assert_equal('tt-library-2_thomthom_bitbucket-org', source.lib_path)
   end
 
   def test_it_understand_git_urls_with_usernames
@@ -55,6 +66,7 @@ class SkippyLibrarySourceTest < Skippy::Test
     assert(source.absolute?, 'Absolute')
     expected = 'https://bitbucket.org/thomthom/tt-library-2.git'
     assert_equal(expected, source.origin)
+    assert_equal('tt-library-2_thomthom_bitbucket-org', source.lib_path)
   end
 
   def test_it_understand_relative_library_source
@@ -66,6 +78,7 @@ class SkippyLibrarySourceTest < Skippy::Test
     assert(source.absolute?, 'Absolute')
     expected = 'https://github.com/thomthom/tt-lib.git'
     assert_equal(expected, source.origin)
+    assert_equal('tt-lib_thomthom_github-com', source.lib_path)
   end
 
 end

@@ -29,10 +29,36 @@ class Lib < Skippy::Command
   end
   default_command(:list)
 
+  method_option :version,
+    aliases: ['-v'],
+    # banner: 'Either a tag, "latest" or "edge".',
+    type: :string,
+    default: 'latest'
+  method_option :branch,
+    aliases: ['-b'],
+    type: :string
   desc 'install SOURCE', 'Install a new library'
   def install(source)
     project = Skippy::Project.current_or_fail
-    library = project.libraries.install(source)
+
+    # Prints a text-based "spinner" element while work occurs.
+    # spinner = Enumerator.new do |e|
+    #   loop do
+    #     e.yield '|'
+    #     e.yield '/'
+    #     e.yield '-'
+    #     e.yield '\\'
+    #   end
+    # end
+
+    # In new thread?
+    # 1.upto(100) do |i|
+    #   printf("\rSpinner: %s", spinner.next)
+    #   sleep(0.1)
+    # end
+
+    # say options.inspect
+    library = project.libraries.install(source, options)
     say "Installed library: #{library.name} (#{library.version})"
   end
 

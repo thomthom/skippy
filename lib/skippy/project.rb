@@ -98,6 +98,10 @@ class Skippy::Project
       author: 'Unknown',
       copyright: "Copyright (c) #{Time.now.year}",
       license: 'None',
+      sources: %w(
+        github.com
+        bitbucket.org
+      ),
     }
   end
 

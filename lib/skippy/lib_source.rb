@@ -1,3 +1,4 @@
+require 'digest'
 require 'net/http'
 require 'pathname'
 require 'uri'
@@ -31,6 +32,33 @@ class Skippy::LibrarySource
 
   def absolute?
     !relative?
+  end
+
+  # @param [String]
+  def basename
+    if local?
+      Pathname.new(@origin).basename
+    else
+      uri = URI.parse(@origin)
+      Pathname.new(uri.path).basename('.git')
+    end
+  end
+
+  # @param [String]
+  def lib_path
+    if local?
+      source = File.expand_path(@origin)
+      hash_signature = Digest::SHA1.hexdigest(source)
+      "#{basename}_local_#{hash_signature}"
+    else
+      # https://github.com/thomthom/tt-lib.git
+      #         ^^^^^^^^^^ ^^^^^^^^ ^^^^^^
+      #        source_name  author  basename
+      uri = URI.parse(@origin)
+      source_name = uri.hostname.gsub(/[.]/, '-')
+      author = Pathname.new(uri.path).parent.basename
+      "#{basename}_#{author}_#{source_name}"
+    end
   end
 
   # @param [String]

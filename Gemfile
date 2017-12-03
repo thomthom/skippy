@@ -13,4 +13,5 @@ group :development do
   # gem 'aruba', git: 'https://github.com/rbld/aruba.git',
   #              branch: 'aruba-win-fix'
   gem 'rubocop', '~> 0.51.0', require: false
+  gem 'webmock', '~> 3.1'
 end

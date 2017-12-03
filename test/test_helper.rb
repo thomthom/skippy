@@ -3,6 +3,7 @@ require 'skippy'
 
 require 'minitest/autorun'
 require 'pathname'
+require 'webmock/minitest'
 
 class Skippy::Test < Minitest::Test
 

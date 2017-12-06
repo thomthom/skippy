@@ -83,6 +83,11 @@ class Skippy::Project
     @config.save_as(filename)
   end
 
+  # @return [Array<String>]
+  def sources
+    @config.get(:sources, defaults[:sources])
+  end
+
   # @return [String]
   def to_json
     JSON.pretty_generate(@config)
@@ -90,6 +95,7 @@ class Skippy::Project
 
   private
 
+  # @return [Hash]
   def defaults
     {
       name: 'Untitled',

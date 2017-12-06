@@ -69,8 +69,7 @@ class Skippy::LibraryManager
   # @param [Pathname, String] source
   def install(source, options = {})
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
-    sources = project.config.get(:sources, []) # TODO: Move to Project
-    lib_source = Skippy::LibrarySource.new(source.to_s, sources)
+    lib_source = Skippy::LibrarySource.new(source.to_s, project.sources)
     if lib_source.local?
       library = install_from_local(source)
     elsif lib_source.git?

@@ -78,13 +78,8 @@ class Skippy::LibraryManager
       raise Skippy::UnknownSourceType, "Unable to handle source: #{source}"
     end
 
-    # TODO: version should be the requested version pattern.
-    # TODO: Check for existing entry.
-    project.config.push(:libraries,
-      name: library.name,
-      version: library.version,
-      source: lib_source.origin)
-
+    # TODO: Make lib_source, part of library?
+    update_library_config(library, lib_source)
     project.save
 
     library
@@ -102,6 +97,24 @@ class Skippy::LibraryManager
   end
 
   private
+
+  def update_library_config(library, lib_source)
+    # TODO: version should be the requested version pattern.
+    data = {
+      name: library.name,
+      version: library.version,
+      source: lib_source.origin,
+    }
+    libraries = project.config.get(:libraries, [])
+    existing = libraries.find { |lib| lib[:name].casecmp(library.name).zero? }
+    if existing
+      existing.clear
+      existing.merge!(data)
+    else
+      project.config.push(:libraries, data)
+    end
+    nil
+  end
 
   # @param [Pathname, String] source
   def install_from_local(source)

@@ -58,7 +58,8 @@ class Lib < Skippy::Command
     # end
 
     # say options.inspect
-    library = project.libraries.install(source, options)
+    install_options = options.map { |k, v| [k.to_sym, v] }.to_h
+    library = project.libraries.install(source, install_options)
     say "Installed library: #{library.name} (#{library.version})"
   end
 

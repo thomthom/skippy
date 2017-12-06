@@ -4,9 +4,18 @@ require 'naturally'
 require 'pathname'
 
 require 'skippy/helpers/file'
+require 'skippy/error'
 require 'skippy/lib_source'
 require 'skippy/library'
 require 'skippy/project'
+
+module Skippy
+
+  class BranchNotFound < Skippy::Error; end
+  class TagNotFound < Skippy::Error; end
+  class UnknownSourceType < Skippy::Error; end
+
+end
 
 class Skippy::LibraryManager
 
@@ -62,18 +71,15 @@ class Skippy::LibraryManager
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
     sources = project.config.get(:sources, []) # TODO: Move to Project
     lib_source = Skippy::LibrarySource.new(source.to_s, sources)
-    # TODO: Check if library already exist.
-    #       Update as needed.
     if lib_source.local?
       library = install_from_local(source)
     elsif lib_source.git?
-      # library = install_from_git(source. options)
-      library = install_from_git(lib_source)
+      library = install_from_git(lib_source, options)
     else
-      # TODO: Review error type.
-      raise Skippy::Error, "Unable to handle source: #{source}"
+      raise Skippy::UnknownSourceType, "Unable to handle source: #{source}"
     end
 
+    # TODO: version should be the requested version pattern.
     # TODO: Check for existing entry.
     project.config.push(:libraries,
       name: library.name,
@@ -98,6 +104,7 @@ class Skippy::LibraryManager
 
   private
 
+  # @param [Pathname, String] source
   def install_from_local(source)
     library = Skippy::Library.new(source)
     target = path.join(library.name)
@@ -110,12 +117,18 @@ class Skippy::LibraryManager
   # @param [String] version 'edge', 'latest' or a tag (E.g.: '1.2.3')
   # @param [String] branch
   def install_from_git(source, version: 'latest', branch: nil)
+    # TODO: Convert this into it's own GitInstaller class.
+    #       This class should accept a callback for yielding installation status
+    #       which the Thor layer can utilise - avoiding this class from
+    #       outputting directly.
     puts "Installing #{source.basename} from #{source.origin}..."
     target = path.join(source.lib_path)
     puts "> Target: #{target}"
     # Clone the repository into the project's library path:
     if target.directory?
       puts '> Updating...'
+      library = Skippy::Library.new(target)
+      puts "> Current version: #{library.version}"
       git = Git.open(target)
       git.reset_hard
       git.pull
@@ -128,42 +141,55 @@ class Skippy::LibraryManager
       branches = git.braches.map(&:name)
       puts "> Branches: #{branches.inspect}"
       unless branches.include?(branch)
-        # TODO: Review error type.
-        raise Skippy::Error, "Unable to checkout branch: '#{branch}'"
+        # TODO: Revert to previously checked out commit.
+        raise Skippy::BranchNotFound, "Found no branch named: '#{branch}'"
       end
       git.checkout(branch)
     end
     # Check out given version - otherwise fall back to latest version.
     unless edge_version?(version)
-      tags = Naturally.sort(git.tags.map(&:name))
+      tags = Naturally.sort_by(git.tags, :name)
       # TODO: Might be no tags.
-      puts "> Tags: #{tags.inspect}"
+      puts "> Tags: #{tags.map(&:name).inspect}"
       tag = latest_version?(version) ? tags.last : resolve_tag(tags, version)
       if tag.nil?
-        # TODO: Review error type.
-        raise Skippy::Error, "Unable to checkout version: '#{version}'"
+        # TODO: Revert to previously checked out commit.
+        raise Skippy::TagNotFound, "Found no version: '#{version}'"
       end
       git.checkout(tag)
+      # Verify the library version with the tagged version.
+      library = Skippy::Library.new(target)
+      unless library.version.casecmp(tag.name).zero?
+        warn "skippy.json version (#{library.version}) differ from tagged version #{tag.name}"
+      end
     end
     # Return a library object representing the cloned git source.
-    # target = path.join(source.lib_path)
     library = Skippy::Library.new(target)
-    # TODO: Verify this is a Skippy library.
-    # TODO: Verify library version.
     library
   end
 
+  # @param [String] version
   def edge_version?(version)
     version.casecmp('edge').zero?
   end
 
+  # @param [String] version
   def latest_version?(version)
     version.casecmp('latest').zero?
   end
 
+  # Resolve version numbers like RubyGem.
+  #
+  # @param [Array<Git::Tag>] tags List of tags sorted with newest first
+  # @param [String] version
+  # @return [Git::Tag]
   def resolve_tag(tags, version)
-    # TODO: Resolve version numbers like RubyGem.
-    tags.find { |tag| tag.name == version }
+    requirement = Gem::Requirement.new(version)
+    tags.reverse.find { |tag|
+      next false unless Gem::Version.correct?(tag.name)
+      tag_version = Gem::Version.new(tag.name)
+      requirement.satisfied_by?(tag_version)
+    }
   end
 
 end

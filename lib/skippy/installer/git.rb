@@ -24,12 +24,8 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
     else
       git = clone_repository(source.origin, target)
     end
-    if source.branch
-      checkout_branch(git, source.branch)
-    end
-    unless edge_version?(source.version)
-      checkout_tag(git, source.version)
-    end
+    checkout_branch(git, source.branch) if source.branch
+    checkout_tag(git, source.version) unless edge_version?(source.version)
     library = Skippy::Library.new(target)
     library
   end
@@ -83,7 +79,8 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
     target = path.join(source.lib_path)
     library = Skippy::Library.new(target)
     unless library.version.casecmp(tag.name).zero?
-      warning "skippy.json version (#{library.version}) differ from tagged version (#{tag.name})"
+      warning "skippy.json version (#{library.version}) differ from "\
+              "tagged version (#{tag.name})"
     end
     nil
   end

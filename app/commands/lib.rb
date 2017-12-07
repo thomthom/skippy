@@ -32,8 +32,7 @@ class Lib < Skippy::Command
   method_option :version,
     aliases: ['-v'],
     # banner: 'Either a tag, "latest" or "edge".',
-    type: :string,
-    default: 'latest'
+    type: :string
   method_option :branch,
     aliases: ['-b'],
     type: :string

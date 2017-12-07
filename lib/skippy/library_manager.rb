@@ -67,9 +67,10 @@ class Skippy::LibraryManager
   end
 
   # @param [Pathname, String] source
+  # @return [Skippy::Library]
   def install(source, options = {})
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
-    lib_source = Skippy::LibrarySource.new(source.to_s, project.sources)
+    lib_source = Skippy::LibrarySource.new(project, source, options)
     if lib_source.local?
       library = install_from_local(source)
     elsif lib_source.git?
@@ -78,7 +79,6 @@ class Skippy::LibraryManager
       raise Skippy::UnknownSourceType, "Unable to handle source: #{source}"
     end
 
-    # TODO: Make lib_source, part of library?
     update_library_config(library, lib_source)
     project.save
 
@@ -99,10 +99,9 @@ class Skippy::LibraryManager
   private
 
   def update_library_config(library, lib_source)
-    # TODO: version should be the requested version pattern.
     data = {
       name: library.name,
-      version: library.version,
+      version: lib_source.version || library.version,
       source: lib_source.origin,
     }
     libraries = project.config.get(:libraries, [])

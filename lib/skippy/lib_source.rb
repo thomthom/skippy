@@ -4,6 +4,7 @@ require 'pathname'
 require 'uri'
 
 require 'skippy/error'
+require 'skippy/library'
 
 class Skippy::LibrarySource
 
@@ -11,11 +12,13 @@ class Skippy::LibrarySource
 
   class LibraryNotFoundError < Skippy::Error; end
 
-  # @param [String] source
-  # @param [Array<String>] domains
-  def initialize(source, domains = [])
-    @domains = domains
-    @origin = resolve(source)
+  # @param [Skippy::Project] project
+  # @param [Pathname, String] source
+  # @param [Hash] options
+  def initialize(project, source, options = {})
+    @project = project
+    @origin = resolve(source.to_s)
+    @options = options
   end
 
   def git?
@@ -32,6 +35,23 @@ class Skippy::LibrarySource
 
   def absolute?
     !relative?
+  end
+
+  # @return [String, nil]
+  def version
+    return nil if @options[:version].nil?
+    # Normalize the version requirement pattern.
+    parts = Gem::Requirement.parse(@options[:version])
+    # .parse will from '1.2.3' return ['=', '1.2.3']. Don't need that.
+    parts.delete('=')
+    parts.join(' ')
+  rescue Gem::Requirement::BadRequirementError
+    @options[:version]
+  end
+
+  # @return [String]
+  def branch
+    @options[:branch]
   end
 
   # @param [String]
@@ -72,13 +92,12 @@ class Skippy::LibrarySource
   def resolve(source)
     if local_source?(source)
       # TODO: Handle local git
-      # File.expand_path(source)
       source
     elsif git_source?(source)
       # TODO: Handle local git
       resolve_from_git_uri(source)
     else
-      resolve_from_lib_name(source, @domains)
+      resolve_from_lib_name(source, @project.sources)
     end
   end
 
@@ -104,17 +123,12 @@ class Skippy::LibrarySource
   # @param [String] source
   # @return [String]
   def resolve_from_lib_name(source, domains)
-    # puts 'resolve_from_lib_name'
-    # p domains
     domains.each { |domain|
       uri_str = "https://#{domain}/#{source}.git"
-      # puts "> #{uri_str}"
       uri = URI.parse(uri_str)
       response = Net::HTTP.get_response(uri)
-      # puts "> Response: #{response.code}"
-      # p response.to_hash
-      # puts "> Body: #{response.body}" if response.is_a?(Net::HTTPRedirection)
-      return uri_str if response.is_a?(Net::HTTPSuccess) || response.is_a?(Net::HTTPRedirection)
+      return uri_str if response.is_a?(Net::HTTPSuccess)
+      return uri_str if response.is_a?(Net::HTTPRedirection)
     }
     raise LibraryNotFoundError, "Library '#{source}' not found"
   end

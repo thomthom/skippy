@@ -1,5 +1,4 @@
 require 'git'
-require 'json'
 require 'naturally'
 require 'pathname'
 

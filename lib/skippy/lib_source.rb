@@ -127,8 +127,8 @@ class Skippy::LibrarySource
       uri_str = "https://#{domain}/#{source}.git"
       uri = URI.parse(uri_str)
       response = Net::HTTP.get_response(uri)
-      return uri_str if response.is_a?(Net::HTTPSuccess)
-      return uri_str if response.is_a?(Net::HTTPRedirection)
+      return uri_str if response.is_a?(Net::HTTPSuccess) ||
+                        response.is_a?(Net::HTTPRedirection)
     }
     raise LibraryNotFoundError, "Library '#{source}' not found"
   end

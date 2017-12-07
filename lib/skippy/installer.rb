@@ -1,15 +1,6 @@
-require 'skippy/error'
 require 'skippy/lib_source'
 require 'skippy/library'
 require 'skippy/project'
-
-module Skippy
-
-  class BranchNotFound < Skippy::Error; end
-  class TagNotFound < Skippy::Error; end
-  class UnknownSourceType < Skippy::Error; end
-
-end
 
 class Skippy::LibraryInstaller
 

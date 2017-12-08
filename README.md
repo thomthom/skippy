@@ -8,7 +8,8 @@ It is currently in very early stage of development so many things are incomplete
 
 Some of the main goals are:
 
-- [ ] Quick initialization of new project with templates
+- [x] Quick initialization of new project with templates
+  - [ ] Add/Remove/Update user templates
 - [ ] Automate common tasks
   - [ ] Packaging the extension
   - [ ] Start SketchUp in debug mode

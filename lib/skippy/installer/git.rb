@@ -19,13 +19,19 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
   def install
     info "Installing #{source.basename} from #{source.origin}..."
     target = path.join(source.lib_path)
+    previous_commit = nil
     if target.directory?
-      git = update_repository(target)
+      git, previous_commit = update_repository(target)
     else
       git = clone_repository(source.origin, target)
     end
-    checkout_branch(git, source.branch) if source.branch
-    checkout_tag(git, source.version) unless edge_version?(source.version)
+    begin
+      checkout_branch(git, source.branch) if source.branch
+      checkout_tag(git, source.version) unless edge_version?(source.version)
+    rescue Skippy::Error
+      git.checkout(previous_commit) if previous_commit
+      raise
+    end
     library = Skippy::Library.new(target)
     library
   end
@@ -41,15 +47,16 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
   end
 
   # @param [Pathname] target
-  # @return [Git::Base]
+  # @return [Array(Git::Base, Git::Commit)]
   def update_repository(target)
     info 'Updating...'
     library = Skippy::Library.new(target)
     info "Current version: #{library.version}"
     git = Git.open(target)
+    previous_commit = git.object('HEAD^').class
     git.reset_hard
     git.pull
-    git
+    [git, previous_commit]
   end
 
   # @param [Git::Base]
@@ -58,7 +65,6 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
     branches = git.braches.map(&:name)
     info "Branches: #{branches.inspect}"
     unless branches.include?(branch)
-      # TODO: Revert to previously checked out commit.
       raise Skippy::BranchNotFound, "Found no branch named: '#{branch}'"
     end
     git.checkout(branch)
@@ -71,7 +77,6 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
     tags = Naturally.sort_by(git.tags, :name)
     tag = latest_version?(version) ? tags.last : resolve_tag(tags, version)
     if tag.nil?
-      # TODO: Revert to previously checked out commit.
       raise Skippy::TagNotFound, "Found no version: '#{version}'"
     end
     git.checkout(tag)

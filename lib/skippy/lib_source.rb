@@ -90,12 +90,10 @@ class Skippy::LibrarySource
 
   # @param [String] source
   def resolve(source)
-    if local_source?(source)
-      # TODO: Handle local git
-      source
-    elsif git_source?(source)
-      # TODO: Handle local git
+    if git_source?(source)
       resolve_from_git_uri(source)
+    elsif local_source?(source)
+      source
     else
       resolve_from_lib_name(source, @project.sources)
     end

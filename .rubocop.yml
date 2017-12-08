@@ -16,9 +16,11 @@ Layout/AlignParameters:
 Layout/EmptyLines:
   Enabled: false
 
+# Extra space is fine.
 Layout/EmptyLinesAroundClassBody:
   Enabled: false
 
+# Extra space is fine.
 Layout/EmptyLinesAroundModuleBody:
   Enabled: false
 

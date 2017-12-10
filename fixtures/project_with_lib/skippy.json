@@ -1,0 +1,24 @@
+{
+  "name": "Hello World",
+  "description": "",
+  "namespace": "Example::HelloWorld",
+  "author": "Unknown",
+  "copyright": "Copyright (c) 2017",
+  "license": "None",
+  "libraries": [
+    {
+      "name": "my-lib",
+      "version": "1.2.3",
+      "source": "./temp/my_lib"
+    },
+    {
+      "name": "my-other-lib",
+      "version": "1.2.3",
+      "source": "./temp/my_lib"
+    }
+  ],
+  "modules": [
+    "my-lib/gl",
+    "my-other-lib/something"
+  ]
+}

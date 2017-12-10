@@ -76,9 +76,7 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
   def checkout_tag(git, version)
     tags = Naturally.sort_by(git.tags, :name)
     tag = latest_version?(version) ? tags.last : resolve_tag(tags, version)
-    if tag.nil?
-      raise Skippy::TagNotFound, "Found no version: '#{version}'"
-    end
+    raise Skippy::TagNotFound, "Found no version: '#{version}'" if tag.nil?
     git.checkout(tag)
     # Verify the library version with the tagged version.
     target = path.join(source.lib_path)

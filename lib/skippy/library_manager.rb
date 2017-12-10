@@ -13,6 +13,7 @@ require 'skippy/project'
 
 module Skippy
 
+  class LibraryNotFound < Skippy::Error; end
   class UnknownSourceType < Skippy::Error; end
 
 end
@@ -42,6 +43,12 @@ class Skippy::LibraryManager
     to_a.empty?
   end
 
+  # @param [String] library_name
+  # @return [Skippy::LibModule, nil]
+  def find_library(library_name)
+    find { |lib| lib.name == library_name }
+  end
+
   # @param [String] module_name
   # @return [Skippy::LibModule, nil]
   def find_module(module_name)
@@ -49,7 +56,7 @@ class Skippy::LibraryManager
     if library_name.nil? || module_name.nil?
       raise ArgumentError, 'expected a module path'
     end
-    library = find { |lib| lib.name == library_name }
+    library = find_library(library_name)
     return nil if library.nil?
     library.modules.find { |mod| mod.basename == module_name }
   end
@@ -86,6 +93,21 @@ class Skippy::LibraryManager
     library
   end
 
+  # @param [Skippy::Library, String] source
+  # @return [Skippy::Library]
+  def uninstall(lib)
+    library = lib.is_a?(Skippy::Library) ? lib : find_library(lib)
+    raise Skippy::LibraryNotFound, 'Library not found' if library.nil?
+    library.path.rmtree
+    raise 'Unable to remove library' if library.path.exist?
+    vendor_module_path = project.modules.path.join(library.name)
+    vendor_module_path.rmtree
+    raise 'Unable to remove vendor modules' if vendor_module_path.exist?
+    remove_library_config(library.name)
+    project.save
+    library
+  end
+
   # @return [Integer]
   def length
     to_a.length
@@ -99,14 +121,22 @@ class Skippy::LibraryManager
 
   private
 
+  # @param [String] library_name
+  # @return [Hash, nil]
+  def find_library_config(library_name)
+    libraries = project.config.get(:libraries, [])
+    libraries.find { |lib| lib[:name].casecmp(library_name).zero? }
+  end
+
+  # @param [Skippy::Library] library
+  # @param [Skippy::LibrarySource] lib_source
   def update_library_config(library, lib_source)
     data = {
-      name: library.name,
+      name: library.name, # TODO: Could be issue as UUID if name changes...
       version: lib_source.version || library.version,
       source: lib_source.origin,
     }
-    libraries = project.config.get(:libraries, [])
-    existing = libraries.find { |lib| lib[:name].casecmp(library.name).zero? }
+    existing = find_library_config(library.name)
     if existing
       existing.clear
       existing.merge!(data)
@@ -116,6 +146,25 @@ class Skippy::LibraryManager
     nil
   end
 
+  # @param [String] library_name
+  def remove_library_config(library_name)
+    libraries = project.config.get(:libraries, [])
+    libraries.delete_if { |lib|
+      lib[:name].casecmp(library_name).zero?
+    }
+    # TODO: Should this be part of ModuleManager?
+    #       At least there should be something else handling the config.
+    #       Maybe make the LibraryManager and ModuleManager serialize to JSON.
+    #       Then write the config JSON file such that it's generated from the
+    #       source data objects.
+    modules = project.config.get(:modules, [])
+    modules.delete_if { |module_name|
+      module_name.split('/').first.casecmp(library_name).zero?
+    }
+  end
+
+  # @param [Skippy::LibrarySource] lib_source
+  # @return [Skippy::Installer]
   def get_installer(lib_source)
     if lib_source.git?
       Skippy::GitLibraryInstaller.new(project, lib_source)

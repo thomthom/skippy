@@ -47,6 +47,13 @@ class Lib < Skippy::Command
     say "Installed library: #{library.name} (#{library.version})"
   end
 
+  desc 'uninstall LIBRARY', 'Uninstall a library'
+  def uninstall(library_name)
+    project = Skippy::Project.current_or_fail
+    library = project.libraries.uninstall(library_name)
+    say "Uninstalled library: #{library.name} (#{library.version})"
+  end
+
   desc 'use MODULE', 'Use a library module'
   def use(module_path)
     project = Skippy::Project.current_or_fail

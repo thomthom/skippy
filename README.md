@@ -4,6 +4,8 @@
 
 Skippy is a Command Line Interface which aims to automate common developer tasks for SketchUp Ruby extension development.
 
+TODO: Insert overview gif here....
+
 It is currently in very early stage of development so many things are incomplete. Feedback and contributions are welcome.
 
 Some of the main goals are:

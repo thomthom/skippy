@@ -13,8 +13,8 @@
     },
     {
       "name": "my-other-lib",
-      "version": "1.2.3",
-      "source": "./temp/my_lib"
+      "version": "2.4.3",
+      "source": "./temp/my-other-lib"
     }
   ],
   "modules": [

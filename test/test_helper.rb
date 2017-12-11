@@ -29,10 +29,22 @@ class Skippy::Test < Minitest::Test
     assert(pathname.file?, msg)
   end
 
+  def refute_file(path, msg = nil)
+    pathname = Pathname.new(path)
+    msg ||= "did not expect a file named: #{path}"
+    refute(pathname.file?, msg)
+  end
+
   def assert_directory(path, msg = nil)
     pathname = Pathname.new(path)
     msg ||= "expected a directory named: #{path}"
     assert(pathname.directory?, msg)
+  end
+
+  def refute_directory(path, msg = nil)
+    pathname = Pathname.new(path)
+    msg ||= "did not expect a directory named: #{path}"
+    refute(pathname.directory?, msg)
   end
 
   private

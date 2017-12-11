@@ -149,7 +149,7 @@ Feature: Libraries
     Given I use a fixture named "project_with_lib"
     When I run `skippy lib:uninstall my-lib`
     And I run `skippy lib:list`
-    Then the output should contain "No libraries installed"
+    Then the output should contain "Uninstalled library: my-lib (1.2.3)"
     And the directory ".skippy/libs/my-lib" should not exist
     And the directory "src/hello_world/vendor/my-lib" should not exist
     And a file named "skippy.json" should contain json fragment:
@@ -158,8 +158,8 @@ Feature: Libraries
         "libraries": [
           {
             "name": "my-other-lib",
-            "version": "1.2.3",
-            "source": "./temp/my_lib"
+            "version": "2.4.3",
+            "source": "./temp/my-other-lib"
           }
         ]
       }

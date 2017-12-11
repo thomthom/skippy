@@ -61,4 +61,11 @@ class Lib < Skippy::Command
     say "Using module: #{lib_module}"
   end
 
+  desc 'remove MODULE', 'Remove a library module'
+  def remove(module_path)
+    project = Skippy::Project.current_or_fail
+    lib_module = project.modules.remove(module_path)
+    say "Removed module: #{lib_module}"
+  end
+
 end

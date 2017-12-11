@@ -54,7 +54,6 @@ class Skippy::ModuleManager
   # @return [Skippy::LibModule]
   def use(module_name)
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
-
     lib_module = project.libraries.find_module_or_fail(module_name)
 
     source = lib_module.path
@@ -62,7 +61,28 @@ class Skippy::ModuleManager
 
     copy_module(lib_module, source, target)
 
+    # TODO: Insert or update.
     project.config.push(:modules, lib_module.name)
+
+    project.save
+
+    lib_module
+  end
+
+  # @param [String] module_name
+  # @return [Skippy::LibModule]
+  def remove(module_name)
+    raise Skippy::Project::ProjectNotSavedError unless project.exist?
+    lib_module = project.libraries.find_module_or_fail(module_name)
+
+    # TODO: Differ between source paths and installation paths.
+    target = path.join(lib_module.library.name, lib_module.path.basename)
+    support = path.join(lib_module.library.name, lib_module.path.basename('.*'))
+    target.delete if target.exist?
+    support.rmtree if support.directory?
+
+    modules = project.config.get(:modules, [])
+    modules.delete(lib_module.name)
 
     project.save
 

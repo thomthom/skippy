@@ -59,6 +59,35 @@ Feature: Libraries
       """
     And the output should contain "Installed library: my-lib (1.2.3)"
 
+  Scenario: Uninstall library
+    Given I use a fixture named "project_with_lib"
+    When I run `skippy lib:uninstall my-lib`
+    And I run `skippy lib:list`
+    Then the output should contain "Uninstalled library: my-lib (1.2.3)"
+    And the directory ".skippy/libs/my-lib" should not exist
+    And the directory "src/hello_world/vendor/my-lib" should not exist
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "libraries": [
+          {
+            "name": "my-other-lib",
+            "version": "2.4.3",
+            "source": "./temp/my-other-lib"
+          }
+        ]
+      }
+      """
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "modules": [
+          "my-other-lib/something"
+        ]
+      }
+      """
+
+
   Scenario: List installed libraries
     Given I use a fixture named "my_project"
     And a file named ".skippy/libs/my-lib/skippy.json" with:
@@ -145,25 +174,12 @@ Feature: Libraries
       }
       """
 
-  Scenario: Uninstall library
+  Scenario: Remove a module
     Given I use a fixture named "project_with_lib"
-    When I run `skippy lib:uninstall my-lib`
+    When I run `skippy lib:remove my-lib/command`
     And I run `skippy lib:list`
-    Then the output should contain "Uninstalled library: my-lib (1.2.3)"
-    And the directory ".skippy/libs/my-lib" should not exist
-    And the directory "src/hello_world/vendor/my-lib" should not exist
-    And a file named "skippy.json" should contain json fragment:
-      """
-      {
-        "libraries": [
-          {
-            "name": "my-other-lib",
-            "version": "2.4.3",
-            "source": "./temp/my-other-lib"
-          }
-        ]
-      }
-      """
+    Then the output should contain "Removed module: my-lib/command"
+    And the file "src/hello_world/vendor/my-lib/command.rb" should not exist
     And a file named "skippy.json" should contain json fragment:
       """
       {
@@ -172,3 +188,4 @@ Feature: Libraries
         ]
       }
       """
+

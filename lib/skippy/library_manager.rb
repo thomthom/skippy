@@ -86,6 +86,7 @@ class Skippy::LibraryManager
       }
     end
     library = installer.install
+    project.modules.update(library)
 
     update_library_config(library, lib_source)
     project.save
@@ -96,6 +97,7 @@ class Skippy::LibraryManager
   # @param [Skippy::Library, String] source
   # @return [Skippy::Library]
   def uninstall(lib)
+    raise Skippy::Project::ProjectNotSavedError unless project.exist?
     library = lib.is_a?(Skippy::Library) ? lib : find_library(lib)
     raise Skippy::LibraryNotFound, 'Library not found' if library.nil?
     library.path.rmtree

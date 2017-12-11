@@ -69,6 +69,16 @@ class Skippy::ModuleManager
     lib_module
   end
 
+  # @param [Skippy::Library]
+  # @return [Array<Skippy::LibModule>]
+  def update(library)
+    raise Skippy::Project::ProjectNotSavedError unless project.exist?
+    # TODO: Implement <=> for Skippy::Library
+    installed = select { |mod| mod.library.name == library.name }
+    installed.each { |mod| use(mod.name) }
+    installed
+  end
+
   # @param [String] module_name
   # @return [Skippy::LibModule]
   def remove(module_name)

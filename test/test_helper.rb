@@ -67,10 +67,13 @@ class Skippy::Test::Fixture < Skippy::Test
   def setup
     super
     @work_path = Dir.mktmpdir
+    @original_pwd = Dir.pwd
+    Dir.chdir(work_path)
   end
 
   def teardown
     super
+    Dir.chdir(@original_pwd)
     FileUtils.remove_entry(work_path)
   end
 
@@ -79,7 +82,7 @@ class Skippy::Test::Fixture < Skippy::Test
   def use_fixture(fixture_name)
     source = fixture(fixture_name)
     raise "Fixture #{fixture_name} not found" unless source.exist?
-    FileUtils.copy_entry(source, work_path)
+    FileUtils.copy_entry(source, work_path, false, false, true)
   end
 
 end

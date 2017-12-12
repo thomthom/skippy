@@ -87,6 +87,62 @@ Feature: Libraries
       }
       """
 
+  Scenario: Update an installed library from local disk
+    Given I use a fixture named "project_with_lib"
+    And a file named "./temp/my_lib/skippy.json" with:
+      """
+      {
+        "library": true,
+        "name": "my-lib",
+        "version": "5.0.1"
+      }
+      """
+    And a file named "./temp/my_lib/modules/command.rb" with:
+      """
+      module SkippyLib
+        class Command
+          VERSION = "5.0.1"
+        end
+      end # module
+      """
+    When I run `skippy lib:install ./temp/my_lib`
+    Then a file named ".skippy/libs/my-lib/skippy.json" should exist
+    And a directory named ".skippy/libs/my-lib/modules" should exist
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "libraries": [
+          {
+            "name": "my-lib",
+            "version": "5.0.1",
+            "source": "./temp/my_lib"
+          },
+          {
+            "name": "my-other-lib",
+            "version": "2.4.3",
+            "source": "./temp/my-other-lib"
+          }
+        ]
+      }
+      """
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "modules": [
+          "my-lib/command",
+          "my-other-lib/something"
+        ]
+      }
+      """
+    And the file named "src/hello_world/vendor/my-lib/command.rb" should contain:
+      """
+      module Example::HelloWorld
+        class Command
+          VERSION = "5.0.1"
+        end
+      end # module
+      """
+    And the output should contain "Installed library: my-lib (5.0.1)"
 
   Scenario: List installed libraries
     Given I use a fixture named "my_project"

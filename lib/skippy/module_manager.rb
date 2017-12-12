@@ -61,12 +61,19 @@ class Skippy::ModuleManager
 
     copy_module(lib_module, source, target)
 
-    # TODO: Insert or update.
-    project.config.push(:modules, lib_module.name)
-
     project.save
 
     lib_module
+  end
+
+  # @param [Skippy::Library]
+  # @return [Array<Skippy::LibModule>]
+  def update(library)
+    raise Skippy::Project::ProjectNotSavedError unless project.exist?
+    # TODO: Implement <=> for Skippy::Library
+    installed = select { |mod| mod.library.name == library.name }
+    installed.each { |mod| use(mod.name) }
+    installed
   end
 
   # @param [String] module_name
@@ -80,9 +87,6 @@ class Skippy::ModuleManager
     support = path.join(lib_module.library.name, lib_module.path.basename('.*'))
     target.delete if target.exist?
     support.rmtree if support.directory?
-
-    modules = project.config.get(:modules, [])
-    modules.delete(lib_module.name)
 
     project.save
 

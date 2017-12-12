@@ -37,7 +37,14 @@ class Skippy::LibModule
   private
 
   def library_path
-    path.parent.parent
+    # KLUDGE:
+    if path.parent.basename.to_s == 'modules'
+      path.parent.parent
+    else
+      lib_name = path.parent.basename.to_s
+      project = Skippy::Project.current_or_fail
+      project.libraries.find_library(lib_name).path
+    end
   end
 
 end

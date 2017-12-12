@@ -97,7 +97,7 @@ Feature: Libraries
         "version": "5.0.1"
       }
       """
-    And a file named "./temp/my_lib/modules/command" with:
+    And a file named "./temp/my_lib/modules/command.rb" with:
       """
       module SkippyLib
         class Command
@@ -108,7 +108,6 @@ Feature: Libraries
     When I run `skippy lib:install ./temp/my_lib`
     Then a file named ".skippy/libs/my-lib/skippy.json" should exist
     And a directory named ".skippy/libs/my-lib/modules" should exist
-    # And the output should contain "DEBUG"
     And a file named "skippy.json" should contain json fragment:
       """
       {
@@ -135,9 +134,9 @@ Feature: Libraries
         ]
       }
       """
-    And the file named "src/hello_world/vendor/my-lib/command" should contain:
+    And the file named "src/hello_world/vendor/my-lib/command.rb" should contain:
       """
-      module HelloWorld
+      module Example::HelloWorld
         class Command
           VERSION = "5.0.1"
         end

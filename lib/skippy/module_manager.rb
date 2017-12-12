@@ -61,9 +61,6 @@ class Skippy::ModuleManager
 
     copy_module(lib_module, source, target)
 
-    # TODO: Insert or update.
-    project.config.push(:modules, lib_module.name)
-
     project.save
 
     lib_module
@@ -90,9 +87,6 @@ class Skippy::ModuleManager
     support = path.join(lib_module.library.name, lib_module.path.basename('.*'))
     target.delete if target.exist?
     support.rmtree if support.directory?
-
-    modules = project.config.get(:modules, [])
-    modules.delete(lib_module.name)
 
     project.save
 

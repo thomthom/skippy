@@ -133,8 +133,11 @@ class Skippy::LibraryManager
   # @param [Skippy::Library] library
   # @param [Skippy::LibrarySource] lib_source
   def update_library_config(library, lib_source)
+    # TODO: Project.save should handle this.
     data = {
       name: library.name, # TODO: Could be issue as UUID if name changes...
+      # TODO: Need to split out actual version vs version requirement.
+      #       Maybe lib_source needs to be part of Library.
       version: lib_source.version || library.version,
       source: lib_source.origin,
     }

@@ -35,7 +35,7 @@ class Skippy::Project
   # @return [Skippy::Project]
   def self.current_or_fail
     project = current
-    raise ProjectNotFoundError unless project.exist?
+    raise ProjectNotFoundError, project.filename unless project.exist?
     project
   end
 
@@ -80,6 +80,8 @@ class Skippy::Project
 
   # Commits the project to disk.
   def save
+    # TODO: Make Library serializable, update library config here.
+    @config.set(:modules, modules.map(&:name))
     @config.save_as(filename)
   end
 

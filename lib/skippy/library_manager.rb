@@ -86,20 +86,13 @@ class Skippy::LibraryManager
       }
     end
     library = installer.install
+
     @libraries.delete(library)
     @libraries << library
+
     project.modules.update(library)
 
-    project.save
-
     library
-  end
-
-  # @return [Array<Skippy::Library>]
-  def discover_libraries
-    project.config.get(:libraries, []).map { |lib_config|
-      Skippy::Library.from_config(project, lib_config)
-    }
   end
 
   # @param [Skippy::Library, String] source
@@ -119,7 +112,6 @@ class Skippy::LibraryManager
     library.path.rmtree
     raise 'Unable to remove library' if library.path.exist?
     @libraries.delete(library)
-    project.save # TODO: Move to CLI app layer.
     library
   end
 
@@ -135,6 +127,13 @@ class Skippy::LibraryManager
   end
 
   private
+
+  # @return [Array<Skippy::Library>]
+  def discover_libraries
+    project.config.get(:libraries, []).map { |lib_config|
+      Skippy::Library.from_config(project, lib_config)
+    }
+  end
 
   # @param [Skippy::LibrarySource] lib_source
   # @return [Skippy::Installer]

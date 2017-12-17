@@ -44,6 +44,7 @@ class Lib < Skippy::Command
       color = type == :warning ? :red : :yellow
       say message, color
     }
+    project.save
     say "Installed library: #{library.name} (#{library.version})"
   end
 
@@ -51,6 +52,7 @@ class Lib < Skippy::Command
   def uninstall(library_name)
     project = Skippy::Project.current_or_fail
     library = project.libraries.uninstall(library_name)
+    project.save
     say "Uninstalled library: #{library.name} (#{library.version})"
   end
 
@@ -58,6 +60,7 @@ class Lib < Skippy::Command
   def use(module_path)
     project = Skippy::Project.current_or_fail
     lib_module = project.modules.use(module_path)
+    project.save
     say "Using module: #{lib_module}"
   end
 
@@ -65,6 +68,7 @@ class Lib < Skippy::Command
   def remove(module_path)
     project = Skippy::Project.current_or_fail
     lib_module = project.modules.remove(module_path)
+    project.save
     say "Removed module: #{lib_module}"
   end
 

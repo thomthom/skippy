@@ -41,7 +41,6 @@ class Skippy::ModuleManager
   # @param [Skippy::LibModule, String] lib_module
   def installed?(lib_module)
     module_name = lib_module.name
-    # project = Skippy::Project.current
     modules = project && project.config.get(:modules, [])
     modules.any? { |mod| mod == module_name }
   end
@@ -57,8 +56,6 @@ class Skippy::ModuleManager
 
     copy_module(lib_module, source, target)
     @modules << lib_module
-
-    project.save
 
     lib_module
   end
@@ -86,8 +83,6 @@ class Skippy::ModuleManager
     support.rmtree if support.directory?
 
     @modules.delete_if { |mod| mod.name.casecmp(lib_module.name).zero? }
-
-    project.save
 
     lib_module
   end

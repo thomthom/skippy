@@ -29,13 +29,15 @@ class Skippy::LibraryManager
   def initialize(project)
     raise TypeError, 'expected a Project' unless project.is_a?(Skippy::Project)
     @project = project
+    # TODO: Refactor to private method. scan_libraries
+    @libraries = project.config.get(:libraries, []).map { |lib_config|
+      Skippy::Library.from_config(project, lib_config)
+    }
   end
 
   # @yield [Skippy::Library]
   def each
-    directories(path).each { |lib_path|
-      yield Skippy::Library.new(lib_path)
-    }
+    @libraries.each { |library| yield library }
     self
   end
 
@@ -86,9 +88,10 @@ class Skippy::LibraryManager
       }
     end
     library = installer.install
+    @libraries << library
     project.modules.update(library)
 
-    update_library_config(library, lib_source)
+    update_library_config(library)
     project.save
 
     library
@@ -100,13 +103,19 @@ class Skippy::LibraryManager
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
     library = lib.is_a?(Skippy::Library) ? lib : find_library(lib)
     raise Skippy::LibraryNotFound, 'Library not found' if library.nil?
-    library.path.rmtree
-    raise 'Unable to remove library' if library.path.exist?
+    # Uninstall modules first - using the module manager.
     vendor_module_path = project.modules.path.join(library.name)
+    library.modules.each { |mod|
+      project.modules.remove(mod.name)
+    }
     vendor_module_path.rmtree
     raise 'Unable to remove vendor modules' if vendor_module_path.exist?
+    # How the library itself is safe to remove.
+    library.path.rmtree
+    raise 'Unable to remove library' if library.path.exist?
+    @libraries.delete(library)
     remove_library_config(library.name)
-    project.save
+    project.save # TODO: Move to CLI app layer.
     library
   end
 
@@ -131,16 +140,17 @@ class Skippy::LibraryManager
   end
 
   # @param [Skippy::Library] library
-  # @param [Skippy::LibrarySource] lib_source
-  def update_library_config(library, lib_source)
+  def update_library_config(library)
     # TODO: Project.save should handle this.
     data = {
       name: library.name, # TODO: Could be issue as UUID if name changes...
-      # TODO: Need to split out actual version vs version requirement.
-      #       Maybe lib_source needs to be part of Library.
-      version: lib_source.version || library.version,
-      source: lib_source.origin,
+      version: library.version,
+      # requirement: library.source.requirement,
+      source: library.source.origin,
     }
+    unless library.source.requirement.nil?
+      data[:requirement] = library.source.requirement
+    end
     existing = find_library_config(library.name)
     if existing
       existing.clear

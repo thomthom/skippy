@@ -145,27 +145,11 @@ Feature: Libraries
     And the output should contain "Installed library: my-lib (5.0.1)"
 
   Scenario: List installed libraries
-    Given I use a fixture named "my_project"
-    And a file named ".skippy/libs/my-lib/skippy.json" with:
-      """
-      {
-        "library": true,
-        "name": "my-lib",
-        "version": "1.2.3"
-      }
-      """
-    And an empty file named ".skippy/libs/my-lib/modules/command.rb"
-    And an empty file named ".skippy/libs/my-lib/modules/geom.rb"
-    And an empty file named ".skippy/libs/my-lib/modules/gl.rb"
-    And an empty file named ".skippy/libs/my-lib/modules/gl/cache.rb"
-    And an empty file named ".skippy/libs/my-lib/modules/gl/container.rb"
-    And an empty file named ".skippy/libs/my-lib/modules/gl/control.rb"
-    And an empty file named ".skippy/libs/my-lib/modules/tool.rb"
+    Given I use a fixture named "project_with_lib"
     When I run `skippy lib:list`
     Then the output should contain "my-lib/command"
-    And the output should contain "my-lib/geom"
     And the output should contain "my-lib/gl"
-    And the output should contain "my-lib/tool"
+    And the output should contain "my-other-lib/something"
 
   Scenario: List no installed libraries
     Given I use a fixture named "my_project"
@@ -173,35 +157,10 @@ Feature: Libraries
     Then the output should contain "No libraries installed"
 
   Scenario: Use a library component
-    Given I use a fixture named "my_project"
-    And a file named ".skippy/libs/my-lib/skippy.json" with:
-      """
-      {
-        "library": true,
-        "name": "my-lib",
-        "version": "1.2.3"
-      }
-      """
-    And a file named ".skippy/libs/my-lib/modules/gl.rb" with:
-      """
-      module SkippyLib
-        module GL
-        end
-      end # module
-      """
-    And a file named ".skippy/libs/my-lib/modules/gl/container.rb" with:
-      """
-      Sketchup.require "modules/gl/control"
-
-      module SkippyLib
-        module GL
-          class Container < Control
-          end
-        end
-      end # module
-      """
+    Given I use a fixture named "project_with_lib"
     When I run `skippy lib:use my-lib/gl`
-    Then a file named "src/hello_world/vendor/my-lib/gl.rb" should exist
+    Then the output should contain "Using module: my-lib/gl"
+    And a file named "src/hello_world/vendor/my-lib/gl.rb" should exist
     And a file named "src/hello_world/vendor/my-lib/gl.rb" should contain:
       """
       module Example::HelloWorld
@@ -209,10 +168,11 @@ Feature: Libraries
         end
       end # module
       """
+    And a file named "src/hello_world/vendor/my-lib/gl/control.rb" should exist
     And a file named "src/hello_world/vendor/my-lib/gl/container.rb" should exist
     And a file named "src/hello_world/vendor/my-lib/gl/container.rb" should contain:
       """
-      Sketchup.require "hello_world/vendor/my-lib/gl/control"
+      Sketchup.require 'hello_world/vendor/my-lib/gl/control'
 
       module Example::HelloWorld
         module GL
@@ -225,7 +185,9 @@ Feature: Libraries
       """
       {
         "modules": [
-          "my-lib/gl"
+          "my-lib/command",
+          "my-lib/gl",
+          "my-other-lib/something"
         ]
       }
       """

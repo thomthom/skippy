@@ -38,15 +38,15 @@ class Skippy::LibrarySource
   end
 
   # @return [String, nil]
-  def version
-    return nil if @options[:version].nil?
+  def requirement
+    return nil if @options[:requirement].nil?
     # Normalize the version requirement pattern.
-    parts = Gem::Requirement.parse(@options[:version])
+    parts = Gem::Requirement.parse(@options[:requirement])
     # .parse will from '1.2.3' return ['=', '1.2.3']. Don't need that.
     parts.delete('=')
     parts.join(' ')
   rescue Gem::Requirement::BadRequirementError
-    @options[:version]
+    @options[:requirement]
   end
 
   # @return [String]
@@ -92,10 +92,10 @@ class Skippy::LibrarySource
   def resolve(source)
     if git_source?(source)
       resolve_from_git_uri(source)
-    elsif local_source?(source)
-      source
-    else
+    elsif lib_name?(source)
       resolve_from_lib_name(source, @project.sources)
+    else
+      source
     end
   end
 
@@ -107,6 +107,11 @@ class Skippy::LibrarySource
   # @param [String] source
   def local_source?(source)
     File.exist?(source)
+  end
+
+  # @param [String] source
+  def lib_name?(source)
+    !local_source?(source) && source =~ %r{^[^/]+/[^/]+$}
   end
 
   # @param [String] source

@@ -2,6 +2,7 @@
 require 'fileutils'
 require 'json'
 require 'pathname'
+require 'set'
 
 require 'skippy/helpers/file'
 require 'skippy/lib_module'
@@ -18,17 +19,12 @@ class Skippy::ModuleManager
   def initialize(project)
     raise TypeError, 'expected a Project' unless project.is_a?(Skippy::Project)
     @project = project
+    @modules = Set.new(scan_modules)
   end
 
   # @yield [Skippy::LibModule]
   def each
-    directories(path).each { |library_path|
-      library_path.each_child { |module_file|
-        next unless module_file.file?
-        next unless module_file.extname == '.rb' # TODO: .casecmp
-        yield Skippy::LibModule.new(module_file)
-      }
-    }
+    @modules.each { |lib_module| yield lib_module }
     self
   end
 
@@ -45,7 +41,7 @@ class Skippy::ModuleManager
   # @param [Skippy::LibModule, String] lib_module
   def installed?(lib_module)
     module_name = lib_module.name
-    project = Skippy::Project.current
+    # project = Skippy::Project.current
     modules = project && project.config.get(:modules, [])
     modules.any? { |mod| mod == module_name }
   end
@@ -60,6 +56,7 @@ class Skippy::ModuleManager
     target = path.join(lib_module.library.name, lib_module.path.basename)
 
     copy_module(lib_module, source, target)
+    @modules << lib_module
 
     project.save
 
@@ -88,6 +85,8 @@ class Skippy::ModuleManager
     target.delete if target.exist?
     support.rmtree if support.directory?
 
+    @modules.delete_if { |mod| mod.name.casecmp(lib_module.name).zero? }
+
     project.save
 
     lib_module
@@ -105,6 +104,22 @@ class Skippy::ModuleManager
   end
 
   private
+
+  # TODO: rename to discover_modules
+  # @return [Array<Skippy::LibModule>]
+  def scan_modules
+    modules = []
+    project.libraries.each { |library|
+      library_vendor_path = path.join(library.name)
+      next unless library_vendor_path.directory?
+      library_vendor_path.each_child { |module_file|
+        next unless module_file.file?
+        next unless module_file.extname == '.rb' # TODO: .casecmp
+        modules << Skippy::LibModule.new(library, module_file)
+      }
+    }
+    modules
+  end
 
   # @param [Skippy::LibModule] lib_module
   # @param [Pathname, String] source

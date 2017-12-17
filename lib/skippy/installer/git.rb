@@ -32,7 +32,7 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
       git.checkout(previous_commit) if previous_commit
       raise
     end
-    library = Skippy::Library.new(target)
+    library = Skippy::Library.new(target, source)
     library
   end
 

@@ -13,9 +13,10 @@ class SkippyModuleManagerTest < Skippy::Test::Fixture
     project.libraries.install(library_source)
     assert_empty(project.modules)
 
-    result = project.modules.use('my-lib/gl')
+    lib_module = project.modules.use('my-lib/gl')
 
-    assert_kind_of(Skippy::LibModule, result)
+    assert_kind_of(Skippy::LibModule, lib_module)
+    assert_equal('my-lib/gl', lib_module.name)
 
     assert_equal(1, project.modules.size)
     assert_directory(project.path('src/hello_world/vendor/my-lib'))
@@ -30,9 +31,10 @@ class SkippyModuleManagerTest < Skippy::Test::Fixture
     project.modules.use('my-lib/gl')
     assert_equal(3, project.modules.size)
 
-    result = project.modules.remove('my-lib/gl')
+    lib_module = project.modules.remove('my-lib/gl')
 
-    assert_kind_of(Skippy::LibModule, result)
+    assert_kind_of(Skippy::LibModule, lib_module)
+    assert_equal('my-lib/gl', lib_module.name)
 
     assert_equal(2, project.modules.size)
     assert_directory(project.path('src/hello_world/vendor/my-lib'))

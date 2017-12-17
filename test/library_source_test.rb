@@ -58,7 +58,7 @@ class SkippyLibrarySourceTest < Skippy::Test
     expected = 'https://bitbucket.org/thomthom/tt-library-2.git'
     assert_equal(expected, source.origin)
     assert_equal('tt-library-2_thomthom_bitbucket-org', source.lib_path)
-    assert_nil(source.version)
+    assert_nil(source.requirement)
     assert_nil(source.branch)
   end
 
@@ -86,24 +86,24 @@ class SkippyLibrarySourceTest < Skippy::Test
     assert_equal('tt-lib_thomthom_github-com', source.lib_path)
   end
 
-  def test_it_normalize_library_version
+  def test_it_normalize_library_requirement
     source_name = 'thomthom/tt-lib'
     options = {
-      version: ' ~>  1.2.3',
+      requirement: ' ~>  1.2.3',
     }
     source = Skippy::LibrarySource.new(project, source_name, options)
-    assert_kind_of(String, source.version)
-    assert_equal(source.version, '~> 1.2.3')
+    assert_kind_of(String, source.requirement)
+    assert_equal(source.requirement, '~> 1.2.3')
   end
 
-  def test_it_does_not_prefix_exact_version
+  def test_it_does_not_prefix_exact_requirement
     source_name = 'thomthom/tt-lib'
     options = {
-      version: '1.2.3',
+      requirement: '1.2.3',
     }
     source = Skippy::LibrarySource.new(project, source_name, options)
-    assert_kind_of(String, source.version)
-    assert_equal(source.version, '1.2.3')
+    assert_kind_of(String, source.requirement)
+    assert_equal(source.requirement, '1.2.3')
   end
 
   def test_it_keeps_track_of_source_branch

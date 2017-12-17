@@ -13,7 +13,7 @@ class Skippy::LocalLibraryInstaller < Skippy::LibraryInstaller
     FileUtils.mkdir_p(path)
     # Must remove the destination in order to ensure update installations works.
     FileUtils.copy_entry(source.origin, target, false, false, true)
-    Skippy::Library.new(target)
+    Skippy::Library.new(target, source: source)
   end
 
 end

@@ -12,6 +12,7 @@ group :development do
   # TODO: This might be a newer fix:
   # gem 'aruba', git: 'https://github.com/rbld/aruba.git',
   #              branch: 'aruba-win-fix'
+  gem 'pry'
   gem 'rubocop', '~> 0.51.0', require: false
   gem 'webmock', '~> 3.1'
 end

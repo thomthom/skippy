@@ -1,4 +1,4 @@
-require 'modules/gl/control'
+Sketchup.require 'modules/gl/control'
 
 module SkippyLib
   module GL

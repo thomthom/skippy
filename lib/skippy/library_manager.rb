@@ -108,7 +108,7 @@ class Skippy::LibraryManager
     }
     vendor_module_path.rmtree
     raise 'Unable to remove vendor modules' if vendor_module_path.exist?
-    # How the library itself is safe to remove.
+    # Now the library itself is safe to remove.
     library.path.rmtree
     raise 'Unable to remove library' if library.path.exist?
     @libraries.delete(library)

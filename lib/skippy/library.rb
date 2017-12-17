@@ -47,6 +47,26 @@ class Skippy::Library
     @source = source
   end
 
+  def <=>(other)
+    # TODO: This isn't taking into account version. Maybe take that into account
+    #       and implement Comparable.
+    other.is_a?(self.class) ? name <=> other.name : nil
+  end
+
+  def eql?(other)
+    # http://javieracero.com/blog/the-key-to-ruby-hashes-is-eql-hash
+    # TODO: Compare using #hash.
+    other.is_a?(self.class) && name.casecmp(other.name).zero?
+  end
+
+  def hash
+    # TODO: This doesn't take into account version. Right now LibraryManager
+    #        relies on this to avoid listing the same lib multiple times.
+    #        But maybe this hash should reflect version differences and the
+    #        library manager enforce library uniqueness differently.
+    name.hash
+  end
+
   # @return [Array<Skippy::LibModule>]
   def modules
     # .rb files in the library's modules_path are considered modules.
@@ -58,6 +78,17 @@ class Skippy::Library
       Skippy::LibModule.new(self, path)
     }
     libs
+  end
+
+  # @return [Hash]
+  def to_h
+    hash = {
+      name: name, # TODO: Could be issue as UUID if name changes...
+      version: version,
+      source: source.origin,
+    }
+    hash[:requirement] = source.requirement unless source.requirement.nil?
+    hash
   end
 
   # @return [String]

@@ -2,6 +2,7 @@ require 'git'
 require 'json'
 require 'naturally'
 require 'pathname'
+require 'set'
 
 require 'skippy/helpers/file'
 require 'skippy/installer/git'
@@ -29,10 +30,7 @@ class Skippy::LibraryManager
   def initialize(project)
     raise TypeError, 'expected a Project' unless project.is_a?(Skippy::Project)
     @project = project
-    # TODO: Refactor to private method. scan_libraries
-    @libraries = project.config.get(:libraries, []).map { |lib_config|
-      Skippy::Library.from_config(project, lib_config)
-    }
+    @libraries = SortedSet.new(discover_libraries)
   end
 
   # @yield [Skippy::Library]
@@ -88,13 +86,20 @@ class Skippy::LibraryManager
       }
     end
     library = installer.install
+    @libraries.delete(library)
     @libraries << library
     project.modules.update(library)
 
-    update_library_config(library)
     project.save
 
     library
+  end
+
+  # @return [Array<Skippy::Library>]
+  def discover_libraries
+    project.config.get(:libraries, []).map { |lib_config|
+      Skippy::Library.from_config(project, lib_config)
+    }
   end
 
   # @param [Skippy::Library, String] source
@@ -114,7 +119,6 @@ class Skippy::LibraryManager
     library.path.rmtree
     raise 'Unable to remove library' if library.path.exist?
     @libraries.delete(library)
-    remove_library_config(library.name)
     project.save # TODO: Move to CLI app layer.
     library
   end
@@ -131,52 +135,6 @@ class Skippy::LibraryManager
   end
 
   private
-
-  # @param [String] library_name
-  # @return [Hash, nil]
-  def find_library_config(library_name)
-    libraries = project.config.get(:libraries, [])
-    libraries.find { |lib| lib[:name].casecmp(library_name).zero? }
-  end
-
-  # @param [Skippy::Library] library
-  def update_library_config(library)
-    # TODO: Project.save should handle this.
-    data = {
-      name: library.name, # TODO: Could be issue as UUID if name changes...
-      version: library.version,
-      # requirement: library.source.requirement,
-      source: library.source.origin,
-    }
-    unless library.source.requirement.nil?
-      data[:requirement] = library.source.requirement
-    end
-    existing = find_library_config(library.name)
-    if existing
-      existing.clear
-      existing.merge!(data)
-    else
-      project.config.push(:libraries, data)
-    end
-    nil
-  end
-
-  # @param [String] library_name
-  def remove_library_config(library_name)
-    libraries = project.config.get(:libraries, [])
-    libraries.delete_if { |lib|
-      lib[:name].casecmp(library_name).zero?
-    }
-    # TODO: Should this be part of ModuleManager?
-    #       At least there should be something else handling the config.
-    #       Maybe make the LibraryManager and ModuleManager serialize to JSON.
-    #       Then write the config JSON file such that it's generated from the
-    #       source data objects.
-    modules = project.config.get(:modules, [])
-    modules.delete_if { |module_name|
-      module_name.split('/').first.casecmp(library_name).zero?
-    }
-  end
 
   # @param [Skippy::LibrarySource] lib_source
   # @return [Skippy::Installer]

@@ -80,7 +80,7 @@ class Skippy::Project
 
   # Commits the project to disk.
   def save
-    # TODO: Make Library serializable, update library config here.
+    @config.set(:libraries, libraries.map(&:to_h))
     @config.set(:modules, modules.map(&:name))
     @config.save_as(filename)
   end

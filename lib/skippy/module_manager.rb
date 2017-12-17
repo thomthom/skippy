@@ -19,7 +19,7 @@ class Skippy::ModuleManager
   def initialize(project)
     raise TypeError, 'expected a Project' unless project.is_a?(Skippy::Project)
     @project = project
-    @modules = Set.new(scan_modules)
+    @modules = SortedSet.new(discover_modules)
   end
 
   # @yield [Skippy::LibModule]
@@ -105,9 +105,8 @@ class Skippy::ModuleManager
 
   private
 
-  # TODO: rename to discover_modules
   # @return [Array<Skippy::LibModule>]
-  def scan_modules
+  def discover_modules
     modules = []
     project.libraries.each { |library|
       library_vendor_path = path.join(library.name)

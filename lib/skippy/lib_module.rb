@@ -16,6 +16,15 @@ class Skippy::LibModule
     @library = library
   end
 
+  def <=>(other)
+    other.is_a?(self.class) ? name <=> other.name : nil
+  end
+
+  def eql?(other)
+    # http://javieracero.com/blog/the-key-to-ruby-hashes-is-eql-hash
+    other.is_a?(self.class) && name.casecmp(other.name).zero?
+  end
+
   # @param [String]
   def basename
     path.basename('.*').to_s
@@ -23,11 +32,6 @@ class Skippy::LibModule
 
   def hash
     name.hash
-  end
-
-  # http://javieracero.com/blog/the-key-to-ruby-hashes-is-eql-hash
-  def eql?(other)
-    other.is_a?(self.class) && name.casecmp(other.name).zero?
   end
 
   # @param [String]

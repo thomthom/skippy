@@ -34,14 +34,14 @@ class Skippy::ModuleManager
   # @param [String] module_name
   # @return [Skippy::LibModule, nil]
   def find_module(module_name)
-    find { |lib_module| lib_module.name == module_name }
+    find { |lib_module| lib_module.name.casecmp(module_name).zero? }
   end
 
   # @param [Skippy::LibModule, String] lib_module
   def installed?(lib_module)
     module_name = lib_module.name
     modules = project && project.config.get(:modules, [])
-    modules.any? { |mod| mod == module_name }
+    modules.any? { |mod| mod.casecmp(module_name).zero? }
   end
 
   # @param [String] module_name
@@ -63,7 +63,7 @@ class Skippy::ModuleManager
   # @return [Array<Skippy::LibModule>]
   def update(library)
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
-    installed = select { |mod| mod.library.name == library.name }
+    installed = select { |mod| mod.library.name.casecmp(library.name).zero? }
     installed.each { |mod| use(mod.name) }
     installed
   end
@@ -105,7 +105,7 @@ class Skippy::ModuleManager
       next unless library_vendor_path.directory?
       library_vendor_path.each_child { |module_file|
         next unless module_file.file?
-        next unless module_file.extname == '.rb' # TODO: .casecmp
+        next unless module_file.extname.casecmp('.rb').zero?
         modules << Skippy::LibModule.new(library, module_file)
       }
     }

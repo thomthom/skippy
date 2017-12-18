@@ -70,7 +70,7 @@ TODO: ...
 
 In addition to scaffold the extension source code Skippy also creates a directory named `skippy` in the project root. Here it is possible to add custom Skippy commands to aid your project development. For instance running build scripts and other task automations.
 
-Look at the default [skippy/example.rb](app/resources/commands/example.rb).
+Look at the default [`skippy/example.rb`](app/resources/commands/example.rb).
 
 #### Power of Thor
 
@@ -149,7 +149,7 @@ This will remove all the library's modules in the `vendor` directory as well as 
 
 TODO: ...
 
-For now, refer to: [`github.com/thomthom/tt-lib`](https://github.com/thomthom/tt-lib)
+For now, refer to: [github.com/thomthom/tt-lib](https://github.com/thomthom/tt-lib)
 
 ## Development
 

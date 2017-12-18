@@ -17,6 +17,7 @@
     "editor.wordWrapColumn": 80
   },
 
+  "todohighlight.keywordsPattern": "(TODO|FIXME|KLUDGE)(\\([^)]+\\))?:",
   "todohighlight.include": [
     "**/*.rb",
     "**/*.md",

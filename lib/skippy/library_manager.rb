@@ -132,12 +132,25 @@ class Skippy::LibraryManager
   def discover_libraries
     project.config.get(:libraries, []).map { |lib_config|
       begin
-        Skippy::Library.from_config(project, lib_config)
+        library_from_config(lib_config)
       rescue Skippy::Library::LibraryNotFoundError => error
         # TODO: Revisit how to handle this.
         warn "Unable to load library: #{error.message}"
+        nil
       end
     }.compact
+  end
+
+  # @param [Hash] config
+  def library_from_config(config)
+    options = {}
+    options[:requirement] = config[:requirement] if config[:requirement]
+    source = Skippy::LibrarySource.new(project, config[:source], options)
+    directories(path).each { |directory|
+      library = Skippy::Library.new(directory, source: source)
+      return library if library.name.casecmp(config[:name]).zero?
+    }
+    nil
   end
 
   # @param [Skippy::LibrarySource] lib_source

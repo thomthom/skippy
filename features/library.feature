@@ -59,6 +59,46 @@ Feature: Libraries
       """
     And the output should contain "Installed library: my-lib (1.2.3)"
 
+  Scenario: Install a new library from git source
+    Given I use a fixture named "my_project"
+    When I run `skippy lib:install ../../../fixtures/git-lib`
+    Then the output should contain "Installed library: test-lib (1.3.0)"
+    # And a file named ".skippy/libs/git-lib_local_*/skippy.json" should exist
+    # And a directory named ".skippy/libs/git-lib_local_*/modules" should exist
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "libraries": [
+          {
+            "name": "test-lib",
+            "version": "1.3.0",
+            "source": "../../../fixtures/git-lib"
+          }
+        ]
+      }
+      """
+
+  Scenario: Install a new library from git source with spesific version
+    Given I use a fixture named "my_project"
+    When I run `skippy lib:install ../../../fixtures/git-lib --version=1.2.3`
+    Then the output should contain "Installed library: test-lib (1.2.3)"
+    And a directory named ".skippy/libs" should exist
+    # And a file named ".skippy/libs/git-lib_local_*/skippy.json" should exist
+    # And a directory named ".skippy/libs/git-lib_local_*/modules" should exist
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "libraries": [
+          {
+            "name": "test-lib",
+            "version": "1.2.3",
+            "source": "../../../fixtures/git-lib",
+            "requirement": "1.2.3"
+          }
+        ]
+      }
+      """
+
   Scenario: Uninstall library
     Given I use a fixture named "project_with_lib"
     When I run `skippy lib:uninstall my-lib`

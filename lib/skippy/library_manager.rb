@@ -161,7 +161,7 @@ class Skippy::LibraryManager
     elsif lib_source.local?
       Skippy::LocalLibraryInstaller.new(project, lib_source)
     else
-      raise Skippy::UnknownSourceType, "Unable to handle source: #{source}"
+      raise Skippy::UnknownSourceType, "Unable to handle source: #{lib_source}"
     end
   end
 

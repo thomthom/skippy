@@ -8,7 +8,7 @@ require 'skippy/library'
 
 class Skippy::LibrarySource
 
-  attr_reader :origin
+  attr_reader :origin, :options
 
   class LibraryNotFoundError < Skippy::Error; end
 
@@ -101,7 +101,7 @@ class Skippy::LibrarySource
 
   # @param [String] source
   def git_source?(source)
-    source.end_with?('.git')
+    source.end_with?('.git') || Pathname.new(source).join('.git').exist?
   end
 
   # @param [String] source

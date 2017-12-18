@@ -39,7 +39,14 @@ class Lib < Skippy::Command
   def install(source)
     project = Skippy::Project.current_or_fail
     libraries = project.libraries
+
     install_options = options.map { |k, v| [k.to_sym, v] }.to_h
+    # TODO: Clean up kludge
+    if install_options.key?(:version)
+      install_options[:requirement] = install_options[:version]
+      install_options.delete(:version)
+    end
+
     library = libraries.install(source, install_options) { |type, message|
       color = type == :warning ? :red : :yellow
       say message, color

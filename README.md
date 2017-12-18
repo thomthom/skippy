@@ -22,7 +22,7 @@ Some of the main goals are:
 
 ## Requirements
 
-Your system will need a version of Ruby installed.
+Your system will need a version of Ruby 2.0 or newer installed.
 
 macOS have a system version of Ruby already installed. If you need/want a different version you can for instance use [RVM](https://rvm.io/).
 
@@ -30,13 +30,13 @@ For Windows the easiest way to get Ruby running is using the [Ruby Installer for
 
 ## Installation
 
-    $ gem install skippy
+```bash
+gem install skippy
+```
 
 ## Usage
 
-TODO: Write more detailed usage instructions here.
-
-Install the gem on your system, afterwards the `skippy` command should become available.
+After installing the gem on your system, the `skippy` command should become available.
 
 ### Quick-Reference
 
@@ -44,15 +44,23 @@ Type `skippy` to list available commands.
 
 Type `skippy help [COMMAND]` for more information on how to use each command.
 
-Use `skippy new` to create a new project in the current folder.
+Use `skippy new NAMESPACE` to create a new project in the current folder.
 
 You can add custom per-project commands to a `skippy` folder in your project. Look at `skippy/example.rb` for an example of a simple custom command.
 
-### Setup
+### Project Setup
 
-TODO: ...
+Create a new Skippy powered project by using the `skippy new` command in the project's root directory. Provide Skippy with the extension namespace:
 
-![](https://github.com/thomthom/skippy/wiki/images/skippy-new-project.gif)
+```bash
+skippy new Example::HelloWorld
+```
+
+Skippy will then scaffold the bare minimum for a SketchUp extension.
+
+Currently Skippy assumes that the source for the extension is located under a directory named `src`.
+
+![](https://github.com/thomthom/skippy/wiki/images/skippy-project.gif)
 
 #### Project Templates
 
@@ -60,7 +68,9 @@ TODO: ...
 
 ### Custom Project Commands
 
-TODO: ...
+In addition to scaffold the extension source code Skippy also creates a directory named `skippy` in the project root. Here it is possible to add custom Skippy commands to aid your project development. For instance running build scripts and other task automations.
+
+Look at the default `[skippy/example.rb](app/resources/commands/example.rb)`
 
 #### Power of Thor
 
@@ -73,27 +83,79 @@ When creating Skippy command use the following replacements:
 
 ### Installing Libraries
 
-TODO: ...
+Skippy offer a simple library dependency system. It can install a third party library into project workspace where by its various modules can be integrated into your extension project.
+
+The installed library is cached into `.skippy` directory. Don't check this into version control.
+
+**TODO:** Need a `skippy install` command to install the libraries listed in `skippy.json`.
+
+#### Installing from Git Repositories
+
+```bash
+skippy lib:install thomthom/tt-lib
+```
+
+In the above example Skippy will look for the library `tt-lib` under the username `thomthom` from either [bitbucket.org](https://bitbucket.org/) or [github.com](https://github.com/)
+
+#### Installing from Local Directory
+
+```bash
+skippy lib:install ~/source/my-lib
+```
+
+It is also possible to install from a local directory. Pass in the path to the directory that contains the `skippy.json` of the library.
 
 ![](https://github.com/thomthom/skippy/wiki/images/skippy-install-library.gif)
 
 ### Using Modules
 
+Once a library is installed its modules can be used within the extension project. List the names of the available modules using `skippy lib:list`.
+
+Once you know the name you can instruct Skippy to use it:
+
+```bash
+skippy lib:use tt-lib/gl
+```
+
+This will copy the module from the `.skippy` directory and into `src/<ExtensionName>/vendor/<LibraryName>`. At the same time the outer namespace in the source code is changed to match your project's namespace.
+
 ![](https://github.com/thomthom/skippy/wiki/images/skippy-use-module.gif)
 
 ### Removing Modules
+
+A library module can be removed by using `skippy lib:remove`:
+
+```bash
+skippy lib:remove tt-lib/gl
+```
+
+This removes the files for that module from the `vendor` directory.
 
 ![](https://github.com/thomthom/skippy/wiki/images/skippy-remove-module.gif)
 
 ### Uninstalling Libraries
 
+Libraries can be completely removed from a project using `skippy lib::uninstall`:
+
+```bash
+skippy lib:uninstall tt-lib
+```
+
+This will remove all the library's modules in the `vendor` directory as well as removing the cached library in `.skippy`.
+
 ![](https://github.com/thomthom/skippy/wiki/images/skippy-uninstall-library.gif)
+
+### Anatomy of a Skippy Library
+
+TODO: ...
+
+For now, refer to: [github.com/thomthom/tt-lib](https://github.com/thomthom/tt-lib)
 
 ## Development
 
 TODO: ...
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repository, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 If there are problems installing dependencies try installing them locally and see if that works: `bundle install --path vendor/bundle`
 
@@ -115,7 +177,7 @@ https://github.com/oneclick/rubyinstaller/issues/324#issuecomment-221383285
 >
 > https://curl.haxx.se/docs/caextract.html
 >
-> Set enviroment variable to the full path location of the downloaded file. Eg:
+> Set environment variable to the full path location of the downloaded file. Eg:
 >
 >     set SSL_CERT_FILE=C:\somewhere\cacert.pem
 >

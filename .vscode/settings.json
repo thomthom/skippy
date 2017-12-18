@@ -4,6 +4,5 @@
   "files.insertFinalNewline": true,
   "ruby.lint": {
     "rubocop": true
-  },
-  "cSpell.enabled": false
+  }
 }

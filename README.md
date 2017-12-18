@@ -4,7 +4,7 @@
 
 Skippy is a Command Line Interface which aims to automate common developer tasks for SketchUp Ruby extension development.
 
-TODO: Insert overview gif here....
+![](https://github.com/thomthom/skippy/wiki/images/skippy-cli.gif)
 
 It is currently in very early stage of development so many things are incomplete. Feedback and contributions are welcome.
 
@@ -52,6 +52,8 @@ You can add custom per-project commands to a `skippy` folder in your project. Lo
 
 TODO: ...
 
+![](https://github.com/thomthom/skippy/wiki/images/skippy-new-project.gif)
+
 #### Project Templates
 
 TODO: ...
@@ -72,6 +74,20 @@ When creating Skippy command use the following replacements:
 ### Installing Libraries
 
 TODO: ...
+
+![](https://github.com/thomthom/skippy/wiki/images/skippy-install-library.gif)
+
+### Using Modules
+
+![](https://github.com/thomthom/skippy/wiki/images/skippy-use-module.gif)
+
+### Removing Modules
+
+![](https://github.com/thomthom/skippy/wiki/images/skippy-remove-module.gif)
+
+### Uninstalling Libraries
+
+![](https://github.com/thomthom/skippy/wiki/images/skippy-uninstall-library.gif)
 
 ## Development
 

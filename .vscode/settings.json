@@ -1,8 +1,43 @@
 // Place your settings in this file to overwrite default and user settings.
 {
   "editor.wordWrap": "off",
+  "editor.rulers": [
+    80
+  ],
+
+
   "files.insertFinalNewline": true,
+
   "ruby.lint": {
     "rubocop": true
-  }
+  },
+
+  "[markdown]": {
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 80
+  },
+
+  "todohighlight.include": [
+    "**/*.rb",
+    "**/*.md",
+    "**/*.html",
+    "**/*.js",
+    "**/*.css"
+  ],
+  "todohighlight.exclude": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.vscode/**",
+    "**/.github/**",
+    "**/_output/**",
+    "**/*.min.*",
+    "**/*.map",
+    "**/.next/**",
+    "fixtures/**",
+    "pkg/**",
+    "tmp/**",
+    "vendor/**",
+  ]
 }

@@ -52,11 +52,14 @@ class Skippy::Project
     @modules = Skippy::ModuleManager.new(self)
   end
 
+  # The basename for the extension's root and support folder.
+  #
+  # @return [String]
   def basename
-    # TODO: Update ConfigAccessors to support defaults.
     @config.get(:basename, namespace.short_name)
   end
 
+  # @param [String] basename
   def basename=(basename)
     @config.set(:basename, basename)
   end

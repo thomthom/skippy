@@ -106,10 +106,10 @@ class Skippy::LibraryManager
     library.modules.each { |mod|
       project.modules.remove(mod.name)
     }
-    vendor_module_path.rmtree
+    vendor_module_path.rmtree if vendor_module_path.exist?
     raise 'Unable to remove vendor modules' if vendor_module_path.exist?
     # Now the library itself is safe to remove.
-    library.path.rmtree
+    library.path.rmtree if library.path.exist?
     raise 'Unable to remove library' if library.path.exist?
     @libraries.delete(library)
     library

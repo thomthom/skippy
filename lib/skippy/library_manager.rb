@@ -46,7 +46,7 @@ class Skippy::LibraryManager
   # @param [String] library_name
   # @return [Skippy::LibModule, nil]
   def find_library(library_name)
-    find { |lib| lib.name == library_name }
+    find { |lib| lib.name.casecmp(library_name).zero? }
   end
 
   # @param [String] module_name
@@ -58,7 +58,7 @@ class Skippy::LibraryManager
     end
     library = find_library(library_name)
     return nil if library.nil?
-    library.modules.find { |mod| mod.basename == module_name }
+    library.modules.find { |mod| mod.basename.casecmp(module_name).zero? }
   end
 
   # @raise [Skippy::LibModule::ModuleNotFoundError]

@@ -109,7 +109,7 @@ class Skippy::LibraryManager
     vendor_module_path.rmtree if vendor_module_path.exist?
     raise 'Unable to remove vendor modules' if vendor_module_path.exist?
     # Now the library itself is safe to remove.
-    library.path.rmtree if library.path.exist?
+    library.path.rmtree if library.path.exist? # TODO: Fix for git repos
     raise 'Unable to remove library' if library.path.exist?
     @libraries.delete(library)
     library
@@ -131,8 +131,13 @@ class Skippy::LibraryManager
   # @return [Array<Skippy::Library>]
   def discover_libraries
     project.config.get(:libraries, []).map { |lib_config|
-      Skippy::Library.from_config(project, lib_config)
-    }
+      begin
+        Skippy::Library.from_config(project, lib_config)
+      rescue Skippy::Library::LibraryNotFoundError => error
+        # TODO: Revisit how to handle this.
+        warn "Unable to load library: #{error.message}"
+      end
+    }.compact
   end
 
   # @param [Skippy::LibrarySource] lib_source

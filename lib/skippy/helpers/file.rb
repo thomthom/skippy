@@ -1,6 +1,8 @@
 module Skippy::Helpers
   module File
 
+    extend self
+
     # @param [Pathname]
     # @return [Array<Pathname>]
     def directories(pathname)

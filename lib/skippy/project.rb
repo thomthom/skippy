@@ -52,6 +52,15 @@ class Skippy::Project
     @modules = Skippy::ModuleManager.new(self)
   end
 
+  def basename
+    # TODO: Update ConfigAccessors to support defaults.
+    @config.get(:basename, namespace.short_name)
+  end
+
+  def basename=(basename)
+    @config.set(:basename, basename)
+  end
+
   # @yield [filename]
   # @yieldparam [String] filename the path to custom Skippy command
   def command_files
@@ -103,6 +112,7 @@ class Skippy::Project
       name: 'Untitled',
       description: '',
       namespace: Skippy::Namespace.new('Untitled'),
+      basename: Skippy::Namespace.new('Untitled').short_name,
       author: 'Unknown',
       copyright: "Copyright (c) #{Time.now.year}",
       license: 'None',

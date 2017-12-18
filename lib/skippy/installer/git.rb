@@ -27,12 +27,12 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
     end
     begin
       checkout_branch(git, source.branch) if source.branch
-      checkout_tag(git, source.version) unless edge_version?(source.version)
+      checkout_tag(git, source.requirement) unless edge_version?(source.requirement)
     rescue Skippy::Error
       git.checkout(previous_commit) if previous_commit
       raise
     end
-    library = Skippy::Library.new(target, source)
+    library = Skippy::Library.new(target, source: source)
     library
   end
 

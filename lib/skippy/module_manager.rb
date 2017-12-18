@@ -95,7 +95,8 @@ class Skippy::ModuleManager
 
   # @return [Pathname]
   def path
-    project.path.join('src', project.namespace.to_underscore, 'vendor')
+    # TODO: Rename to vendor_path.
+    project.path.join('src', project.basename, 'vendor')
   end
 
   private

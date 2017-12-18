@@ -5,7 +5,8 @@ Feature: Project
 
   Scenario: Create new project with default template
     When I run `skippy new Example::HelloWorld`
-    Then a file named "skippy.json" should exist
+    Then the output should contain "Project for Example::HelloWorld created."
+    And a file named "skippy.json" should exist
     And a file named "src/Ex_HelloWorld.rb" should exist
     And a file named "src/Ex_HelloWorld/main.rb" should exist
     And a file named "src/Ex_HelloWorld/extension.json" should exist
@@ -13,7 +14,8 @@ Feature: Project
 
   Scenario: Create new project with custom template
     When I run `skippy new Example::WebDialog --template=webdialog`
-    Then a file named "skippy.json" should exist
+    Then the output should contain "Project for Example::WebDialog created."
+    And a file named "skippy.json" should exist
     And a file named "src/Ex_WebDialog.rb" should exist
     And a file named "src/Ex_WebDialog/main.rb" should exist
     And a file named "src/Ex_WebDialog/extension.json" should exist

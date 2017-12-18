@@ -2,6 +2,7 @@
   "name": "Hello World",
   "description": "",
   "namespace": "Example::HelloWorld",
+  "basename": "hello_world",
   "author": "Unknown",
   "copyright": "Copyright (c) 2017",
   "license": "None",

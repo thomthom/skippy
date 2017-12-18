@@ -12,6 +12,10 @@ class New < Skippy::Command::Group
     type: :string,
     desc: 'The namespace the extension will use'
 
+  class_option :basename,
+    type: :string,
+    desc: 'The basename for the extension filename'
+
   class_option :template,
     type: :string,
     desc: 'The template used to generate the project files',
@@ -28,6 +32,7 @@ class New < Skippy::Command::Group
     end
     project.namespace = namespace
     project.name = project.namespace.to_name
+    project.basename = options[:basename] || project.namespace.short_name
   end
 
   def validate_template

@@ -29,10 +29,16 @@ class Skippy::Library
     # TODO: Cannot refer to project.library.path here. Clean up how path is
     #       obtained.
     # path = project.libraries.path.join(library[:name])
-    path = project.path('.skippy/libs').join(library[:name])
+    # path = project.path('.skippy/libs').join(library[:name])
     options = {}
     options[:requirement] = library[:requirement] if library[:requirement]
     source = Skippy::LibrarySource.new(project, library[:source], options)
+    # new(path, source: source)
+    # TODO: Clean up kludge.
+    libraries_path = project.path('.skippy/libs')
+    path = Skippy::Helpers::File.directories(libraries_path).find { |directory|
+      new(directory, source: source).name.casecmp(library[:name]).zero?
+    }
     new(path, source: source)
   end
 

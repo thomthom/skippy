@@ -16,7 +16,6 @@ class Skippy::Library
 
   attr_reader :path, :source, :requirement
 
-  config_attr_reader :title, key: :name # TODO(thomthom): Clean up this kludge.
   config_attr_reader :name
   config_attr_reader :version
 

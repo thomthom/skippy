@@ -7,7 +7,6 @@ class SkippyLibraryTest < Skippy::Test
     lib_path = fixture('my_lib')
     library = Skippy::Library.new(lib_path)
     assert_equal(lib_path, library.path)
-    assert_equal('my-lib', library.title)
     assert_equal('my-lib', library.name)
     assert_equal('1.2.3', library.version)
   end

@@ -94,6 +94,11 @@ class Skippy::Project
     @config.save_as(filename)
   end
 
+  # @return [Pathname]
+  def extension_source
+    path.join('src')
+  end
+
   # @return [Array<String>]
   def sources
     @config.get(:sources, defaults[:sources])

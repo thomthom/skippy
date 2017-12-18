@@ -1,4 +1,3 @@
-
 require 'fileutils'
 require 'json'
 require 'pathname'
@@ -52,7 +51,7 @@ class Skippy::ModuleManager
     lib_module = project.libraries.find_module_or_fail(module_name)
 
     source = lib_module.path
-    target = path.join(lib_module.library.name, lib_module.path.basename)
+    target = vendor_path.join(lib_module.library.name, lib_module.path.basename)
 
     copy_module(lib_module, source, target)
     @modules << lib_module
@@ -64,7 +63,6 @@ class Skippy::ModuleManager
   # @return [Array<Skippy::LibModule>]
   def update(library)
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
-    # TODO: Implement <=> for Skippy::Library
     installed = select { |mod| mod.library.name == library.name }
     installed.each { |mod| use(mod.name) }
     installed
@@ -76,9 +74,8 @@ class Skippy::ModuleManager
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
     lib_module = project.libraries.find_module_or_fail(module_name)
 
-    # TODO: Differ between source paths and installation paths.
-    target = path.join(lib_module.library.name, lib_module.path.basename)
-    support = path.join(lib_module.library.name, lib_module.path.basename('.*'))
+    target = vendor_path.join(lib_module.library.name, lib_module.path.basename)
+    support = vendor_path.join(lib_module.library.name, lib_module.basename)
     target.delete if target.exist?
     support.rmtree if support.directory?
 
@@ -94,9 +91,8 @@ class Skippy::ModuleManager
   alias size length
 
   # @return [Pathname]
-  def path
-    # TODO: Rename to vendor_path.
-    project.path.join('src', project.basename, 'vendor')
+  def vendor_path
+    project.extension_source.join(project.basename, 'vendor')
   end
 
   private
@@ -105,7 +101,7 @@ class Skippy::ModuleManager
   def discover_modules
     modules = []
     project.libraries.each { |library|
-      library_vendor_path = path.join(library.name)
+      library_vendor_path = vendor_path.join(library.name)
       next unless library_vendor_path.directory?
       library_vendor_path.each_child { |module_file|
         next unless module_file.file?
@@ -176,8 +172,7 @@ class Skippy::ModuleManager
   # @param [String] content
   # @return [String]
   def transform_require(lib_module, content)
-    extension_source = project.path.join('src') # TODO: Move to Project
-    relative_path = path.relative_path_from(extension_source)
+    relative_path = vendor_path.relative_path_from(project.extension_source)
     target_path = relative_path.join(lib_module.library.name)
     content.gsub!(LIB_REQUIRE_PATTERN, "\\1#{target_path}\\3")
     content

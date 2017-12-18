@@ -102,7 +102,7 @@ class Skippy::LibraryManager
     library = lib.is_a?(Skippy::Library) ? lib : find_library(lib)
     raise Skippy::LibraryNotFound, 'Library not found' if library.nil?
     # Uninstall modules first - using the module manager.
-    vendor_module_path = project.modules.path.join(library.name)
+    vendor_module_path = project.modules.vendor_path.join(library.name)
     library.modules.each { |mod|
       project.modules.remove(mod.name)
     }

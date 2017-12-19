@@ -147,9 +147,40 @@ This will remove all the library's modules in the `vendor` directory as well as 
 
 ### Anatomy of a Skippy Library
 
-TODO: ...
+Below is an example of a simple Skippy Library:
 
-For now, refer to:
+```
+example-library/
+├── modules/
+│   ├── hello/
+│   │   ├── extra.html
+│   │   └── extra.rb
+│   ├── hello.rb
+│   └── world.rb
+└── skippy.json
+```
+
+Each `.rb` under the `modules` directory is a Skippy Module. In this example the library contains the modules `hello` and `world`.
+
+Each Skippy Module can have a support directories where additional source code or assets can be organized. This support directory must match the filename of the module. In the example above this is illustrated by the Ruby file `modules/hello.rb` along with directory `modules/hello`.
+
+`skippy.json` contains meta data which is required to identify the library:
+
+```json
+{
+  "library": true,
+  "name": "my-lib",
+  "version": "1.0.0"
+}
+```
+
+The `name` value from `skippy.json` is the name that the users will use to refer to the library via `skippy`.
+
+If distributing the library via Git, the `version` value should match the tag from source control.
+
+A library can contain additional files or directories, for instance tests. They will simply be ignored by `skippy`.
+
+For more examples, refer to:
 * [github.com/thomthom/tt-lib](https://github.com/thomthom/tt-lib)
 * [github.com/thomthom/skippy-test-lib](https://github.com/thomthom/skippy-test-lib)
 
@@ -163,9 +194,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ### Reminders
 
-Run induvidual tests: `bundle exec rake test TEST=test/library_source.rb`
+Run individual tests: `bundle exec rake test TEST=test/library_source.rb`
 
-Run induvidual cucumber features: `bundle exec cucumber features/library.feature`
+Run individual cucumber features: `bundle exec cucumber features/library.feature`
 
 ## FAQ
 
@@ -173,7 +204,7 @@ Run induvidual cucumber features: `bundle exec cucumber features/library.feature
 
 https://github.com/oneclick/rubyinstaller/issues/324#issuecomment-221383285
 
-> Download newset certs (cacert.pem) from here
+> Download newest certs (cacert.pem) from here
 >
 > https://curl.haxx.se/docs/caextract.html
 >

@@ -127,6 +127,41 @@ Feature: Libraries
       }
       """
 
+  Scenario: Uninstall library from git source
+    Given I use a fixture named "project_with_lib"
+    When I run `skippy lib:install ../../../fixtures/git-lib`
+    And I run `skippy lib:uninstall test-lib`
+    And I run `skippy lib:list`
+    Then the output should contain "Uninstalled library: test-lib (1.3.0)"
+    # And the directory ".skippy/libs/test-lib" should not exist
+    And the directory "src/hello_world/vendor/test-lib" should not exist
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "libraries": [
+          {
+            "name": "my-lib",
+            "version": "1.2.3",
+            "source": "./temp/my_lib"
+          },
+          {
+            "name": "my-other-lib",
+            "version": "2.4.3",
+            "source": "./temp/my-other-lib"
+          }
+        ]
+      }
+      """
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "modules": [
+          "my-lib/command",
+          "my-other-lib/something"
+        ]
+      }
+      """
+
   Scenario: Update an installed library from local disk
     Given I use a fixture named "project_with_lib"
     And a file named "./temp/my_lib/skippy.json" with:
@@ -183,6 +218,35 @@ Feature: Libraries
       end # module
       """
     And the output should contain "Installed library: my-lib (5.0.1)"
+
+  Scenario: Update a library from git source
+    Given I use a fixture named "my_project"
+    When I run `skippy lib:install ../../../fixtures/git-lib --version="1.2.3"`
+    Then I run `skippy lib:use test-lib/command`
+    Then I run `skippy lib:install ../../../fixtures/git-lib --version="1.3.0"`
+    Then the output should contain "Installed library: test-lib (1.3.0)"
+    And a directory named ".skippy/libs" should exist
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "libraries": [
+          {
+            "name": "test-lib",
+            "version": "1.3.0",
+            "source": "../../../fixtures/git-lib",
+            "requirement": "1.3.0"
+          }
+        ]
+      }
+      """
+    And the file named "src/hello_world/vendor/test-lib/command.rb" should contain:
+      """
+      module Example::HelloWorld
+        class Command
+          # Version 1.3.0
+        end
+      end # module
+      """
 
   Scenario: List installed libraries
     Given I use a fixture named "project_with_lib"
@@ -244,6 +308,20 @@ Feature: Libraries
         "modules": [
           "my-other-lib/something"
         ]
+      }
+      """
+
+  Scenario: Remove a module from a git source library
+    Given I use a fixture named "my_project"
+    When I run `skippy lib:install ../../../fixtures/git-lib --version="1.3.0"`
+    Then I run `skippy lib:use test-lib/command`
+    Then I run `skippy lib:remove test-lib/command`
+    Then the output should contain "Removed module: test-lib/command"
+    And a file named "src/hello_world/vendor/test-lib/command.rb" should not exist
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "modules": []
       }
       """
 

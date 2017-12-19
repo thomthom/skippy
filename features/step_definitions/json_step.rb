@@ -10,6 +10,7 @@ Then(/^a file named "([^"]*)" should contain json fragment:$/) do |file, json_st
 
   included = (expected.to_a - actual.to_a).empty?
   unless included
-    raise ArgumentError, "#{file} did not include expected JSON fragment"
+    actual_json = JSON.pretty_generate(actual)
+    raise ArgumentError, "#{file} did not include expected JSON fragment. Actual:\n#{actual_json}"
   end
 end

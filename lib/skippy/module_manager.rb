@@ -1,7 +1,7 @@
-
 require 'fileutils'
 require 'json'
 require 'pathname'
+require 'set'
 
 require 'skippy/helpers/file'
 require 'skippy/lib_module'
@@ -18,17 +18,12 @@ class Skippy::ModuleManager
   def initialize(project)
     raise TypeError, 'expected a Project' unless project.is_a?(Skippy::Project)
     @project = project
+    @modules = SortedSet.new(discover_modules)
   end
 
   # @yield [Skippy::LibModule]
   def each
-    directories(path).each { |library_path|
-      library_path.each_child { |module_file|
-        next unless module_file.file?
-        next unless module_file.extname == '.rb' # TODO: .casecmp
-        yield Skippy::LibModule.new(module_file)
-      }
-    }
+    @modules.each { |lib_module| yield lib_module }
     self
   end
 
@@ -39,32 +34,52 @@ class Skippy::ModuleManager
   # @param [String] module_name
   # @return [Skippy::LibModule, nil]
   def find_module(module_name)
-    find { |lib_module| lib_module.name == module_name }
+    find { |lib_module| lib_module.name.casecmp(module_name).zero? }
   end
 
   # @param [Skippy::LibModule, String] lib_module
   def installed?(lib_module)
     module_name = lib_module.name
-    project = Skippy::Project.current
     modules = project && project.config.get(:modules, [])
-    modules.any? { |mod| mod == module_name }
+    modules.any? { |mod| mod.casecmp(module_name).zero? }
   end
 
   # @param [String] module_name
   # @return [Skippy::LibModule]
   def use(module_name)
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
-
     lib_module = project.libraries.find_module_or_fail(module_name)
 
     source = lib_module.path
-    target = path.join(lib_module.library.name, lib_module.path.basename)
+    target = vendor_path.join(lib_module.library.name, lib_module.path.basename)
 
     copy_module(lib_module, source, target)
+    @modules << lib_module
 
-    project.config.push(:modules, lib_module.name)
+    lib_module
+  end
 
-    project.save
+  # @param [Skippy::Library]
+  # @return [Array<Skippy::LibModule>]
+  def update(library)
+    raise Skippy::Project::ProjectNotSavedError unless project.exist?
+    installed = select { |mod| mod.library.name.casecmp(library.name).zero? }
+    installed.each { |mod| use(mod.name) }
+    installed
+  end
+
+  # @param [String] module_name
+  # @return [Skippy::LibModule]
+  def remove(module_name)
+    raise Skippy::Project::ProjectNotSavedError unless project.exist?
+    lib_module = project.libraries.find_module_or_fail(module_name)
+
+    target = vendor_path.join(lib_module.library.name, lib_module.path.basename)
+    support = vendor_path.join(lib_module.library.name, lib_module.basename)
+    target.delete if target.exist?
+    support.rmtree if support.directory?
+
+    @modules.delete_if { |mod| mod.name.casecmp(lib_module.name).zero? }
 
     lib_module
   end
@@ -76,11 +91,26 @@ class Skippy::ModuleManager
   alias size length
 
   # @return [Pathname]
-  def path
-    project.path.join('src', project.namespace.to_underscore, 'vendor')
+  def vendor_path
+    project.extension_source.join(project.basename, 'vendor')
   end
 
   private
+
+  # @return [Array<Skippy::LibModule>]
+  def discover_modules
+    modules = []
+    project.libraries.each { |library|
+      library_vendor_path = vendor_path.join(library.name)
+      next unless library_vendor_path.directory?
+      library_vendor_path.each_child { |module_file|
+        next unless module_file.file?
+        next unless module_file.extname.casecmp('.rb').zero?
+        modules << Skippy::LibModule.new(library, module_file)
+      }
+    }
+    modules
+  end
 
   # @param [Skippy::LibModule] lib_module
   # @param [Pathname, String] source
@@ -142,8 +172,7 @@ class Skippy::ModuleManager
   # @param [String] content
   # @return [String]
   def transform_require(lib_module, content)
-    extension_source = project.path.join('src') # TODO: Move to Project
-    relative_path = path.relative_path_from(extension_source)
+    relative_path = vendor_path.relative_path_from(project.extension_source)
     target_path = relative_path.join(lib_module.library.name)
     content.gsub!(LIB_REQUIRE_PATTERN, "\\1#{target_path}\\3")
     content

@@ -4,14 +4,25 @@ require 'skippy/library'
 
 class Skippy::LibModule
 
-  attr_reader :path
+  attr_reader :path, :library
 
   class ModuleNotFoundError < Skippy::Error; end
 
+  # @param [Skippy::Library] library
   # @param [String] path
-  def initialize(path)
+  def initialize(library, path)
     @path = Pathname.new(path)
     raise ModuleNotFoundError, @path.to_s unless @path.file?
+    @library = library
+  end
+
+  def <=>(other)
+    other.is_a?(self.class) ? name <=> other.name : nil
+  end
+
+  def eql?(other)
+    # http://javieracero.com/blog/the-key-to-ruby-hashes-is-eql-hash
+    other.is_a?(self.class) && name.casecmp(other.name).zero?
   end
 
   # @param [String]
@@ -19,30 +30,18 @@ class Skippy::LibModule
     path.basename('.*').to_s
   end
 
-  # @return [Skippy::Library]
-  def library
-    Skippy::Library.new(library_path)
+  def hash
+    name.hash
   end
 
   # @param [String]
   def name
-    "#{library_name}/#{basename}"
+    "#{library.name}/#{basename}"
   end
 
   # @param [String]
   def to_s
     name
-  end
-
-  private
-
-  def library_name
-    library_path.basename.to_s
-  end
-
-  def library_path
-    # Modules are located in the 'src' directory of the library.
-    path.parent.parent
   end
 
 end

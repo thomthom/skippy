@@ -35,7 +35,7 @@ class Skippy::Project
   # @return [Skippy::Project]
   def self.current_or_fail
     project = current
-    raise ProjectNotFoundError unless project.exist?
+    raise ProjectNotFoundError, project.filename unless project.exist?
     project
   end
 
@@ -50,6 +50,18 @@ class Skippy::Project
     @config = Skippy::Config.load(filename, defaults)
     @libraries = Skippy::LibraryManager.new(self)
     @modules = Skippy::ModuleManager.new(self)
+  end
+
+  # The basename for the extension's root and support folder.
+  #
+  # @return [String]
+  def basename
+    @config.get(:basename, namespace.short_name)
+  end
+
+  # @param [String] basename
+  def basename=(basename)
+    @config.set(:basename, basename)
   end
 
   # @yield [filename]
@@ -80,7 +92,19 @@ class Skippy::Project
 
   # Commits the project to disk.
   def save
+    @config.set(:libraries, libraries.map(&:to_h))
+    @config.set(:modules, modules.map(&:name))
     @config.save_as(filename)
+  end
+
+  # @return [Pathname]
+  def extension_source
+    path.join('src')
+  end
+
+  # @return [Array<String>]
+  def sources
+    @config.get(:sources, defaults[:sources])
   end
 
   # @return [String]
@@ -90,14 +114,20 @@ class Skippy::Project
 
   private
 
+  # @return [Hash]
   def defaults
     {
       name: 'Untitled',
       description: '',
       namespace: Skippy::Namespace.new('Untitled'),
+      basename: Skippy::Namespace.new('Untitled').short_name,
       author: 'Unknown',
       copyright: "Copyright (c) #{Time.now.year}",
       license: 'None',
+      sources: %w(
+        github.com
+        bitbucket.org
+      ),
     }
   end
 

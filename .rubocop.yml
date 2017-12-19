@@ -7,6 +7,7 @@ AllCops:
     - 'fixtures/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
+  DisplayCopNames: true
 
 Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
@@ -15,11 +16,13 @@ Layout/AlignParameters:
 Layout/EmptyLines:
   Enabled: false
 
+# Extra space is fine.
 Layout/EmptyLinesAroundClassBody:
-  EnforcedStyle: empty_lines_except_namespace
+  Enabled: false
 
+# Extra space is fine.
 Layout/EmptyLinesAroundModuleBody:
-  EnforcedStyle: empty_lines_except_namespace
+  Enabled: false
 
 # Normally one line in between, but two allowed for "paragraphs".
 Layout/EmptyLineBetweenDefs:
@@ -60,6 +63,10 @@ Style/BlockDelimiters:
 # Generally prefer compact style to reduce indentation. But no hard rule.
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
+  Enabled: false
+
+# This doesn't always read nicely.
+Style/ConditionalAssignment:
   Enabled: false
 
 # Nah, it's ok.

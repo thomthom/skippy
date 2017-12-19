@@ -3,6 +3,8 @@ require 'skippy'
 
 require 'minitest/autorun'
 require 'pathname'
+require 'pry'
+require 'webmock/minitest'
 
 class Skippy::Test < Minitest::Test
 
@@ -28,10 +30,22 @@ class Skippy::Test < Minitest::Test
     assert(pathname.file?, msg)
   end
 
+  def refute_file(path, msg = nil)
+    pathname = Pathname.new(path)
+    msg ||= "did not expect a file named: #{path}"
+    refute(pathname.file?, msg)
+  end
+
   def assert_directory(path, msg = nil)
     pathname = Pathname.new(path)
     msg ||= "expected a directory named: #{path}"
     assert(pathname.directory?, msg)
+  end
+
+  def refute_directory(path, msg = nil)
+    pathname = Pathname.new(path)
+    msg ||= "did not expect a directory named: #{path}"
+    refute(pathname.directory?, msg)
   end
 
   private
@@ -54,10 +68,13 @@ class Skippy::Test::Fixture < Skippy::Test
   def setup
     super
     @work_path = Dir.mktmpdir
+    @original_pwd = Dir.pwd
+    Dir.chdir(work_path)
   end
 
   def teardown
     super
+    Dir.chdir(@original_pwd)
     FileUtils.remove_entry(work_path)
   end
 
@@ -66,7 +83,7 @@ class Skippy::Test::Fixture < Skippy::Test
   def use_fixture(fixture_name)
     source = fixture(fixture_name)
     raise "Fixture #{fixture_name} not found" unless source.exist?
-    FileUtils.copy_entry(source, work_path)
+    FileUtils.copy_entry(source, work_path, false, false, true)
   end
 
 end

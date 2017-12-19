@@ -12,7 +12,19 @@ class New < Skippy::Command::Group
     type: :string,
     desc: 'The namespace the extension will use'
 
+  class_option :basename,
+    aliases: ['-b'],
+    type: :string,
+    desc: 'The basename for the extension filename'
+
+  class_option :downcase,
+    aliases: ['-d'],
+    type: :boolean,
+    desc: 'Downcase the generated basename for the extension filename',
+    default: false
+
   class_option :template,
+    aliases: ['-t'],
     type: :string,
     desc: 'The template used to generate the project files',
     default: 'standard'
@@ -28,6 +40,8 @@ class New < Skippy::Command::Group
     end
     project.namespace = namespace
     project.name = project.namespace.to_name
+    project.basename = options[:basename] || project.namespace.short_name
+    project.basename = project.basename.downcase if options[:downcase]
   end
 
   def validate_template
@@ -84,8 +98,7 @@ class New < Skippy::Command::Group
 
     # @return [String] The basename for the extension files.
     def ext_name
-      # TODO: Add option to generate name based on lower case.
-      project.namespace.short_name
+      project.basename
     end
 
   end # no_commands

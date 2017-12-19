@@ -62,6 +62,14 @@ class SkippyProjectTest < Skippy::Test
     assert(json.key?(:description))
   end
 
+  def test_project_sources_have_default_sources
+    test_path = Pathname.new(__dir__)
+    project = Skippy::Project.new(test_path)
+    sources = project.sources
+    assert_kind_of(Array, sources)
+    refute_empty(sources)
+  end
+
   def test_project_path_return_the_projects_path
     Dir.mktmpdir do |dir|
       project = Skippy::Project.new(dir)

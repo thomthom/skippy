@@ -1,0 +1,21 @@
+require 'sketchup.rb'
+
+module Example::HelloWorld
+
+  unless file_loaded?(__FILE__)
+    menu = UI.menu('Plugins').add_submenu(EXTENSION[:name])
+    menu.add_item('Make Magic') { self.make_magic }
+    menu.add_separator
+    menu.add_item('Help...') { self.open_help }
+    file_loaded(__FILE__)
+  end
+
+  def self.make_magic
+    # Do magic here...
+  end
+
+  def self.open_help
+    UI.openURL(EXTENSION[:url])
+  end
+
+end # module

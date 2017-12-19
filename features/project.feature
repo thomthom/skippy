@@ -39,3 +39,58 @@ Feature: Project
     And a file named "src/ex_helloworld/main.rb" should exist
     And a file named "src/ex_helloworld/extension.json" should exist
     And a file named "skippy/commands/example.rb" should exist
+
+  Scenario: Initialize existing Skippy Project
+    Given I use a fixture named "my_project"
+    And a file named "skippy.json" with:
+      """
+        {
+          "name": "Hello World",
+          "description": "",
+          "namespace": "Example::HelloWorld",
+          "basename": "hello_world",
+          "author": "Unknown",
+          "copyright": "Copyright (c) 2017",
+          "license": "None",
+          "libraries": [
+            {
+              "name": "test-lib",
+              "version": "1.2.3",
+              "source": "../../../fixtures/git-lib"
+            }
+          ]
+        }
+      """
+    And a file named "src/hello_world/vendor/test-lib/command.rb" with:
+      """
+      module SkippyLib
+        class Command
+          VERSION = "1.2.3" # Unique
+        end
+      end # module
+      """
+    When I run `skippy install`
+    Then the output should contain "Installed library: test-lib (1.2.3)"
+    And a directory named like ".skippy/libs/git-lib_local_*" should exist
+    And a file named like ".skippy/libs/git-lib_local_*/modules/command.rb" should exist
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "libraries": [
+          {
+            "name": "test-lib",
+            "version": "1.2.3",
+            "source": "../../../fixtures/git-lib"
+          }
+        ]
+      }
+      """
+    And a file named "src/hello_world/vendor/test-lib/command.rb" should contain:
+      """
+      module SkippyLib
+        class Command
+          VERSION = "1.2.3" # Unique
+        end
+      end # module
+      """
+

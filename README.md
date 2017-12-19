@@ -16,9 +16,9 @@ Some of the main goals are:
   - [ ] Packaging the extension
   - [ ] Start SketchUp in debug mode
 - [x] Easy interface to add per-project custom commands/tasks
-- [ ] Library dependency management
+- [x] Library dependency management
   - [x] Pull in third-party modules into extension namespace
-  - [ ] Add/Remove/Update dependencies
+  - [x] Add/Remove/Update dependencies
 
 ## Requirements
 
@@ -149,11 +149,11 @@ This will remove all the library's modules in the `vendor` directory as well as 
 
 TODO: ...
 
-For now, refer to: [github.com/thomthom/tt-lib](https://github.com/thomthom/tt-lib)
+For now, refer to:
+* [github.com/thomthom/tt-lib](https://github.com/thomthom/tt-lib)
+* [github.com/thomthom/skippy-test-lib](https://github.com/thomthom/skippy-test-lib)
 
 ## Development
-
-TODO: ...
 
 After checking out the repository, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 

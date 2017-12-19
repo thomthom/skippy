@@ -87,7 +87,7 @@ Skippy offer a simple library dependency system. It can install a third party li
 
 The installed library is cached into `.skippy` directory. Don't check this into version control.
 
-**TODO:** Need a `skippy install` command to install the libraries listed in `skippy.json`.
+When you check out an existing Skippy Project from source control use `skippy install` to install the required dependencies.
 
 #### Installing from Git Repositories
 

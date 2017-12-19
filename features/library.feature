@@ -99,6 +99,18 @@ Feature: Libraries
       }
       """
 
+  Scenario: Install from a source that is not a Skippy Library
+    Given I use a fixture named "my_project"
+    And a file named "./temp/my_lib/skippy.json" with:
+      """
+      {
+        "name": "my-lib",
+        "version": "1.2.3"
+      }
+      """
+    When I run `skippy lib:install ./temp/my_lib`
+    And the output should contain "Not a Skippy Library"
+
   Scenario: Uninstall library
     Given I use a fixture named "project_with_lib"
     When I run `skippy lib:uninstall my-lib`

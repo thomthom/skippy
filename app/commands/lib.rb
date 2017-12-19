@@ -39,15 +39,7 @@ class Lib < Skippy::Command
   def install(source)
     project = Skippy::Project.current_or_fail
     libraries = project.libraries
-
-    install_options = options.map { |k, v| [k.to_sym, v] }.to_h
-    # TODO: Clean up kludge
-    if install_options.key?(:version)
-      install_options[:requirement] = install_options[:version]
-      install_options.delete(:version)
-    end
-
-    library = libraries.install(source, install_options) { |type, message|
+    library = libraries.install(source, install_options(options)) { |type, message|
       color = type == :warning ? :red : :yellow
       say message, color
     }
@@ -77,6 +69,18 @@ class Lib < Skippy::Command
     lib_module = project.modules.remove(module_path)
     project.save
     say "Removed module: #{lib_module}"
+  end
+
+  private
+
+  def install_options(cli_options)
+    options = cli_options.map { |k, v| [k.to_sym, v] }.to_h
+    # The CLI options "version" is internally a "requirement".
+    if options.key?(:version)
+      options[:requirement] = options[:version]
+      options.delete(:version)
+    end
+    options
   end
 
 end

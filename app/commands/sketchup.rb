@@ -79,13 +79,26 @@ class Sketchup < Skippy::Command
   end
 
   def find_all_sketchup_mac
-    raise NotImplementedError, 'Mac support not implemented'
+    result = []
+    pattern = '/Applications/SketchUp */'
+    Dir.glob(pattern) { |path|
+      app = File.join(path, 'SketchUp.app')
+      debug_lib = File.join(app, 'Contents/Frameworks/SURubyDebugger.dylib')
+      version = File.basename(path).match(/[0-9.]+$/)[0].to_i
+      result << {
+        executable: app,
+        version: version,
+        can_debug: File.exist?(debug_lib),
+        is64bit: version > 2015,
+      }
+    }
+    result
   end
 
   SYSTEM_32BIT = ENV['ProgramFiles(x86)'].nil? && ENV['ProgramW6432'].nil?
   SYSTEM_64BIT = !SYSTEM_32BIT
 
-  PROGRAM_FILES_64BIT = File.expand_path(ENV['ProgramW6432'])
+  PROGRAM_FILES_64BIT = File.expand_path(ENV['ProgramW6432'] || '')
 
   def find_all_sketchup_win
     # TODO(thomthom): Find by registry information.

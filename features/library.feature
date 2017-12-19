@@ -63,8 +63,8 @@ Feature: Libraries
     Given I use a fixture named "my_project"
     When I run `skippy lib:install ../../../fixtures/git-lib`
     Then the output should contain "Installed library: test-lib (1.3.0)"
-    # And a file named ".skippy/libs/git-lib_local_*/skippy.json" should exist
-    # And a directory named ".skippy/libs/git-lib_local_*/modules" should exist
+    And a file named like ".skippy/libs/git-lib_local_*/skippy.json" should exist
+    And a directory named like ".skippy/libs/git-lib_local_*/modules" should exist
     And a file named "skippy.json" should contain json fragment:
       """
       {
@@ -83,8 +83,8 @@ Feature: Libraries
     When I run `skippy lib:install ../../../fixtures/git-lib --version=1.2.3`
     Then the output should contain "Installed library: test-lib (1.2.3)"
     And a directory named ".skippy/libs" should exist
-    # And a file named ".skippy/libs/git-lib_local_*/skippy.json" should exist
-    # And a directory named ".skippy/libs/git-lib_local_*/modules" should exist
+    And a file named like ".skippy/libs/git-lib_local_*/skippy.json" should exist
+    And a directory named like ".skippy/libs/git-lib_local_*/modules" should exist
     And a file named "skippy.json" should contain json fragment:
       """
       {
@@ -133,7 +133,7 @@ Feature: Libraries
     And I run `skippy lib:uninstall test-lib`
     And I run `skippy lib:list`
     Then the output should contain "Uninstalled library: test-lib (1.3.0)"
-    # And the directory ".skippy/libs/test-lib" should not exist
+    And the directory named like ".skippy/libs/git-lib_local_*" should not exist
     And the directory "src/hello_world/vendor/test-lib" should not exist
     And a file named "skippy.json" should contain json fragment:
       """

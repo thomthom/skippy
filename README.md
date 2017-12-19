@@ -92,10 +92,27 @@ The installed library is cached into `.skippy` directory. Don't check this into 
 #### Installing from Git Repositories
 
 ```bash
+skippy lib:install https://github.com/thomthom/tt-lib.git
+```
+
+#### Installing from Git shorthand.
+
+```bash
 skippy lib:install thomthom/tt-lib
 ```
 
 In the above example Skippy will look for the library `tt-lib` under the username `thomthom` from either [bitbucket.org](https://bitbucket.org/) or [github.com](https://github.com/)
+
+The sources can be altered per project by modifying `sources` in `skippy.json`:
+
+```
+  "sources": [
+    "github.com",
+    "bitbucket.org"
+  ],
+```
+
+Note that currently all source will be prefixed `https://` and post-fixed with the provided short-name. E.g., `thomthom/tt-lib` will resolve to `http://github.com/thomthom/tt-lib.git` and `http://bitbucket.org/thomthom/tt-lib.git` as `skippy` searches for matching sources.
 
 #### Installing from Local Directory
 

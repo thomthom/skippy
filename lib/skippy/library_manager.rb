@@ -102,14 +102,19 @@ class Skippy::LibraryManager
     library = lib.is_a?(Skippy::Library) ? lib : find_library(lib)
     raise Skippy::LibraryNotFound, 'Library not found' if library.nil?
     # Uninstall modules first - using the module manager.
-    vendor_module_path = project.modules.vendor_path.join(library.name)
+    vendor_path = project.modules.vendor_path
+    vendor_module_path = vendor_path.join(library.name)
     library.modules.each { |mod|
       project.modules.remove(mod.name)
     }
     vendor_module_path.rmtree if vendor_module_path.exist?
+    # Remove the vendor path - no need to package unused directories.
+    if vendor_path.exist? && vendor_path.children.empty?
+      vendor_path.rmdir
+    end
     raise 'Unable to remove vendor modules' if vendor_module_path.exist?
     # Now the library itself is safe to remove.
-    library.path.rmtree if library.path.exist? # TODO: Fix for git repos
+    library.path.rmtree if library.path.exist?
     raise 'Unable to remove library' if library.path.exist?
     @libraries.delete(library)
     library

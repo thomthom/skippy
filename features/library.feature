@@ -127,6 +127,28 @@ Feature: Libraries
       }
       """
 
+  Scenario: Uninstall all libraries
+    Given I use a fixture named "project_with_lib"
+    When I run `skippy lib:uninstall my-lib`
+    And I run `skippy lib:uninstall my-other-lib`
+    And I run `skippy lib:list`
+    Then the output should contain "Uninstalled library: my-lib (1.2.3)"
+    And the output should contain "Uninstalled library: my-other-lib (2.4.3)"
+    And the directory ".skippy/libs/my-lib" should not exist
+    And the directory "src/hello_world/vendor" should not exist
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "libraries": []
+      }
+      """
+    And a file named "skippy.json" should contain json fragment:
+      """
+      {
+        "modules": []
+      }
+      """
+
   Scenario: Uninstall library from git source
     Given I use a fixture named "project_with_lib"
     When I run `skippy lib:install ../../../fixtures/git-lib`

@@ -14,7 +14,8 @@ Some of the main goals are:
   - [ ] Add/Remove/Update user templates
 - [ ] Automate common tasks
   - [ ] Packaging the extension
-  - [ ] Start SketchUp in debug mode
+  - [x] Launch SketchUp
+  - [x] Launch SketchUp in debug mode
 - [x] Easy interface to add per-project custom commands/tasks
 - [x] Library dependency management
   - [x] Pull in third-party modules into extension namespace
@@ -200,6 +201,30 @@ A library can contain additional files or directories, for instance tests. They 
 For more examples, refer to:
 * [github.com/thomthom/tt-lib](https://github.com/thomthom/tt-lib)
 * [github.com/thomthom/skippy-test-lib](https://github.com/thomthom/skippy-test-lib)
+
+### Launching SketchUp
+
+Skippy will attempt to locate your SketchUp installations and offer commands to launch them.
+
+These commands provides a cross platform way of launching SketchUp which can be useful in build scripts or IDE automation tasks.
+
+(**Note:** Currently Skippy assumes that SketchUp is installed to its default installation directory.)
+
+`skippy sketchup:list` will display a list of all known SketchUp versions on the system.
+
+![](https://github.com/thomthom/skippy/wiki/images/skippy-sketchup-list.png)
+
+To launch one, use `skippy sketchup:launch VERSION`, for instance:
+
+```
+skippy sketchup:launch 2018
+```
+
+You can also launch SketchUp in debug mode if the [SketchUp Ruby Debugger library](https://github.com/SketchUp/sketchup-ruby-debugger) is installed.
+
+```
+skippy sketchup:debug 2018
+```
 
 ## Development
 

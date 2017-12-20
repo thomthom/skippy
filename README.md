@@ -206,6 +206,8 @@ For more examples, refer to:
 
 Skippy will attempt to locate your SketchUp installations and offer commands to launch them.
 
+These commands provides a cross platform way of launching SketchUp which can be useful in build scripts or IDE automation tasks.
+
 (**Note:** Currently Skippy assumes that SketchUp is installed to its default installation directory.)
 
 `skippy sketchup:list` will display a list of all known SketchUp versions on the system.
@@ -223,8 +225,6 @@ You can also launch SketchUp in debug mode if the [SketchUp Ruby Debugger librar
 ```
 skippy sketchup:debug 2018
 ```
-
-These commands provides a cross platform way of launching SketchUp which can be useful in build scripts or IDE automation tasks.
 
 ## Development
 

@@ -11,17 +11,17 @@ class Sketchup < Skippy::Command
   option :port, :type => :numeric, :default => 7000
   desc 'debug VERSION', 'Start SketchUp with Ruby Debugger'
   def debug(version)
-    sketchup = find_sketchup(version)
-    command = %("#{sketchup}" -rdebug "ide port=#{options.port}")
-    execute_command(command)
+    app = find_sketchup(version)
+    unless app.can_debug
+      raise Skippy::Error, "Debug library not installed for Sketchup #{version}"
+    end
+    arguments = ['-rdebug', %("ide port=#{options.port}")]
+    Skippy.os.launch_app(app.executable, *arguments)
   end
 
   desc 'launch VERSION', 'Start SketchUp'
   def launch(version)
-    app = Skippy.os.sketchup_apps.find { |sketchup|
-      sketchup.version == version.to_i
-    }
-    raise Skippy::Error, "SketchUp #{version} not found." if app.nil?
+    app = find_sketchup(version)
     Skippy.os.launch_app(app.executable)
   end
 
@@ -45,5 +45,17 @@ class Sketchup < Skippy::Command
     }
   end
   default_command(:list)
+
+  private
+
+  # @param [Integer] version
+  # @return [Skippy::SketchUpApp, nil]
+  def find_sketchup(version)
+    app = Skippy.os.sketchup_apps.find { |sketchup|
+      sketchup.version == version.to_i
+    }
+    raise Skippy::Error, "SketchUp #{version} not found." if app.nil?
+    app
+  end
 
 end

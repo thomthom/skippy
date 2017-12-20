@@ -12,8 +12,11 @@ class Skippy::OSWin < Skippy::OSCommon
   PROGRAM_FILES_64BIT = File.expand_path(ENV['ProgramW6432'])
 
   # @param [String] executable_path
-  def launch_app(executable_path)
+  def launch_app(executable_path, *args)
     command = %("#{executable_path}")
+    unless args.empty?
+      command << " #{args.join(' ')}"
+    end
     execute_command(command)
   end
 

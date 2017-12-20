@@ -4,8 +4,11 @@ require 'skippy/sketchup/app'
 class Skippy::OSMac < Skippy::OSCommon
 
   # @param [String] executable_path
-  def launch_app(executable_path)
+  def launch_app(executable_path, *args)
     command = %(open -a "#{executable_path}")
+    unless args.empty?
+      command << " --args #{args.join(' ')}"
+    end
     execute_command(command)
   end
 

@@ -3,6 +3,12 @@ require 'skippy/sketchup/app'
 
 class Skippy::OSMac < Skippy::OSCommon
 
+  # @param [String] executable_path
+  def launch_app(executable_path)
+    command = %(open -a "#{executable_path}")
+    execute_command(command)
+  end
+
   def sketchup_apps
     apps = []
     pattern = '/Applications/SketchUp */'

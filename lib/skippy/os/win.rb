@@ -11,6 +11,12 @@ class Skippy::OSWin < Skippy::OSCommon
 
   PROGRAM_FILES_64BIT = File.expand_path(ENV['ProgramW6432'])
 
+  # @param [String] executable_path
+  def launch_app(executable_path)
+    command = %("#{executable_path}")
+    execute_command(command)
+  end
+
   def sketchup_apps
     # TODO(thomthom): Find by registry information.
     apps = []

@@ -22,8 +22,7 @@ class Sketchup < Skippy::Command
       sketchup.version == version.to_i
     }
     raise Skippy::Error, "SketchUp #{version} not found." if app.nil?
-    command = %("#{app.executable}")
-    Skippy.os.execute_command(command)
+    Skippy.os.launch_app(app.executable)
   end
 
   desc 'list', 'List all known SketchUp versions'

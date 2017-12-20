@@ -14,6 +14,11 @@ class Skippy::OSCommon
     Process.detach(id)
   end
 
+  # @param [String] path
+  def launch_app(path)
+    raise NotImplementedError
+  end
+
   def sketchup_apps
     raise NotImplementedError
   end

@@ -22,7 +22,7 @@ class Install < Skippy::Command::Group
       next if library[:version].nil? || library[:source].nil?
 
       options = {
-        requirement: library[:version]
+        requirement: library[:version],
       }
       options[:branch] = library[:branch] unless library[:branch].nil?
       lib = project.libraries.install(library[:source], options)

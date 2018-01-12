@@ -33,7 +33,7 @@ class Skippy::OSWin < Skippy::OSCommon
           executable: exe,
           version: version,
           can_debug: File.exist?(debug_dll),
-          is64bit: SYSTEM_64BIT && path.start_with?("#{PROGRAM_FILES_64BIT}/"),
+          is64bit: SYSTEM_64BIT && path.start_with?("#{PROGRAM_FILES_64BIT}/")
         )
       }
     }

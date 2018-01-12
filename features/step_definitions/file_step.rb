@@ -1,6 +1,6 @@
 require 'json'
 
-Then(/^(?:the|a) (file|directory) named like "([^"]*)" should( not)? exist$/) do |type, pattern, negate|
+Then(/^(?:the|a) (?:file|directory) named like "([^"]*)" should( not)? exist$/) do |pattern, negate|
   items = cd('.') {
     Dir.glob(pattern)
   }

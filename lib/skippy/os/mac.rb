@@ -23,7 +23,7 @@ class Skippy::OSMac < Skippy::OSCommon
         executable: app,
         version: version,
         can_debug: File.exist?(debug_lib),
-        is64bit: version > 2015,
+        is64bit: version > 2015
       )
     }
     apps.sort_by(&:version)

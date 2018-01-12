@@ -39,7 +39,8 @@ class Lib < Skippy::Command
   def install(source)
     project = Skippy::Project.current_or_fail
     libraries = project.libraries
-    library = libraries.install(source, install_options(options)) { |type, message|
+    installation_options = install_options(options)
+    library = libraries.install(source, installation_options) { |type, message|
       color = type == :warning ? :red : :yellow
       say message, color
     }

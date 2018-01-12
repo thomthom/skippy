@@ -45,6 +45,10 @@ Metrics/ClassLength:
   Exclude:
     - test/**/*
 
+# Too noisy.
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
 Metrics/LineLength:
   Exclude:
     - features/step_definitions/**/*
@@ -52,6 +56,10 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Exclude:
     - test/**/*
+
+# Too noisy.
+Metrics/PerceivedComplexity:
+  Enabled: false
 
 # Prefer { ... } over do ... end except for control flow and
 # method defintions. Unfortunatly, no cop configuration for this.
@@ -80,6 +88,18 @@ Style/Documentation:
 # Conflict too often with Metric/LineLength.
 # https://github.com/bbatsov/rubocop/issues/1332#issuecomment-277503854
 Style/GuardClause:
+  Enabled: false
+
+# In the context of the Thor DLS the rocket arrow => reads better.
+Style/HashSyntax:
+  Exclude:
+    - app/commands/**/*
+
+# Some times it reads clearer to not trail if/unless at the end.
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/ModuleFunction:
   Enabled: false
 
 # %w and %i etc isn't really intuitive unless you are really familiar with the

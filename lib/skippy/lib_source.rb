@@ -117,7 +117,10 @@ class Skippy::LibrarySource
   # @param [String] source
   # @return [String]
   def resolve_from_git_uri(source)
-    uri = URI.parse(source)
+    # This can be a local Windows path, normalize path separators to allow the
+    # path to be parsed.
+    normalized = source.tr('\\', '/')
+    uri = URI.parse(normalized)
     # When logged in, BitBucket will display a URI with the user's username.
     uri.user = ''
     uri.to_s

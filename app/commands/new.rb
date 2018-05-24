@@ -15,12 +15,18 @@ class New < Skippy::Command::Group
   class_option :basename,
     aliases: ['-b'],
     type: :string,
-    desc: 'The basename for the extension filename'
+    desc: 'The basename for the extension filename (overwrites -d)'
+
+  class_option :style,
+    aliases: ['-s'],
+    type: :string,
+    desc: 'Choice of auto-formatting namespace to basename',
+    default: :short
 
   class_option :downcase,
     aliases: ['-d'],
     type: :boolean,
-    desc: 'Downcase the generated basename for the extension filename',
+    desc: 'Downcase the extension filenames',
     default: false
 
   class_option :template,
@@ -29,9 +35,43 @@ class New < Skippy::Command::Group
     desc: 'The template used to generate the project files',
     default: 'standard'
 
+=begin
+  long_desc <<-LONGDESC
+    `cli hello` will print out a message to a person of your
+    choosing.
+
+    Generators:
+    NAME             FILENAME EXAMPLE (From DevName::Example)
+    ---------------------------------------------------------
+    Full          DevName_Example
+    Short         DN_Example
+    Underscore    Dev_Name_Example
+
+    You can optionally specify a second parameter, which will print
+    out a from message as well.
+
+    > $ cli hello "Yehuda Katz" "Carl Lerche"
+
+    > from: Carl Lerche
+  LONGDESC
+=end
+
   source_paths << Skippy.app.resources
 
   attr_reader :project
+
+  def validate_basename_style_option
+    map = {
+      full: :full_name,
+      short: :short_name,
+      underscore: :underscore_name,
+    }
+    input = options[:style].downcase.to_sym
+    unless map.key?(input)
+      raise Skippy::Error, "#{options[:style]} is not a valid style option"
+    end
+    @basename = map[input]
+  end
 
   def initialize_project
     @project = Skippy::Project.new(Dir.pwd)
@@ -41,7 +81,7 @@ class New < Skippy::Command::Group
 
     project.namespace = namespace
     project.name = project.namespace.to_name
-    project.basename = options[:basename] || project.namespace.short_name
+    project.basename = options[:basename] || project.namespace.send(@basename)
     project.basename = project.basename.downcase if options[:downcase]
   end
 

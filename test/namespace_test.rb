@@ -37,6 +37,58 @@ class SkippyNamespaceTest < Minitest::Test
     )
   end
 
+  def test_that_it_produce_long_names
+    namespace = Skippy::Namespace.new('TT::Plugins::SUbD')
+    assert_equal('TT_SUbD', namespace.long_name)
+
+    namespace = Skippy::Namespace.new('TT::Plugins::VertexTools')
+    assert_equal('TT_VertexTools', namespace.long_name)
+
+    namespace = Skippy::Namespace.new('TT::Plugins::VertexTools')
+    assert_equal('TT_VertexTools', namespace.long_name)
+
+    namespace = Skippy::Namespace.new('TT::Plugins::HelloWorld')
+    assert_equal('TT_HelloWorld', namespace.long_name)
+
+    namespace = Skippy::Namespace.new('Example::HelloWorld')
+    assert_equal('Example_HelloWorld', namespace.long_name)
+
+    namespace = Skippy::Namespace.new('FooBar::HelloWorld')
+    assert_equal('FooBar_HelloWorld', namespace.long_name)
+
+    namespace = Skippy::Namespace.new('FooBarLoremIpsum::HelloWorld')
+    assert_equal('FooBarLoremIpsum_HelloWorld', namespace.long_name)
+
+    namespace = Skippy::Namespace.new('HelloWorld')
+    assert_equal('HelloWorld', namespace.long_name)
+  end
+
+  def test_that_it_produce_underscore_names
+    namespace = Skippy::Namespace.new('TT::Plugins::SUbD')
+    assert_equal('TT_SUb_D', namespace.underscore_name)
+
+    namespace = Skippy::Namespace.new('TT::Plugins::VertexTools')
+    assert_equal('TT_Vertex_Tools', namespace.underscore_name)
+
+    namespace = Skippy::Namespace.new('TT::Plugins::VertexTools')
+    assert_equal('TT_Vertex_Tools', namespace.underscore_name)
+
+    namespace = Skippy::Namespace.new('TT::Plugins::HelloWorld')
+    assert_equal('TT_Hello_World', namespace.underscore_name)
+
+    namespace = Skippy::Namespace.new('Example::HelloWorld')
+    assert_equal('Example_Hello_World', namespace.underscore_name)
+
+    namespace = Skippy::Namespace.new('FooBar::HelloWorld')
+    assert_equal('Foo_Bar_Hello_World', namespace.underscore_name)
+
+    namespace = Skippy::Namespace.new('FooBarLoremIpsum::HelloWorld')
+    assert_equal('Foo_Bar_Lorem_Ipsum_Hello_World', namespace.underscore_name)
+
+    namespace = Skippy::Namespace.new('HelloWorld')
+    assert_equal('Hello_World', namespace.underscore_name)
+  end
+
   def test_that_it_produce_compact_short_names
     namespace = Skippy::Namespace.new('TT::Plugins::SUbD')
     assert_equal('TT_SUbD', namespace.short_name)

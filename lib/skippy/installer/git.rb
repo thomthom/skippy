@@ -62,7 +62,7 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
   # @param [Git::Base]
   # @param [String] branch
   def checkout_branch(git, branch)
-    branches = git.braches.map(&:name)
+    branches = git.branches.map(&:name)
     info "Branches: #{branches.inspect}"
     unless branches.include?(branch)
       raise Skippy::BranchNotFound, "Found no branch named: '#{branch}'"

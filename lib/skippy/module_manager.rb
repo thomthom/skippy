@@ -150,7 +150,7 @@ class Skippy::ModuleManager
       transform_module(content)
       File.write(target, content)
     else
-      File.copy(source, target)
+      FileUtils.copy(source, target)
     end
   end
 

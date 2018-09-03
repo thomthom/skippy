@@ -51,8 +51,11 @@ class Sketchup < Skippy::Command
   # @param [Integer] version
   # @return [Skippy::SketchUpApp, nil]
   def find_sketchup(version)
+    # Allow shortcuts such as 18 to mean 2018.
+    full_version = version.to_i
+    full_version += 2000 if (13..99).cover?(full_version)
     app = Skippy.os.sketchup_apps.find { |sketchup|
-      sketchup.version == version.to_i
+      sketchup.version == full_version
     }
     raise Skippy::Error, "SketchUp #{version} not found." if app.nil?
     app

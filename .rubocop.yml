@@ -109,5 +109,8 @@ Style/SymbolArray:
   Enabled: False
 
 # Add trailing comma so it's easy to duplicate/add lines.
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma

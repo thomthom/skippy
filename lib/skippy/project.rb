@@ -109,8 +109,8 @@ class Skippy::Project
   end
 
   # @return [String]
-  def to_json
-    JSON.pretty_generate(@config)
+  def to_json(*args)
+    JSON.pretty_generate(@config, *args)
   end
 
   private

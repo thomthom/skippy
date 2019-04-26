@@ -116,7 +116,7 @@ class Skippy::CLI < Skippy::Command
     return unless project.exist?
 
     project.command_files { |filename|
-      unless Thor::Base.subclass_files.keys.include?(File.expand_path(filename))
+      unless Thor::Base.subclass_files.key?(File.expand_path(filename))
         begin
           Thor::Util.load_thorfile(filename, nil, options[:debug])
         rescue ScriptError, StandardError => error

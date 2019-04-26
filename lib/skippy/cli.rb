@@ -112,6 +112,7 @@ class Skippy::CLI < Skippy::Command
   def initialize_thorfiles(_relevant_to = nil, _skip_lookup = false)
     project = Skippy::Project.new(Dir.pwd)
     return unless project.exist?
+
     project.command_files { |filename|
       unless Thor::Base.subclass_files.keys.include?(File.expand_path(filename))
         begin

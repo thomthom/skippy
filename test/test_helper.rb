@@ -83,6 +83,7 @@ class Skippy::Test::Fixture < Skippy::Test
   def use_fixture(fixture_name)
     source = fixture(fixture_name)
     raise "Fixture #{fixture_name} not found" unless source.exist?
+
     FileUtils.copy_entry(source, work_path, false, false, true)
   end
 

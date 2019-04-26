@@ -35,6 +35,7 @@ class Skippy::Config < Hash
     item = get_item(key_path)
     item = set_item(key_path, []) if item.nil?
     raise ArgumentError, 'key path is not an Array' unless item.is_a?(Array)
+
     item << value
   end
 
@@ -52,6 +53,7 @@ class Skippy::Config < Hash
 
   def save
     raise MissingPathError if path.nil?
+
     export(path)
   end
 
@@ -117,9 +119,11 @@ class Skippy::Config < Hash
   def get_item(key_path)
     parts = key_parts(key_path)
     return nil if parts.empty?
+
     item = self
     parts.each { |key|
       return nil if item.nil?
+
       item = item[key]
     }
     item

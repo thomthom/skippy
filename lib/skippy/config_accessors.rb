@@ -15,6 +15,7 @@ module Skippy::ConfigAccessors
     class_eval do
       symbols.each { |symbol|
         raise TypeError unless symbol.is_a?(Symbol)
+
         define_method(symbol) do
           value = @config.get(key || symbol, default)
           value = type.new(value) if type && !value.is_a?(type)
@@ -29,6 +30,7 @@ module Skippy::ConfigAccessors
     class_eval do
       symbols.each { |symbol|
         raise TypeError unless symbol.is_a?(Symbol)
+
         symbol_set = "#{symbol}=".intern
         define_method(symbol_set) do |value|
           value = type.new(value) if type && !value.is_a?(type)

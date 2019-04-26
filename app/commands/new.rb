@@ -38,6 +38,7 @@ class New < Skippy::Command::Group
     if project.exist?
       raise Skippy::Error, "A project already exist: #{project.filename}"
     end
+
     project.namespace = namespace
     project.name = project.namespace.to_name
     project.basename = options[:basename] || project.namespace.short_name

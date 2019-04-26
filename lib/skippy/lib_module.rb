@@ -13,6 +13,7 @@ class Skippy::LibModule
   def initialize(library, path)
     @path = Pathname.new(path)
     raise ModuleNotFoundError, @path.to_s unless @path.file?
+
     @library = library
   end
 

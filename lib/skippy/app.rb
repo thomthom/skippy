@@ -43,6 +43,7 @@ class Skippy::App
       template_path = templates_source_path.join(entry)
       next unless template_path.directory?
       next if %w(. ..).include?(entry.basename.to_s)
+
       result << entry.expand_path(templates_source_path)
     }
     result

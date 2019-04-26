@@ -29,6 +29,7 @@ class Skippy::LibraryManager
   # @param [Skippy::Project] project
   def initialize(project)
     raise TypeError, 'expected a Project' unless project.is_a?(Skippy::Project)
+
     @project = project
     @libraries = SortedSet.new(discover_libraries)
   end
@@ -56,8 +57,10 @@ class Skippy::LibraryManager
     if library_name.nil? || module_name.nil?
       raise ArgumentError, 'expected a module path'
     end
+
     library = find_library(library_name)
     return nil if library.nil?
+
     library.modules.find { |mod| mod.basename.casecmp(module_name).zero? }
   end
 
@@ -77,6 +80,7 @@ class Skippy::LibraryManager
   # @return [Skippy::Library]
   def install(source, options = {})
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
+
     lib_source = Skippy::LibrarySource.new(project, source, options)
 
     installer = get_installer(lib_source)
@@ -99,8 +103,10 @@ class Skippy::LibraryManager
   # @return [Skippy::Library]
   def uninstall(lib)
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
+
     library = lib.is_a?(Skippy::Library) ? lib : find_library(lib)
     raise Skippy::LibraryNotFound, 'Library not found' if library.nil?
+
     # Uninstall modules first - using the module manager.
     vendor_path = project.modules.vendor_path
     vendor_module_path = vendor_path.join(library.name)
@@ -113,9 +119,11 @@ class Skippy::LibraryManager
       vendor_path.rmdir
     end
     raise 'Unable to remove vendor modules' if vendor_module_path.exist?
+
     # Now the library itself is safe to remove.
     library.path.rmtree if library.path.exist?
     raise 'Unable to remove library' if library.path.exist?
+
     @libraries.delete(library)
     library
   end

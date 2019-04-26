@@ -7,6 +7,7 @@ module Skippy::Helpers
     # @return [Array<Pathname>]
     def directories(pathname)
       return [] unless pathname.exist?
+
       pathname.children.select(&:directory?)
     end
 

@@ -40,6 +40,7 @@ class Skippy::LibrarySource
   # @return [String, nil]
   def requirement
     return nil if @options[:requirement].nil?
+
     # Normalize the version requirement pattern.
     parts = Gem::Requirement.parse(@options[:requirement])
     # .parse will from '1.2.3' return ['=', '1.2.3']. Don't need that.

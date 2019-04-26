@@ -6,6 +6,7 @@ class Skippy::Namespace
     unless valid?(namespace)
       raise Skippy::Error, "'#{namespace}' is not a valid Ruby namespace"
     end
+
     @namespace = namespace
   end
 
@@ -24,6 +25,7 @@ class Skippy::Namespace
   def short_name
     items = to_a
     return to_s unless items.size > 1
+
     initials = items.first.scan(/[[:upper:]]/)
     prefix = initials.size > 1 ? initials.join : items.first[0, 2]
     "#{prefix}_#{items.last}"

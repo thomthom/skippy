@@ -28,8 +28,10 @@ class Skippy::Library
     @path = Pathname.new(path)
     raise LibraryNotFoundError, @path.to_s unless @path.directory?
     raise LibraryNotFoundError, config_file.to_s unless config_file.exist?
+
     @config = Skippy::Config.load(config_file)
     raise LibraryNotFoundError, 'Not a Skippy Library' unless @config[:library]
+
     @source = source
   end
 

@@ -36,6 +36,7 @@ class Skippy::Project
   def self.current_or_fail
     project = current
     raise ProjectNotFoundError, project.filename unless project.exist?
+
     project
   end
 
@@ -141,6 +142,7 @@ class Skippy::Project
       project_file = pathname.join(PROJECT_FILENAME)
       return pathname if project_file.exist?
       break if pathname.root?
+
       pathname = pathname.parent
     end
     nil

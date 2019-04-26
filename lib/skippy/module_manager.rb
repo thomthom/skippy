@@ -172,7 +172,7 @@ class Skippy::ModuleManager
     content
   end
 
-  LIB_REQUIRE_PATTERN = %r{(\brequire ["'])(modules)(/[^"']*["'])}
+  LIB_REQUIRE_PATTERN = %r{(\brequire ["'])(modules)(/[^"']*["'])}.freeze
 
   # Transform the require statements to the target destination.
   #

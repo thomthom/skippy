@@ -74,9 +74,9 @@ class Skippy::CLI < Skippy::Command
   desc 'list [SEARCH]',
     "List the available #{$PROGRAM_NAME} commands (--substring means .*SEARCH)"
   method_options substring: :boolean,
-                 group:     :string,
-                 all:       :boolean,
-                 debug:     :boolean
+                 group: :string,
+                 all: :boolean,
+                 debug: :boolean
   def list(search = '')
     initialize_thorfiles
 

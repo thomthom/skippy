@@ -9,6 +9,7 @@ AllCops:
     - 'vendor/**/*'
   DisplayCopNames: true
 
+
 Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
@@ -36,6 +37,11 @@ Layout/EndOfLine:
 Layout/EmptyLinesAroundBlockBody:
   Enabled: false
 
+
+Naming/RescuedExceptionsVariableName:
+  PreferredName: error
+
+
 Metrics/AbcSize:
   Enabled: false
   Exclude:
@@ -60,6 +66,7 @@ Metrics/MethodLength:
 # Too noisy.
 Metrics/PerceivedComplexity:
   Enabled: false
+
 
 # Prefer { ... } over do ... end except for control flow and
 # method defintions. Unfortunatly, no cop configuration for this.

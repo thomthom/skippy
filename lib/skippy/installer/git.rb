@@ -27,7 +27,7 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
     end
     begin
       checkout_branch(git, source.branch) if source.branch
-      checkout_tag(git, source.requirement) unless edge_version?(source.requirement)
+      checkout_tag(git, source.requirement) unless edge_version?(source.requirement) # rubocop:disable Metrics/LineLength
     rescue Skippy::Error
       git.checkout(previous_commit) if previous_commit
       raise
@@ -67,6 +67,7 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
     unless branches.include?(branch)
       raise Skippy::BranchNotFound, "Found no branch named: '#{branch}'"
     end
+
     git.checkout(branch)
     nil
   end
@@ -77,6 +78,7 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
     tags = Naturally.sort_by(git.tags, :name)
     tag = latest_version?(version) ? tags.last : resolve_tag(tags, version)
     raise Skippy::TagNotFound, "Found no version: '#{version}'" if tag.nil?
+
     git.checkout(tag)
     # Verify the library version with the tagged version.
     target = path.join(source.lib_path)
@@ -97,6 +99,7 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
     requirement = Gem::Requirement.new(version)
     tags.reverse.find { |tag|
       next false unless Gem::Version.correct?(tag.name)
+
       tag_version = Gem::Version.new(tag.name)
       requirement.satisfied_by?(tag_version)
     }

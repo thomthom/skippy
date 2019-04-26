@@ -15,6 +15,7 @@ class Sketchup < Skippy::Command
     unless app.can_debug
       raise Skippy::Error, "Debug library not installed for Sketchup #{version}"
     end
+
     arguments = ['-rdebug', %("ide port=#{options.port}")]
     Skippy.os.launch_app(app.executable, *arguments)
   end
@@ -58,6 +59,7 @@ class Sketchup < Skippy::Command
       sketchup.version == full_version
     }
     raise Skippy::Error, "SketchUp #{version} not found." if app.nil?
+
     app
   end
 

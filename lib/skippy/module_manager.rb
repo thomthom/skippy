@@ -17,6 +17,7 @@ class Skippy::ModuleManager
   # @param [Skippy::Project] project
   def initialize(project)
     raise TypeError, 'expected a Project' unless project.is_a?(Skippy::Project)
+
     @project = project
     @modules = SortedSet.new(discover_modules)
   end
@@ -48,6 +49,7 @@ class Skippy::ModuleManager
   # @return [Skippy::LibModule]
   def use(module_name)
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
+
     lib_module = project.libraries.find_module_or_fail(module_name)
 
     source = lib_module.path
@@ -63,6 +65,7 @@ class Skippy::ModuleManager
   # @return [Array<Skippy::LibModule>]
   def update(library)
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
+
     installed = select { |mod| mod.library.name.casecmp(library.name).zero? }
     installed.each { |mod| use(mod.name) }
     installed
@@ -72,6 +75,7 @@ class Skippy::ModuleManager
   # @return [Skippy::LibModule]
   def remove(module_name)
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
+
     lib_module = project.libraries.find_module_or_fail(module_name)
 
     target = vendor_path.join(lib_module.library.name, lib_module.path.basename)
@@ -103,9 +107,11 @@ class Skippy::ModuleManager
     project.libraries.each { |library|
       library_vendor_path = vendor_path.join(library.name)
       next unless library_vendor_path.directory?
+
       library_vendor_path.each_child { |module_file|
         next unless module_file.file?
         next unless module_file.extname.casecmp('.rb').zero?
+
         modules << Skippy::LibModule.new(library, module_file)
       }
     }
@@ -122,6 +128,7 @@ class Skippy::ModuleManager
     basename = source.basename('.*')
     source_support_folder = source.parent.join(basename)
     return unless source_support_folder.directory?
+
     target_support_folder = target.parent.join(basename)
     copy_directory(lib_module, source_support_folder, target_support_folder)
   end
@@ -133,6 +140,7 @@ class Skippy::ModuleManager
     Dir.glob("#{source_path}/**/*") { |filename|
       source = Pathname.new(filename)
       next unless source.file?
+
       relative_path = source.relative_path_from(source_path)
       target = target_path.join(relative_path)
       copy_file(lib_module, source, target)
@@ -164,7 +172,7 @@ class Skippy::ModuleManager
     content
   end
 
-  LIB_REQUIRE_PATTERN = %r{(\brequire ["'])(modules)(/[^"']*["'])}
+  LIB_REQUIRE_PATTERN = %r{(\brequire ["'])(modules)(/[^"']*["'])}.freeze
 
   # Transform the require statements to the target destination.
   #

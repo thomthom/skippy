@@ -57,11 +57,12 @@ class Skippy::CLI < Skippy::Command
     end
   end
 
+  # rubocop:disable Style/MethodMissingSuper,Style/MissingRespondToMissing
   # Verbatim copy from Thor::Runner:
   # If a command is not found on Thor::Runner, method missing is invoked and
   # Thor::Runner is then responsible for finding the command in all classes.
   #
-  def method_missing(meth, *args) # rubocop:disable Style/MethodMissing
+  def method_missing(meth, *args)
     meth = meth.to_s
     initialize_thorfiles(meth)
     klass, command = Thor::Util.find_class_and_command_by_namespace(meth)
@@ -69,14 +70,15 @@ class Skippy::CLI < Skippy::Command
     args.unshift(command) if command
     klass.start(args, shell: shell)
   end
+  # rubocop:enable Style/MethodMissingSuper,Style/MissingRespondToMissing
 
   # Verbatim copy from Thor::Runner:
   desc 'list [SEARCH]',
     "List the available #{$PROGRAM_NAME} commands (--substring means .*SEARCH)"
   method_options substring: :boolean,
-                 group:     :string,
-                 all:       :boolean,
-                 debug:     :boolean
+                 group: :string,
+                 all: :boolean,
+                 debug: :boolean
   def list(search = '')
     initialize_thorfiles
 
@@ -112,8 +114,9 @@ class Skippy::CLI < Skippy::Command
   def initialize_thorfiles(_relevant_to = nil, _skip_lookup = false)
     project = Skippy::Project.new(Dir.pwd)
     return unless project.exist?
+
     project.command_files { |filename|
-      unless Thor::Base.subclass_files.keys.include?(File.expand_path(filename))
+      unless Thor::Base.subclass_files.key?(File.expand_path(filename))
         begin
           Thor::Util.load_thorfile(filename, nil, options[:debug])
         rescue ScriptError, StandardError => error

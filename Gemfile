@@ -13,6 +13,7 @@ group :development do
   # gem 'aruba', git: 'https://github.com/rbld/aruba.git',
   #              branch: 'aruba-win-fix'
   gem 'pry'
-  gem 'rubocop', '~> 0.51.0', require: false
+  gem 'rubocop', '~> 0.67.2', require: false
+  gem 'rubocop-performance', '~> 1.1.0', require: false
   gem 'webmock', '~> 3.1'
 end

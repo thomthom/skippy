@@ -41,6 +41,13 @@
       ]
     },
     {
+      "name": "Debug Test (File)",
+      "type": "Ruby",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "program": "${file}"
+    },
+    {
       "name": "Cucumber",
       "type": "Ruby",
       "request": "launch",

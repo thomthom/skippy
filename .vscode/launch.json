@@ -45,7 +45,11 @@
       "type": "Ruby",
       "request": "launch",
       "cwd": "${workspaceRoot}",
-      "program": "${workspaceRoot}/bin/cucumber"
+      "program": "${workspaceRoot}/bin/cucumber",
+      "args": [
+        "--tags",
+        "~@obsolete"
+      ]
     }
   ]
 }

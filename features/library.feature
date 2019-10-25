@@ -2,6 +2,7 @@ Feature: Libraries
 
   Developers should be able to use third-party libraries in their extensions.
 
+  @obsolete
   Scenario: Install a new library from local disk
     Given I use a fixture named "my_project"
     And a file named "./temp/my_lib/skippy.json" with:
@@ -30,6 +31,7 @@ Feature: Libraries
       """
     And the output should contain "Installed library: my-lib (1.2.3)"
 
+  @obsolete
   Scenario: Install a new library from local disk twice
     Given I use a fixture named "my_project"
     And a file named "./temp/my_lib/skippy.json" with:
@@ -59,6 +61,7 @@ Feature: Libraries
       """
     And the output should contain "Installed library: my-lib (1.2.3)"
 
+  @obsolete
   Scenario: Install a new library from git source
     Given I use a fixture named "my_project"
     When I run `skippy lib:install ../../../fixtures/git-lib`
@@ -78,6 +81,7 @@ Feature: Libraries
       }
       """
 
+  @obsolete
   Scenario: Install a new library from git source with spesific version
     Given I use a fixture named "my_project"
     When I run `skippy lib:install ../../../fixtures/git-lib --version=1.2.3`
@@ -99,6 +103,7 @@ Feature: Libraries
       }
       """
 
+  @obsolete
   Scenario: Install from a source that is not a Skippy Library
     Given I use a fixture named "my_project"
     And a file named "./temp/my_lib/skippy.json" with:
@@ -111,6 +116,7 @@ Feature: Libraries
     When I run `skippy lib:install ./temp/my_lib`
     And the output should contain "Not a Skippy Library"
 
+  @obsolete
   Scenario: Uninstall library
     Given I use a fixture named "project_with_lib"
     When I run `skippy lib:uninstall my-lib`
@@ -139,6 +145,7 @@ Feature: Libraries
       }
       """
 
+  @obsolete
   Scenario: Uninstall all libraries
     Given I use a fixture named "project_with_lib"
     When I run `skippy lib:uninstall my-lib`
@@ -161,6 +168,7 @@ Feature: Libraries
       }
       """
 
+  @obsolete
   Scenario: Uninstall library from git source
     Given I use a fixture named "project_with_lib"
     When I run `skippy lib:install ../../../fixtures/git-lib`
@@ -197,6 +205,7 @@ Feature: Libraries
       }
       """
 
+  @obsolete
   Scenario: Update an installed library from local disk
     Given I use a fixture named "project_with_lib"
     And a file named "./temp/my_lib/skippy.json" with:
@@ -254,6 +263,7 @@ Feature: Libraries
       """
     And the output should contain "Installed library: my-lib (5.0.1)"
 
+  @obsolete
   Scenario: Update a library from git source
     Given I use a fixture named "my_project"
     When I run `skippy lib:install ../../../fixtures/git-lib --version="1.2.3"`

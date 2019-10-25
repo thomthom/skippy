@@ -8,6 +8,8 @@ require 'skippy/project'
 class SkippyLibraryManagerTest < Skippy::Test::Fixture
 
   def test_that_it_can_install_library
+    skip('Obsolete')
+
     use_fixture('my_project')
     project = Skippy::Project.new(work_path)
     library_source = fixture('my_lib')
@@ -30,6 +32,8 @@ class SkippyLibraryManagerTest < Skippy::Test::Fixture
   end
 
   def test_that_it_can_uninstall_library
+    skip('Obsolete')
+
     use_fixture('project_with_lib')
     project = Skippy::Project.new(work_path)
     assert_equal(2, project.libraries.size)
@@ -51,7 +55,21 @@ class SkippyLibraryManagerTest < Skippy::Test::Fixture
     refute_file(project.path('.skippy/libs/my-lib/modules/tool.rb'))
   end
 
+  def test_that_it_can_list_available_project_libraries
+    use_fixture('project_with_lib')
+    project = Skippy::Project.new(work_path)
+    assert_equal(2, project.libraries.size)
+    names = project.libraries.map(&:name).sort
+    expected = %w[
+      skippy-example
+      skippy-ex-lib
+    ]
+    assert_equal(expected, names)
+  end
+
   def test_that_it_can_find_library_module
+    skip('Obsolete') # TODO: Restore
+
     use_fixture('my_project')
     project = Skippy::Project.new(work_path)
     library_source = fixture('my_lib')

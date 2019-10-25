@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    skippy-example (0.6.1)
+    skippy-ex-lib (1.2.3)
+    example-gem (2.5.6)
+    skippy (0.4.0)
+
+PLATFORMS
+  x64-mingw32
+
+DEPENDENCIES
+  skippy-example (>= 0.6.1)
+  skippy-ex-lib
+  skippy
+  example-gem
+
+BUNDLED WITH
+   1.17.3

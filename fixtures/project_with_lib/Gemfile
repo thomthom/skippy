@@ -1,0 +1,8 @@
+source 'https://rubygems.org'
+
+group :development do
+  gem 'skippy-example', '>= 0.6.1'
+  gem 'skippy-ex-lib'
+  gem 'skippy'
+  gem 'example-gem'
+end

@@ -1,9 +1,18 @@
 # p ARGV
 # p $LOAD_PATH
 
-# $LOAD_PATH << File.join(__dir__)
+# $LOAD_PATH << File.join(__dir__) # TODO: temp debug!
 # require 'Bundler'
 # Bundler.setup
+
+
+# class Object
+#   def methods!
+#     methods.sort - Object.methods
+#   end
+# end
+# class Object; def methods!; methods.sort - Object.methods; end; end
+
 
 require 'test_helper'
 require 'skippy/bundler_project'
@@ -22,6 +31,7 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
       spesification_stub('example-gem', '2.5.6'),
       spesification_stub('skippy-example', '0.6.1'),
       spesification_stub('skippy-ex-lib', '1.2.3'),
+      spesification_stub('skippy-dep-lib', '4.5.6'),
       spesification_stub('skippy', '0.4.0'),
     ]
   end
@@ -38,6 +48,7 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
 
 
   def test_that_it_can_list_available_project_libraries
+    skip
     use_fixture('project_with_lib')
 
     bundler_project = Skippy::BundlerProject.new(work_path)
@@ -90,10 +101,15 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
       assert_kind_of(Gem::Specification, gem)
     }
 
-    p [:gems, gems.map(&:name), gems.map(&:version)]
-    p [:gems, gems.map(&:full_gem_path)] # Check that path exists.
+    gems.each { |gem|
+      puts "#{gem.name} - #{gem.version} (#{gem.full_gem_path})"
+    }
+
+    # p [:gems, gems.map(&:name), gems.map(&:version)]
+    # p [:gems, gems.map(&:full_gem_path)] # Check that path exists.
     # TODO: Use gem_dir? (See basic_specification.rb)
     # In the stubs - set the full_gem_path to the fixture path?
+    # TODO: Test nested dependencies
   end
 
 end

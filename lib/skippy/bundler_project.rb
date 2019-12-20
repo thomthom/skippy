@@ -9,6 +9,10 @@ end
 
 class Skippy::BundlerProject
 
+  # class LockFileParser < Bundler::LockfileParser
+  #   attr_reader :sources, :dependencies, :specs, :platforms, :bundler_version, :ruby_version
+  # end
+
   # @param [Pathname, String] path
   def initialize(path)
     require 'bundler'
@@ -20,6 +24,9 @@ class Skippy::BundlerProject
     # @modules = Skippy::ModuleManager.new(self)
   end
 
+  # Returns the direct dependencies of the project defined in `Gemfile`.
+  # This does not include nested dependencies.
+  #
   # @return [Array<Bundler::LazySpecification>]
   def dependencies
     # unless Bundler.definition.lockfile.exist?
@@ -46,6 +53,11 @@ class Skippy::BundlerProject
       # TODO: This doesn't configure Bundler. Load paths, etc. Investigate if this causes problems.
       # Only need to get list of gems used (Gemfile.locked).
       definition = Bundler::Definition.build(default_gemfile, default_lockfile, unlock)
+      p [:locked_gems_specs, definition.locked_gems.specs.map(&:name)]
+      p [:locked_gems_dependencies, definition.locked_gems.dependencies]
+      # p [:requested_specs, definition.requested_specs.map(&:name)]
+      # p [:missing_specs, definition.missing_specs.map(&:name)]
+      # p [:specs, definition.specs.map(&:name)]
       definition.locked_gems.specs.select { |spec|
         spec.name.start_with?('skippy-')
       }
@@ -56,11 +68,68 @@ class Skippy::BundlerProject
 
   # @return [Array<Gem::Specification>]
   def gems
+    # specs = Bundler.definition.locked_gems.specs
+    # p dependencies.map(&:full_name)
+    # p dependencies
+    puts JSON.pretty_generate(dependencies)
+
+    puts
+    # default_lockfile = Bundler.default_lockfile
+    puts @path
+    puts Dir.glob("#{@path}/*").join("\n")
+    # default_lockfile = Dir.chdir(@path.to_s) do
+    #   Bundler.default_lockfile
+    # end
+    # puts default_lockfile
+    # lockfile = File.read(default_lockfile)
+    lockfile_path = File.join(@path, 'Gemfile.lock')
+    puts lockfile_path
+    lockfile = File.read(lockfile_path)
+    parser = Bundler::LockfileParser.new(lockfile)
+    # p parser.specs
+    gem_specs = []
+    parser.specs.each { |bundle_spec|
+      # puts "bundle_spec: #{bundle_spec.name}"
+      next unless bundle_spec.name.start_with?('skippy-')
+
+      # p [:dep, dependency.name, dependency.version]
+      specs = Gem::Specification.find_all_by_name(bundle_spec.name)
+      # gem = specs.find { |spec| spec.version == dependency.version }
+      # TODO: find best match based on Bundle requirements.
+      gem = specs.find { |spec|
+        # p [:version, spec.version, dependency.version, spec.version == dependency.version]
+        spec.version == bundle_spec.version
+      }
+      gem or raise Skippy::GemNotFoundError, "#{bundle_spec.name} (#{bundle_spec.version})"
+      # gem or raise Skippy::GemNotFoundError, dependency.full_name
+      gem_spec = specs.last
+      gem_specs << gem_spec
+
+      bundle_spec.dependencies.each { |dependency|
+        next unless dependency.name.start_with?('skippy-')
+        # puts "  dependency: #{dependency.name}"
+        specs = Gem::Specification.find_all_by_name(dependency.name)
+        # TODO: find best match based on Bundle requirements.
+        # gem = specs.find { |spec|
+        #   spec.version == dependency.version
+        # }
+        gem or raise Skippy::GemNotFoundError, "#{dependency.name} (#{dependency.version})"
+        gem = specs.last
+
+        gem_specs << gem
+      }
+    }
+    puts
+    gem_specs.sort! { |a, b| a.name <=> b.name }
+    gem_specs
+
+=begin
     # result = []
     dependencies.map { |dependency|
       # p [:dep, dependency.name, dependency.version]
       specs = Gem::Specification.find_all_by_name(dependency.name)
       # gem = specs.find { |spec| spec.version == dependency.version }
+      # TODO: find best match based on Bundle requirements.
       gem = specs.find { |spec|
         # p [:version, spec.version, dependency.version, spec.version == dependency.version]
         spec.version == dependency.version
@@ -71,6 +140,7 @@ class Skippy::BundlerProject
       # result << gem if gem
     }
     # result
+=end
   end
 
 end

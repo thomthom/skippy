@@ -13,6 +13,17 @@
         "TEST=${relativeFile}"
       ],
       "group": "test"
+    },
+    {
+      "label": "rake test bundler_project_test",
+      "type": "shell",
+      "command": "bundle",
+      "args": [
+        "exec",
+        "rake",
+        "TEST=test/bundler_project_test.rb"
+      ],
+      "group": "test"
     }
   ]
 }

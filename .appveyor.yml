@@ -19,6 +19,7 @@ install:
   - gem install bundler --no-document --version="<2.0.0"
   - bundle config --local path vendor/bundle
   - bundle install
+  - git submodule update --init --recursive
 
 build: off
 

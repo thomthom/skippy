@@ -32,7 +32,7 @@ For Windows the easiest way to get Ruby running is using the [Ruby Installer for
 ## Installation
 
 ```bash
-gem install skippy
+gem install skippy --pre
 ```
 
 ## Usage

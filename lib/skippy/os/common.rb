@@ -23,4 +23,11 @@ class Skippy::OSCommon
     raise NotImplementedError
   end
 
+  # @param [String] path
+  # @return [Integer, nil]
+  def sketchup_version_from_path(path)
+    match = File.basename(path).match(/[0-9.]+/)
+    match ? match[0].to_i : nil
+  end
+
 end

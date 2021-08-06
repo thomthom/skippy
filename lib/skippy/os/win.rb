@@ -28,7 +28,9 @@ class Skippy::OSWin < Skippy::OSCommon
       Dir.glob(pattern) { |path|
         exe = File.join(path, 'SketchUp.exe')
         debug_dll = File.join(path, 'SURubyDebugger.dll')
-        version = File.basename(path).match(/[0-9.]+/)[0].to_i
+        version = sketchup_version_from_path(path)
+        next unless version
+
         apps << Skippy::SketchUpApp.from_hash(
           executable: exe,
           version: version,

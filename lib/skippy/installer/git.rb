@@ -55,7 +55,7 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
     git = Git.open(target)
     previous_commit = git.object('HEAD^').class
     git.reset_hard
-    git.pull
+    git.fetch
     [git, previous_commit]
   end
 

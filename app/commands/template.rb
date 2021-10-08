@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Template < Skippy::Command
 
   desc 'list', 'List all known templates'

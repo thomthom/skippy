@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 require 'skippy/library_manager'
 require 'skippy/lib_module'

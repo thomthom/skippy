@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'json'
 
 Then(/^a file named "([^"]*)" should contain json fragment:$/) do |file, json_string|

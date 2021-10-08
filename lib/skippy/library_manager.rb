@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'git'
 require 'json'
 require 'naturally'

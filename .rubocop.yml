@@ -114,6 +114,13 @@ Style/IfUnlessModifier:
 Style/ModuleFunction:
   Enabled: false
 
+# Excluding some files that copies the Thor implementation.
+# TODO: Investigate if Thor changed their implementation.
+Style/OptionalBooleanParameter:
+  Exclude:
+    - lib/skippy/cli.rb
+    - lib/skippy/command.rb
+
 # %w and %i etc isn't really intuitive unless you are really familiar with the
 # syntax. %w seems used often enough. But [:symbol, :foo] reads clearer than
 # %i(symbol foo).

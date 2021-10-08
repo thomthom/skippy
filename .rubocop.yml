@@ -39,7 +39,11 @@ Layout/EndOfLine:
 Layout/EmptyLinesAroundBlockBody:
   Enabled: false
 
-Layout/Layout/ParameterAlignment:
+Layout/LineLength:
+  Exclude:
+    - features/step_definitions/**/*
+
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
 
@@ -59,10 +63,6 @@ Metrics/ClassLength:
 # Too noisy.
 Metrics/CyclomaticComplexity:
   Enabled: false
-
-Metrics/LineLength:
-  Exclude:
-    - features/step_definitions/**/*
 
 Metrics/MethodLength:
   Exclude:

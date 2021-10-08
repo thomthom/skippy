@@ -13,3 +13,7 @@ group :development do
   gem 'rubocop-rake', '~> 0.6', require: false
   gem 'webmock', '~> 3.1'
 end
+
+group :ci do
+  gem 'appveyor-worker', '~> 0.2', require: false
+end

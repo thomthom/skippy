@@ -8,6 +8,10 @@ require 'pathname'
 require 'pry'
 require 'webmock/minitest'
 
+# AppVeyor reporter needs to be able to interact with localhost to report the
+# progress of the tests.
+WebMock.disable_net_connect!(allow_localhost: true)
+
 class Skippy::Test < Minitest::Test
 
   def assert_same_elements(exp, act, msg = nil)

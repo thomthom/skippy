@@ -42,7 +42,7 @@ class SkippyOSCommonTest < Skippy::Test
   def test_that_it_can_parse_app_version_from_mac_paths
     os = Skippy::OSCommon.new
     test_data = {
-      # Note: Not sure what the path names were for Google era SketchUp.
+      # NOTE: Not sure what the path names were for Google era SketchUp.
       '/Applications/Google SketchUp 6' => 6,
       '/Applications/Google SketchUp 7' => 7,
       '/Applications/Google SketchUp 8' => 8,

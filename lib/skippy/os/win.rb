@@ -5,7 +5,7 @@ require 'skippy/sketchup/app'
 
 class Skippy::OSWin < Skippy::OSCommon
 
-  # Note: This is not a good indication to 32bit bs 64bit. It's a naive
+  # NOTE: This is not a good indication to 32bit bs 64bit. It's a naive
   #       assumption that will fail when SketchUp is installed to a
   #       non-standard location.
   SYSTEM_32BIT = ENV['ProgramFiles(x86)'].nil? && ENV['ProgramW6432'].nil?

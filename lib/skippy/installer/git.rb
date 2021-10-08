@@ -109,7 +109,7 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
 
   # @param [String] version
   def edge_version?(version)
-    version && version.casecmp('edge').zero?
+    version&.casecmp('edge')&.zero?
   end
 
   # @param [String] version

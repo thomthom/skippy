@@ -30,7 +30,7 @@ class Skippy::LibraryInstaller
   # @param [Symbol] type
   # @param [String] message
   def status(type, message)
-    @messager.call(type, message) if @messager
+    @messager&.call(type, message)
   end
 
   # @param [String] message

@@ -43,7 +43,7 @@ class Skippy::ModuleManager
   # @param [Skippy::LibModule, String] lib_module
   def installed?(lib_module)
     module_name = lib_module.name
-    modules = project && project.config.get(:modules, [])
+    modules = project&.config&.get(:modules, [])
     modules.any? { |mod| mod.casecmp(module_name).zero? }
   end
 

@@ -12,7 +12,7 @@ class Skippy::Test < Minitest::Test
 
   def assert_same_elements(exp, act, msg = nil)
     msg = message(msg, E) { diff exp, act }
-    assert(exp == exp & act, msg)
+    assert_equal(exp, exp & act, msg)
   end
 
   def assert_all_kind_of(klass, elements, msg = nil)

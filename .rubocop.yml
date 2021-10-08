@@ -1,6 +1,8 @@
 inherit_from: .rubocop_todo.yml
 
-require: rubocop-rake
+require:
+  - rubocop-minitest
+  - rubocop-rake
 
 AllCops:
   Exclude:
@@ -140,6 +142,21 @@ Style/TrailingCommaInArrayLiteral:
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
 
+
+# Not testing computed values, but serialized values.
+# Ignoring floating point tolerance is fine (and wanted) in this case.
+Minitest/AssertInDelta:
+  Enabled: false
+
+# Too many false positives.
+Minitest/AssertWithExpectedArgument:
+  Enabled: false
+
+# No such thing as too many assertions.
+Minitest/MultipleAssertions:
+  Enabled: false
+
+
 ################################################################################
 # Enabling new cops:
 
@@ -230,4 +247,29 @@ Style/SelectByRegexp: # new in 1.22
 Style/StringChars: # new in 1.12
   Enabled: true
 Style/SwapValues: # new in 1.1
+  Enabled: true
+
+Minitest/AssertionInLifecycleHook: # new in 0.10
+  Enabled: true
+Minitest/AssertKindOf: # new in 0.10
+  Enabled: true
+Minitest/AssertOutput: # new in 0.10
+  Enabled: true
+Minitest/AssertPathExists: # new in 0.10
+  Enabled: true
+Minitest/AssertSilent: # new in 0.10
+  Enabled: true
+Minitest/LiteralAsActualArgument: # new in 0.10
+  Enabled: true
+Minitest/RefuteInDelta: # new in 0.10
+  Enabled: true
+Minitest/RefuteKindOf: # new in 0.10
+  Enabled: true
+Minitest/RefutePathExists: # new in 0.10
+  Enabled: true
+Minitest/TestMethodName: # new in 0.10
+  Enabled: true
+Minitest/UnreachableAssertion: # new in 0.14
+  Enabled: true
+Minitest/UnspecifiedException: # new in 0.10
   Enabled: true

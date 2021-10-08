@@ -135,7 +135,7 @@ class SkippyLibrarySourceTest < Skippy::Test
     }
     source = Skippy::LibrarySource.new(project, source_name, options)
     assert_kind_of(String, source.requirement)
-    assert_equal(source.requirement, '~> 1.2.3')
+    assert_equal('~> 1.2.3', source.requirement)
   end
 
   def test_it_does_not_prefix_exact_requirement
@@ -145,7 +145,7 @@ class SkippyLibrarySourceTest < Skippy::Test
     }
     source = Skippy::LibrarySource.new(project, source_name, options)
     assert_kind_of(String, source.requirement)
-    assert_equal(source.requirement, '1.2.3')
+    assert_equal('1.2.3', source.requirement)
   end
 
   def test_it_keeps_track_of_source_branch

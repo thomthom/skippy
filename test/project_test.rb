@@ -12,7 +12,7 @@ class SkippyProjectTest < Skippy::Test
     project = Skippy::Project.new(test_path)
     assert_equal(test_path, project.path)
     refute(project.exist?)
-    refute(File.exist?(project.filename))
+    refute_path_exists(project.filename)
   end
 
   def test_that_it_initializes_default_values
@@ -32,10 +32,10 @@ class SkippyProjectTest < Skippy::Test
       project = Skippy::Project.new(test_path)
       assert_equal(test_path, project.path)
       refute(project.exist?)
-      refute(File.exist?(project.filename))
+      refute_path_exists(project.filename)
       project.save
       assert(project.exist?)
-      assert(File.exist?(project.filename))
+      assert_path_exists(project.filename)
     end
   end
 

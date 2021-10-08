@@ -77,7 +77,7 @@ class Lib < Skippy::Command
   private
 
   def install_options(cli_options)
-    options = cli_options.map { |k, v| [k.to_sym, v] }.to_h
+    options = cli_options.transform_keys(&:to_sym)
     # The CLI options "version" is internally a "requirement".
     if options.key?(:version)
       options[:requirement] = options[:version]

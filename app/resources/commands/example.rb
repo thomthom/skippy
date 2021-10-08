@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Hello < Skippy::Command
 
   desc 'world PERSON', 'Oh, hi there!'

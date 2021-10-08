@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'skippy/os/common'
 require 'skippy/sketchup/app'
 

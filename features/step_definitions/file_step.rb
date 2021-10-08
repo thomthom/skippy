@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'json'
 
 Then(/^(?:the|a) (?:file|directory) named like "([^"]*)" should( not)? exist$/) do |pattern, negate|

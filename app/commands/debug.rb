@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'skippy/namespace'
 
 class Debug < Skippy::Command

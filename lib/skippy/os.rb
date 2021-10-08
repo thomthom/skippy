@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Skippy
 
   if RUBY_PLATFORM =~ /darwin/

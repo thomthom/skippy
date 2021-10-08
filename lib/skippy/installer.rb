@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'skippy/lib_source'
 require 'skippy/library'
 require 'skippy/project'

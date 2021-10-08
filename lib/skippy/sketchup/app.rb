@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Skippy
 
   SketchUpApp = Struct.new(:executable, :version, :can_debug, :is64bit) do

@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # Set the program name explicitly. Otherwise Thor will use the filename in the
 # banner for the command help.

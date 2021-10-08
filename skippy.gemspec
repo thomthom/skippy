@@ -26,13 +26,10 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'git', '~> 1.3'
   spec.add_dependency 'naturally', '~> 2.1'
-  spec.add_dependency 'thor', '~> 0.19'
+  spec.add_dependency 'thor', '>= 0.19', '< 2.0'
 
   spec.add_development_dependency 'bundler', '>= 1.15.0', '< 3.0'
   spec.add_development_dependency 'rake', '~> 12.3.3'
   spec.add_development_dependency 'minitest', '~> 5.0'
-  # TODO(thomthom): Need to lock to 2.3 because 2.4 fails with the custom
-  # aruba build.
-  spec.add_development_dependency 'cucumber', '~> 2.3.0'
-  spec.add_development_dependency 'aruba', '~> 0.14.1'
+  spec.add_development_dependency 'aruba', '~> 1.0'
 end

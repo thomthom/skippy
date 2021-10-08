@@ -10,6 +10,10 @@ AllCops:
   DisplayCopNames: true
 
 
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+  # IndentationWidth: 2
+
 # It's ok to have more than one empty line to create a 'paragrapth'.
 Layout/EmptyLines:
   Enabled: false

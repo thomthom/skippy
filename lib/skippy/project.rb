@@ -17,7 +17,7 @@ class Skippy::Project
 
   include Skippy::Helpers::File
 
-  PROJECT_FILENAME = 'skippy.json'.freeze
+  PROJECT_FILENAME = 'skippy.json'
 
   attr_reader :config
   attr_reader :libraries

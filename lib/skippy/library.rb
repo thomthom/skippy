@@ -14,7 +14,7 @@ class Skippy::Library
 
   include Skippy::Helpers::File
 
-  CONFIG_FILENAME = 'skippy.json'.freeze
+  CONFIG_FILENAME = 'skippy.json'
 
   attr_reader :path, :source, :requirement
 

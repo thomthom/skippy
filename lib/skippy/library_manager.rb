@@ -37,8 +37,8 @@ class Skippy::LibraryManager
   end
 
   # @yield [Skippy::Library]
-  def each
-    @libraries.each { |library| yield library }
+  def each(&block)
+    @libraries.each(&block)
     self
   end
 
@@ -87,7 +87,7 @@ class Skippy::LibraryManager
 
     installer = get_installer(lib_source)
     if block_given?
-      installer.on_status { |type, message|
+      installer.on_status { |type, message| # rubocop:disable Style/ExplicitBlockArgument
         yield type, message
       }
     end

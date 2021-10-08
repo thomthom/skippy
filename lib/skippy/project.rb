@@ -69,11 +69,9 @@ class Skippy::Project
 
   # @yield [filename]
   # @yieldparam [String] filename the path to custom Skippy command
-  def command_files
+  def command_files(&block)
     files_pattern = File.join(path, 'skippy', '**', '*.rb')
-    Dir.glob(files_pattern) { |filename|
-      yield filename
-    }
+    Dir.glob(files_pattern, &block)
   end
 
   # Checks if a project exist on disk. If not it's just transient.

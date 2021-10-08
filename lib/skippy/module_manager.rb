@@ -25,8 +25,8 @@ class Skippy::ModuleManager
   end
 
   # @yield [Skippy::LibModule]
-  def each
-    @modules.each { |lib_module| yield lib_module }
+  def each(&block)
+    @modules.each(&block)
     self
   end
 

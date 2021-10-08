@@ -57,7 +57,7 @@ class Skippy::App
     # Load the default skippy commands.
     path_commands = File.join(path, 'commands')
     commands_pattern = File.join(path_commands, '*.rb')
-    Dir.glob(commands_pattern) { |filename|
+    Dir.glob(commands_pattern).sort.each { |filename|
       # noinspection RubyResolve
       require filename
     }

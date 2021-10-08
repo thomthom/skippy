@@ -10,9 +10,6 @@ AllCops:
   DisplayCopNames: true
 
 
-Layout/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-
 # It's ok to have more than one empty line to create a 'paragrapth'.
 Layout/EmptyLines:
   Enabled: false
@@ -36,6 +33,9 @@ Layout/EndOfLine:
 # Add lines as needed.
 Layout/EmptyLinesAroundBlockBody:
   Enabled: false
+
+Layout/Layout/ParameterAlignment:
+  EnforcedStyle: with_fixed_indentation
 
 
 Naming/RescuedExceptionsVariableName:

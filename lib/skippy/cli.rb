@@ -59,7 +59,7 @@ class Skippy::CLI < Skippy::Command
     end
   end
 
-  # rubocop:disable Style/MethodMissingSuper,Style/MissingRespondToMissing
+  # rubocop:disable Style/MissingRespondToMissing
   # Verbatim copy from Thor::Runner:
   # If a command is not found on Thor::Runner, method missing is invoked and
   # Thor::Runner is then responsible for finding the command in all classes.
@@ -72,7 +72,7 @@ class Skippy::CLI < Skippy::Command
     args.unshift(command) if command
     klass.start(args, shell: shell)
   end
-  # rubocop:enable Style/MethodMissingSuper,Style/MissingRespondToMissing
+  # rubocop:enable Style/MissingRespondToMissing
 
   # Verbatim copy from Thor::Runner:
   desc 'list [SEARCH]',

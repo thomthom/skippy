@@ -17,7 +17,7 @@ class Skippy::OSCommon
   end
 
   # @param [String] path
-  def launch_app(path, *args) # rubocop:disable Lint/UnusedMethodArgument
+  def launch_app(path, *args)
     raise NotImplementedError
   end
 

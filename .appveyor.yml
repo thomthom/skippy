@@ -15,8 +15,11 @@ environment:
 
 install:
   - set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
-  - gem update --no-document --system 2.7.8
-  - gem install bundler --no-document --version="<2.0.0"
+  # - gem update --no-document --system 2.7.8
+  # - gem install bundler --no-document --version="<3.0.0"
+  #
+  # https://github.com/ruby/psych/issues/519
+  - gem uninstall psych # Workaround bug. (https://stackoverflow.com/a/69088551)
   - bundle config --local path vendor/bundle
   - bundle install
   - git submodule update --init --recursive

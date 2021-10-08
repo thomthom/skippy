@@ -22,7 +22,7 @@ class Lib < Skippy::Command
         say
         say "#{library.name} (#{library.version})", [:bold, :yellow]
         library.modules.each { |lib_module|
-          lib_info = "  #{lib_module}"
+          lib_info = +"  #{lib_module}"
           lib_info << ' (installed)' if project.modules.installed?(lib_module)
           say lib_info, :green
         }

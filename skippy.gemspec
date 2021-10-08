@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/thomthom/skippy'
   spec.license       = 'MIT'
 
-  spec.required_ruby_version = '>= 2.0'
+  spec.required_ruby_version = '>= 2.3'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})

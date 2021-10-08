@@ -24,6 +24,7 @@ Layout/EmptyLinesAroundModuleBody:
 
 # Normally one line in between, but two allowed for "paragraphs".
 Layout/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
   NumberOfEmptyLines: [1, 2]
 
 # Rely on Git to normalize end of lines.

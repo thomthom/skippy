@@ -29,7 +29,7 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
     end
     begin
       checkout_branch(git, source.branch) if source.branch
-      checkout_tag(git, source.requirement) unless edge_version?(source.requirement) # rubocop:disable Metrics/LineLength
+      checkout_tag(git, source.requirement) unless edge_version?(source.requirement) # rubocop:disable Layout/LineLength
     rescue Skippy::Error
       git.checkout(previous_commit) if previous_commit
       raise

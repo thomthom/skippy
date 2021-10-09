@@ -15,7 +15,7 @@ class Skippy::OSWin < Skippy::OSCommon
 
   # @param [String] executable_path
   def launch_app(executable_path, *args)
-    command = %("#{executable_path}")
+    command = +%("#{executable_path}")
     unless args.empty?
       command << " #{args.join(' ')}"
     end

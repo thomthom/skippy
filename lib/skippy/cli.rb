@@ -100,11 +100,6 @@ class Skippy::CLI < Skippy::Command
     "#{$PROGRAM_NAME} " + command.formatted_usage(self, all, subcommand)
   end
 
-  # Verbatim copy from Thor::Runner:
-  def self.exit_on_failure?
-    true
-  end
-
   private
 
   # This is one of the places this runner differ from Thor::Runner. It will

@@ -11,5 +11,10 @@ module Skippy
       command.formatted_usage(self, true, subcommand).to_s
     end
 
+    def self.exit_on_failure?
+      # https://github.com/rails/thor/issues/244
+      true
+    end
+
   end
 end

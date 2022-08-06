@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'git', '~> 1.3'
   spec.add_dependency 'naturally', '~> 2.1'
   spec.add_dependency 'thor', '>= 0.19', '< 2.0'
+  spec.add_dependency 'sorted_set'
 
   spec.add_development_dependency 'bundler', '>= 1.15.0', '< 3.0'
   spec.add_development_dependency 'rake', '~> 12.3.3'

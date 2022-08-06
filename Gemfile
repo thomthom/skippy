@@ -16,5 +16,4 @@ group :development do
   gem 'rubocop-performance', '~> 1.0', require: false
   gem 'rubocop-rake', '~> 0.6', require: false
   gem 'webmock', '~> 3.1'
-  gem 'ruby_jard'
 end

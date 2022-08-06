@@ -2,6 +2,6 @@
 
 module Skippy
 
-  VERSION = '0.5.1.b'
+  VERSION = '0.5.1.c'
 
 end

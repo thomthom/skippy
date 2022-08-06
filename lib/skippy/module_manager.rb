@@ -4,6 +4,7 @@ require 'fileutils'
 require 'json'
 require 'pathname'
 require 'set'
+require 'sorted_set'
 
 require 'skippy/helpers/file'
 require 'skippy/lib_module'

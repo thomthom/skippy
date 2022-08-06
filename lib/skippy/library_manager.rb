@@ -5,6 +5,7 @@ require 'json'
 require 'naturally'
 require 'pathname'
 require 'set'
+require 'sorted_set'
 
 require 'skippy/helpers/file'
 require 'skippy/installer/git'

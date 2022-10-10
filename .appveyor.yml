@@ -1,4 +1,5 @@
-image: Visual Studio 2022
+# image: Visual Studio 2022
+image: Visual Studio 2019
 
 version: "{build}-{branch}"
 
@@ -16,7 +17,7 @@ environment:
   matrix:
     # - RUBY_VERSION: 25-x64
     # - RUBY_VERSION: 26-x64
-    - RUBY_VERSION: 27-x64
+    # - RUBY_VERSION: 27-x64
     # - RUBY_VERSION: 30-x64
     - RUBY_VERSION: 31-x64
 

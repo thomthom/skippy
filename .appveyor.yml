@@ -1,3 +1,5 @@
+image: Visual Studio 2022
+
 version: "{build}-{branch}"
 
 branches:
@@ -10,17 +12,21 @@ cache:
 
 environment:
   matrix:
-    - RUBY_VERSION: 25
-    - RUBY_VERSION: 26
+    - RUBY_VERSION: 25-x64
+    - RUBY_VERSION: 26-x64
+    - RUBY_VERSION: 27-x64
+    # - RUBY_VERSION: 30-x64
+    # - RUBY_VERSION: 31-x64
 
 install:
   - set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
-  # - gem update --no-document --system 2.7.8
-  # - gem install bundler --no-document --version="<3.0.0"
-  #
-  # https://github.com/ruby/psych/issues/519
-  - gem uninstall psych # Workaround bug. (https://stackoverflow.com/a/69088551)
-  - bundle config --local path vendor/bundle
+  # - bundle env
+  - gem update --no-document --system
+  - gem install bundler --no-document --version="<3.0.0"
+  - bundle config set --local path vendor/bundle
+  - bundle config set --local without analysis development documentation
+  - bundle config set --local with test ci
+  # - bundle env
   - bundle install
   - git submodule update --init --recursive
 
@@ -32,4 +38,4 @@ before_test:
   - bundle -v
 
 test_script:
-  - bundle exec rake
+  - bundle exec rake test

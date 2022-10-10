@@ -5,12 +5,20 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in skippy.gemspec
 gemspec
 
+# Even if Bundler is told to install only one of these groups, it appear to
+# process the gem requirements of all groups. This would cause Bundler to fail
+# on CI builds where the Ruby version was older than what some of the gems in
+# the skipped groups required. To work around that the groups are conditionally
+# evaluated such that in CI environment only the minimal set of gems are
+# processed by Bundler.
+IS_CI_ENVIRONMENT = ENV.key?('CI')
+
 group :development do
   gem 'pry'
   gem 'debase', '~> 0.2'         # VSCode debugging
   gem 'ruby-debug-ide', '~> 0.7' # VSCode debugging
   gem 'solargraph'               # VSCode IDE support
-end
+end unless IS_CI_ENVIRONMENT
 
 group :test do
   gem 'aruba', '~> 2.0'
@@ -23,14 +31,14 @@ end
 # group :documentation do
 #   gem 'commonmarker', '~> 0.23'
 #   gem 'yard', '~> 0.9'
-# end
+# end unless IS_CI_ENVIRONMENT
 
 group :analysis do
   gem 'rubocop', '~> 1.0', require: false
   gem 'rubocop-minitest', '~> 0.15', require: false
   gem 'rubocop-performance', '~> 1.0', require: false
   gem 'rubocop-rake', '~> 0.6', require: false
-end
+end unless IS_CI_ENVIRONMENT
 
 group :ci do
   gem 'appveyor-worker', '~> 0.2', require: false

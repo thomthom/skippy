@@ -6,7 +6,7 @@ require 'skippy'
 require 'minitest/autorun'
 require "minitest/reporters"
 require 'pathname'
-require 'pry'
+# require 'pry' # TODO: What was this used for?
 require 'webmock/minitest'
 
 # AppVeyor reporter needs to be able to interact with localhost to report the

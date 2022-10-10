@@ -14,19 +14,22 @@ gemspec
 IS_CI_ENVIRONMENT = ENV.key?('CI')
 
 group :development do
-  gem 'pry'
   gem 'debase', '~> 0.2'         # VSCode debugging
+  gem 'pry'                      # TODO: What was this used for?
   gem 'ruby-debug-ide', '~> 0.7' # VSCode debugging
   gem 'solargraph'               # VSCode IDE support
 end unless IS_CI_ENVIRONMENT
 
 group :test do
-  gem 'aruba', '~> 2.0'
   gem 'minitest', '~> 5.15.0' # Regression in 5.16.0 causing failure on Ruby 2.7
   gem 'minitest-reporters', '~> 1.5'
   gem 'rake', '~> 13.0'
   gem 'webmock', '~> 3.1'
 end
+
+group :integration_test do
+  gem 'aruba', '~> 2.0'
+end unless IS_CI_ENVIRONMENT
 
 # group :documentation do
 #   gem 'commonmarker', '~> 0.23'

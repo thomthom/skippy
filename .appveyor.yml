@@ -10,13 +10,15 @@ branches:
 cache:
   - vendor/bundle
 
+# Reducing the number of versions to test for speed.
+# Consider increasing as the gem stabilize.
 environment:
   matrix:
     # - RUBY_VERSION: 25-x64
     # - RUBY_VERSION: 26-x64
     - RUBY_VERSION: 27-x64
     # - RUBY_VERSION: 30-x64
-    # - RUBY_VERSION: 31-x64
+    - RUBY_VERSION: 31-x64
 
 install:
   - set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%

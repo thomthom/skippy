@@ -26,5 +26,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'git', '~> 1.3'
   spec.add_dependency 'naturally', '~> 2.1'
+  spec.add_dependency 'sorted_set', '~> 1.0'
   spec.add_dependency 'thor', '>= 0.19', '< 2.0'
 end

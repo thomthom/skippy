@@ -85,7 +85,7 @@ class Skippy::GitLibraryInstaller < Skippy::LibraryInstaller
     target = path.join(source.lib_path)
     library = Skippy::Library.new(target)
     unless library.version.casecmp(tag.name).zero?
-      warning "skippy.json version (#{library.version}) differ from "\
+      warning "skippy.json version (#{library.version}) differ from " \
               "tagged version (#{tag.name})"
     end
     nil

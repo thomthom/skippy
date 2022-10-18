@@ -23,10 +23,10 @@ class SkippyLibrarySourceTest < Skippy::Test
   def test_it_understand_relative_local_filenames
     filename = '../my_lib'
     source = Skippy::LibrarySource.new(project, filename)
-    refute(source.git?, 'Git')
-    assert(source.local?, 'Local')
-    assert(source.relative?, 'Relative')
-    refute(source.absolute?, 'Absolute')
+    refute_predicate(source, :git?, 'Git')
+    assert_predicate(source, :local?, 'Local')
+    assert_predicate(source, :relative?, 'Relative')
+    refute_predicate(source, :absolute?, 'Absolute')
     assert_equal(filename, source.origin)
     assert_match(/^my_lib_local_/, source.lib_path)
   end
@@ -34,10 +34,10 @@ class SkippyLibrarySourceTest < Skippy::Test
   def test_it_understand_absolute_local_filenames
     filename = File.expand_path('../my_lib')
     source = Skippy::LibrarySource.new(project, filename)
-    refute(source.git?, 'Git')
-    assert(source.local?, 'Local')
-    refute(source.relative?, 'Relative')
-    assert(source.absolute?, 'Absolute')
+    refute_predicate(source, :git?, 'Git')
+    assert_predicate(source, :local?, 'Local')
+    refute_predicate(source, :relative?, 'Relative')
+    assert_predicate(source, :absolute?, 'Absolute')
     assert_equal(filename, source.origin)
     assert_match(/^my_lib_local_/, source.lib_path)
   end
@@ -53,10 +53,10 @@ class SkippyLibrarySourceTest < Skippy::Test
   def test_it_understand_git_urls
     git_url = 'https://bitbucket.org/thomthom/tt-library-2.git'
     source = Skippy::LibrarySource.new(project, git_url)
-    assert(source.git?, 'Git')
-    refute(source.local?, 'Local')
-    refute(source.relative?, 'Relative')
-    assert(source.absolute?, 'Absolute')
+    assert_predicate(source, :git?, 'Git')
+    refute_predicate(source, :local?, 'Local')
+    refute_predicate(source, :relative?, 'Relative')
+    assert_predicate(source, :absolute?, 'Absolute')
     expected = 'https://bitbucket.org/thomthom/tt-library-2.git'
     assert_equal(expected, source.origin)
     assert_equal('tt-library-2_thomthom_bitbucket-org', source.lib_path)
@@ -67,10 +67,10 @@ class SkippyLibrarySourceTest < Skippy::Test
   def test_it_understand_local_relative_git_paths
     git_url = '../git-lib'
     source = Skippy::LibrarySource.new(project, git_url)
-    assert(source.git?, 'Git')
-    assert(source.local?, 'Local')
-    assert(source.relative?, 'Relative')
-    refute(source.absolute?, 'Absolute')
+    assert_predicate(source, :git?, 'Git')
+    assert_predicate(source, :local?, 'Local')
+    assert_predicate(source, :relative?, 'Relative')
+    refute_predicate(source, :absolute?, 'Absolute')
     assert_equal(git_url, source.origin)
     assert(source.lib_path.start_with?('git-lib_local_'), source.lib_path)
     assert_nil(source.requirement)
@@ -80,10 +80,10 @@ class SkippyLibrarySourceTest < Skippy::Test
   def test_it_understand_local_absolute_git_paths
     git_url = File.expand_path('../git-lib')
     source = Skippy::LibrarySource.new(project, git_url)
-    assert(source.git?, 'Git')
-    assert(source.local?, 'Local')
-    refute(source.relative?, 'Relative')
-    assert(source.absolute?, 'Absolute')
+    assert_predicate(source, :git?, 'Git')
+    assert_predicate(source, :local?, 'Local')
+    refute_predicate(source, :relative?, 'Relative')
+    assert_predicate(source, :absolute?, 'Absolute')
     assert_equal(0, source.origin.casecmp(git_url))
     assert(source.lib_path.start_with?('git-lib_local_'), source.lib_path)
     assert_nil(source.requirement)
@@ -94,10 +94,10 @@ class SkippyLibrarySourceTest < Skippy::Test
     git_url = File.expand_path('../git-lib')
     windows_path = git_url.tr('/', '\\')
     source = Skippy::LibrarySource.new(project, windows_path)
-    assert(source.git?, 'Git')
-    assert(source.local?, 'Local')
-    refute(source.relative?, 'Relative')
-    assert(source.absolute?, 'Absolute')
+    assert_predicate(source, :git?, 'Git')
+    assert_predicate(source, :local?, 'Local')
+    refute_predicate(source, :relative?, 'Relative')
+    assert_predicate(source, :absolute?, 'Absolute')
     assert_equal(0, source.origin.casecmp(git_url))
     assert(source.lib_path.start_with?('git-lib_local_'), source.lib_path)
     assert_nil(source.requirement)
@@ -107,10 +107,10 @@ class SkippyLibrarySourceTest < Skippy::Test
   def test_it_understand_git_urls_with_usernames
     git_url = 'https://thomthom@bitbucket.org/thomthom/tt-library-2.git'
     source = Skippy::LibrarySource.new(project, git_url)
-    assert(source.git?, 'Git')
-    refute(source.local?, 'Local')
-    refute(source.relative?, 'Relative')
-    assert(source.absolute?, 'Absolute')
+    assert_predicate(source, :git?, 'Git')
+    refute_predicate(source, :local?, 'Local')
+    refute_predicate(source, :relative?, 'Relative')
+    assert_predicate(source, :absolute?, 'Absolute')
     expected = 'https://bitbucket.org/thomthom/tt-library-2.git'
     assert_equal(expected, source.origin)
     assert_equal('tt-library-2_thomthom_bitbucket-org', source.lib_path)
@@ -119,10 +119,10 @@ class SkippyLibrarySourceTest < Skippy::Test
   def test_it_understand_relative_library_source
     source_name = 'thomthom/tt-lib'
     source = Skippy::LibrarySource.new(project, source_name)
-    assert(source.git?, 'Git')
-    refute(source.local?, 'Local')
-    refute(source.relative?, 'Relative')
-    assert(source.absolute?, 'Absolute')
+    assert_predicate(source, :git?, 'Git')
+    refute_predicate(source, :local?, 'Local')
+    refute_predicate(source, :relative?, 'Relative')
+    assert_predicate(source, :absolute?, 'Absolute')
     expected = 'https://github.com/thomthom/tt-lib.git'
     assert_equal(expected, source.origin)
     assert_equal('tt-lib_thomthom_github-com', source.lib_path)

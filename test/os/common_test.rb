@@ -2,7 +2,6 @@
 
 require 'test_helper'
 require 'skippy/os/common'
-# require 'pathname'
 
 class SkippyOSCommonTest < Skippy::Test
 
@@ -66,6 +65,16 @@ class SkippyOSCommonTest < Skippy::Test
         assert_equal(expected, version)
       end
     }
+  end
+
+  def test_it_can_normalize_windows_path
+    path = 'C:\Program Files (x86)\@Last Software\SketchUp 3.0'
+    expected = 'C:/Program Files (x86)/@Last Software/SketchUp 3.0'
+
+    os = Skippy::OSCommon.new
+    normalized_path = os.normalize_path(path)
+    assert_kind_of(String, normalized_path)
+    assert_equal(expected, normalized_path)
   end
 
 end

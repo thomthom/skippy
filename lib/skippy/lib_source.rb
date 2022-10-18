@@ -7,6 +7,7 @@ require 'uri'
 
 require 'skippy/error'
 require 'skippy/library'
+require 'skippy/os'
 
 class Skippy::LibrarySource
 
@@ -93,6 +94,8 @@ class Skippy::LibrarySource
 
   # @param [String] source
   def resolve(source)
+    os = Skippy::OS.new
+    source = os.normalize_path(source)
     if git_source?(source)
       resolve_from_git_uri(source)
     elsif lib_name?(source)

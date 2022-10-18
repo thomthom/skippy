@@ -21,7 +21,7 @@ class SkippyAppTest < Minitest::Test
     refute_equal(0, app.templates.size)
     app.templates.each { |template|
       assert_kind_of(Pathname, template)
-      assert(template.directory?, "Template not found: #{template}")
+      assert_predicate(template, :directory?, "Template not found: #{template}")
     }
   end
 
@@ -29,21 +29,21 @@ class SkippyAppTest < Minitest::Test
     app = Skippy::App.boot(boot_loader_path)
     path = app.templates_source_path
     assert_kind_of(Pathname, path)
-    assert(path.directory?, path)
+    assert_predicate(path, :directory?, path)
   end
 
   def test_that_it_returns_a_valid_resources_path
     app = Skippy::App.boot(boot_loader_path)
     path = app.resources
     assert_kind_of(Pathname, path)
-    assert(path.directory?, path)
+    assert_predicate(path, :directory?, path)
   end
 
   def test_that_it_returns_a_valid_resources_sub_path
     app = Skippy::App.boot(boot_loader_path)
     path = app.resources('commands')
     assert_kind_of(Pathname, path)
-    assert(path.directory?, path)
+    assert_predicate(path, :directory?, path)
   end
 
 end

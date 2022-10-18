@@ -4,14 +4,10 @@ $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'skippy'
 
 require 'minitest/autorun'
-require "minitest/reporters"
+require 'minitest/reporters'
 require 'pathname'
-require 'pry'
+# require 'pry' # TODO: What was this used for?
 require 'webmock/minitest'
-
-# AppVeyor reporter needs to be able to interact with localhost to report the
-# progress of the tests.
-WebMock.disable_net_connect!(allow_localhost: true)
 
 # Kludge: minitest-reporter depend on the `ansi` gem which hasn't been updated
 # for a very long time. It's expecting to use another `win32console` gem in
@@ -44,25 +40,25 @@ class Skippy::Test < Minitest::Test
   def assert_file(path, msg = nil)
     pathname = Pathname.new(path)
     msg ||= "expected a file named: #{path}"
-    assert(pathname.file?, msg)
+    assert_predicate(pathname, :file?, msg)
   end
 
   def refute_file(path, msg = nil)
     pathname = Pathname.new(path)
     msg ||= "did not expect a file named: #{path}"
-    refute(pathname.file?, msg)
+    refute_predicate(pathname, :file?, msg)
   end
 
   def assert_directory(path, msg = nil)
     pathname = Pathname.new(path)
     msg ||= "expected a directory named: #{path}"
-    assert(pathname.directory?, msg)
+    assert_predicate(pathname, :directory?, msg)
   end
 
   def refute_directory(path, msg = nil)
     pathname = Pathname.new(path)
     msg ||= "did not expect a directory named: #{path}"
-    refute(pathname.directory?, msg)
+    refute_predicate(pathname, :directory?, msg)
   end
 
   private

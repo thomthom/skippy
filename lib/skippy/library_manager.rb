@@ -13,6 +13,7 @@ require 'skippy/error'
 require 'skippy/lib_source'
 require 'skippy/library'
 require 'skippy/project'
+require 'skippy/sorted_set'
 
 module Skippy
 

@@ -7,6 +7,7 @@ require 'skippy/os/common'
 class SkippyOSCommonTest < Skippy::Test
 
   def test_that_it_can_parse_app_version_from_windows_paths
+    skip unless IS_WINDOWS
     os = Skippy::OSCommon.new
     test_data = {
       # Version 1 and 2 didn't have version numbers in their installation paths.

@@ -91,6 +91,7 @@ class SkippyLibrarySourceTest < Skippy::Test
   end
 
   def test_it_understand_local_git_paths_with_backslashes
+    skip unless IS_WINDOWS
     git_url = File.expand_path('../git-lib')
     windows_path = git_url.tr('/', '\\')
     source = Skippy::LibrarySource.new(project, windows_path)

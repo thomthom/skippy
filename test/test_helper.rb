@@ -21,6 +21,8 @@ Minitest::Reporters.use!
 
 class Skippy::Test < Minitest::Test
 
+  IS_WINDOWS = RUBY_PLATFORM.match? /mingw|ucrt|mswin/
+
   def assert_same_elements(exp, act, msg = nil)
     msg = message(msg, E) { diff exp, act }
     assert_equal(exp, exp & act, msg)

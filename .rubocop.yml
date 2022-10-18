@@ -5,163 +5,79 @@ require:
   - rubocop-rake
 
 AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  ExtraDetails: true
+  TargetRubyVersion: 2.5
   Exclude:
     - 'bin/**/*'
     - 'exe/**/*'
     - 'fixtures/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
-  DisplayCopNames: true
-
-
-Layout/ArgumentAlignment:
-  EnforcedStyle: with_fixed_indentation
-  # IndentationWidth: 2
-
-# It's ok to have more than one empty line to create a 'paragrapth'.
-Layout/EmptyLines:
-  Enabled: false
-
-# Extra space is fine.
-Layout/EmptyLinesAroundClassBody:
-  Enabled: false
-
-# Extra space is fine.
-Layout/EmptyLinesAroundModuleBody:
-  Enabled: false
-
-# Normally one line in between, but two allowed for "paragraphs".
-Layout/EmptyLineBetweenDefs:
-  AllowAdjacentOneLineDefs: true
-  NumberOfEmptyLines: [1, 2]
-
-# Rely on Git to normalize end of lines.
-Layout/EndOfLine:
-  Enabled: false
-
-# Add lines as needed.
-Layout/EmptyLinesAroundBlockBody:
-  Enabled: false
-
-Layout/LineLength:
-  Exclude:
-    - features/step_definitions/**/*
-
-Layout/ParameterAlignment:
-  EnforcedStyle: with_fixed_indentation
-
-
-Naming/RescuedExceptionsVariableName:
-  PreferredName: error
-
-
-Metrics/AbcSize:
-  Enabled: false
-  Exclude:
-    - test/**/*
-
-Metrics/ClassLength:
-  Exclude:
-    - test/**/*
-
-# Too noisy.
-Metrics/CyclomaticComplexity:
-  Enabled: false
-
-Metrics/MethodLength:
-  Exclude:
-    - test/**/*
-
-# Too noisy.
-Metrics/PerceivedComplexity:
-  Enabled: false
-
-
-# Nah, sometimes easier to read with accessors having separate grouping.
-Style/AccessorGrouping:
-  Enabled: false
-
-# Prefer { ... } over do ... end except for control flow and
-# method defintions. Unfortunatly, no cop configuration for this.
-# https://github.com/chneukirchen/styleguide/blob/e60de37b478d3f892f6985a58d573016f33f0269/RUBY-STYLE#L63-L67
-Style/BlockDelimiters:
-  EnforcedStyle: semantic
-  Enabled: false
-
-# Generally prefer compact style to reduce indentation. But no hard rule.
-Style/ClassAndModuleChildren:
-  EnforcedStyle: compact
-  Enabled: false
-
-# This doesn't always read nicely.
-Style/ConditionalAssignment:
-  Enabled: false
-
-# Nah, it's ok.
-Style/CommentedKeyword:
-  Enabled: false
-
-# TODO(thomthom): Consider turning this back on.
-Style/Documentation:
-  Enabled: false
-
-# Conflict too often with Metric/LineLength.
-# https://github.com/bbatsov/rubocop/issues/1332#issuecomment-277503854
-Style/GuardClause:
-  Enabled: false
-
-# In the context of the Thor DLS the rocket arrow => reads better.
-Style/HashSyntax:
-  Exclude:
-    - app/commands/**/*
-
-# Some times it reads clearer to not trail if/unless at the end.
-Style/IfUnlessModifier:
-  Enabled: false
-
-Style/ModuleFunction:
-  Enabled: false
-
-# Excluding some files that copies the Thor implementation.
-# TODO: Investigate if Thor changed their implementation.
-Style/OptionalBooleanParameter:
-  Exclude:
-    - lib/skippy/cli.rb
-    - lib/skippy/command.rb
-
-# %w and %i etc isn't really intuitive unless you are really familiar with the
-# syntax. %w seems used often enough. But [:symbol, :foo] reads clearer than
-# %i(symbol foo).
-Style/SymbolArray:
-  Enabled: False
-
-# Add trailing comma so it's easy to duplicate/add lines.
-Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: consistent_comma
-
-Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: consistent_comma
-
-
-# Not testing computed values, but serialized values.
-# Ignoring floating point tolerance is fine (and wanted) in this case.
-Minitest/AssertInDelta:
-  Enabled: false
-
-# Too many false positives.
-Minitest/AssertWithExpectedArgument:
-  Enabled: false
-
-# No such thing as too many assertions.
-Minitest/MultipleAssertions:
-  Enabled: false
-
 
 ################################################################################
 # Enabling new cops:
 
-Gemspec/DateAssignment: # new in 1.10
+Gemspec/DeprecatedAttributeAssignment: # new in 1.30
   Enabled: true
+Gemspec/RequireMFA: # new in 1.23
+  Enabled: true
+Layout/LineContinuationLeadingSpace: # new in 1.31
+  Enabled: true
+Layout/LineContinuationSpacing: # new in 1.31
+  Enabled: true
+Lint/ConstantOverwrittenInRescue: # new in 1.31
+  Enabled: true
+Lint/DuplicateMagicComment: # new in 1.37
+  Enabled: true
+Lint/NonAtomicFileOperation: # new in 1.31
+  Enabled: true
+Lint/RefinementImportMethods: # new in 1.27
+  Enabled: true
+Lint/RequireRangeParentheses: # new in 1.32
+  Enabled: true
+Lint/UselessRuby2Keywords: # new in 1.23
+  Enabled: true
+Naming/BlockForwarding: # new in 1.24
+  Enabled: true
+Security/CompoundHash: # new in 1.28
+  Enabled: true
+Style/ArrayIntersect: # new in 1.40
+  Enabled: true
+Style/EmptyHeredoc: # new in 1.32
+  Enabled: true
+Style/EnvHome: # new in 1.29
+  Enabled: true
+Style/FetchEnvVar: # new in 1.28
+  Enabled: true
+Style/FileRead: # new in 1.24
+  Enabled: true
+Style/FileWrite: # new in 1.24
+  Enabled: true
+Style/MagicCommentFormat: # new in 1.35
+  Enabled: true
+Style/MapCompactWithConditionalBlock: # new in 1.30
+  Enabled: true
+Style/MapToHash: # new in 1.24
+  Enabled: true
+Style/NestedFileDirname: # new in 1.26
+  Enabled: true
+Style/ObjectThen: # new in 1.28
+  Enabled: true
+Style/OpenStructUse: # new in 1.23
+  Enabled: true
+Style/OperatorMethodCall: # new in 1.37
+  Enabled: true
+Style/RedundantConstantBase: # new in 1.40
+  Enabled: true
+Style/RedundantEach: # new in 1.38
+  Enabled: true
+Style/RedundantInitialize: # new in 1.27
+  Enabled: true
+Style/RedundantStringEscape: # new in 1.37
+  Enabled: true
+
 Layout/LineEndStringConcatenationIndentation: # new in 1.18
   Enabled: true
 Layout/SpaceBeforeBrackets: # new in 1.7
@@ -273,3 +189,168 @@ Minitest/UnreachableAssertion: # new in 0.14
   Enabled: true
 Minitest/UnspecifiedException: # new in 0.10
   Enabled: true
+Minitest/AssertPredicate: # new in 0.18
+  Enabled: true
+Minitest/AssertRaisesCompoundBody: # new in 0.21
+  Enabled: true
+Minitest/AssertRaisesWithRegexpArgument: # new in 0.22
+  Enabled: true
+Minitest/DuplicateTestRun: # new in 0.19
+  Enabled: true
+Minitest/RefutePredicate: # new in 0.18
+  Enabled: true
+Minitest/SkipEnsure: # new in 0.20
+  Enabled: true
+Minitest/SkipWithoutReason: # new in 0.24
+  Enabled: true
+
+################################################################################
+# Overrides:
+
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+  # IndentationWidth: 2
+
+# It's ok to have more than one empty line to create a 'paragrapth'.
+Layout/EmptyLines:
+  Enabled: false
+
+# Extra space is fine.
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+# Extra space is fine.
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+# Normally one line in between, but two allowed for "paragraphs".
+Layout/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+  NumberOfEmptyLines: [1, 2]
+
+# Rely on Git to normalize end of lines.
+Layout/EndOfLine:
+  Enabled: false
+
+# Add lines as needed.
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
+
+Layout/LineLength:
+  Exclude:
+    - features/step_definitions/**/*
+
+Layout/ParameterAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+
+Naming/RescuedExceptionsVariableName:
+  PreferredName: error
+
+
+Metrics/AbcSize:
+  Enabled: false
+  Exclude:
+    - test/**/*
+
+Metrics/ClassLength:
+  Exclude:
+    - test/**/*
+
+# Too noisy.
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/MethodLength:
+  Exclude:
+    - test/**/*
+
+# Too noisy.
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+
+# Nah, sometimes easier to read with accessors having separate grouping.
+Style/AccessorGrouping:
+  Enabled: false
+
+# Prefer { ... } over do ... end except for control flow and
+# method defintions. Unfortunatly, no cop configuration for this.
+# https://github.com/chneukirchen/styleguide/blob/e60de37b478d3f892f6985a58d573016f33f0269/RUBY-STYLE#L63-L67
+Style/BlockDelimiters:
+  EnforcedStyle: semantic
+  Enabled: false
+
+# Generally prefer compact style to reduce indentation. But no hard rule.
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+  Enabled: false
+
+# This doesn't always read nicely.
+Style/ConditionalAssignment:
+  Enabled: false
+
+# Nah, it's ok.
+Style/CommentedKeyword:
+  Enabled: false
+
+# TODO(thomthom): Consider turning this back on.
+Style/Documentation:
+  Enabled: false
+
+# Conflict too often with Metric/LineLength.
+# https://github.com/bbatsov/rubocop/issues/1332#issuecomment-277503854
+Style/GuardClause:
+  Enabled: false
+
+# In the context of the Thor DLS the rocket arrow => reads better.
+Style/HashSyntax:
+  Exclude:
+    - app/commands/**/*
+
+# Some times it reads clearer to not trail if/unless at the end.
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/ModuleFunction:
+  Enabled: false
+
+Style/MultilineIfModifier:
+  Enabled: false
+
+# Excluding some files that copies the Thor implementation.
+# TODO: Investigate if Thor changed their implementation.
+Style/OptionalBooleanParameter:
+  Exclude:
+    - lib/skippy/cli.rb
+    - lib/skippy/command.rb
+
+# %w and %i etc isn't really intuitive unless you are really familiar with the
+# syntax. %w seems used often enough. But [:symbol, :foo] reads clearer than
+# %i(symbol foo).
+Style/SymbolArray:
+  Enabled: False
+
+# Add trailing comma so it's easy to duplicate/add lines.
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+
+# Not testing computed values, but serialized values.
+# Ignoring floating point tolerance is fine (and wanted) in this case.
+Minitest/AssertInDelta:
+  Enabled: false
+
+# Too many false positives.
+Minitest/AssertWithExpectedArgument:
+  Enabled: false
+
+Minitest/EmptyLineBeforeAssertionMethods:
+  Enabled: false
+
+# No such thing as too many assertions.
+Minitest/MultipleAssertions:
+  Enabled: false

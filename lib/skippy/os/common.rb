@@ -28,8 +28,14 @@ class Skippy::OSCommon
   # @param [String] path
   # @return [Integer, nil]
   def sketchup_version_from_path(path)
-    match = File.basename(path).match(/[0-9.]+/)
+    match = File.basename(normalize_path(path)).match(/[0-9.]+/)
     match ? match[0].to_i : nil
+  end
+
+  # @param [String] path
+  # @return [String]
+  def normalize_path(path)
+    path.tr('\\', '/')
   end
 
 end

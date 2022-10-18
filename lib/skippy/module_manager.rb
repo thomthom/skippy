@@ -8,6 +8,7 @@ require 'set'
 require 'skippy/helpers/file'
 require 'skippy/lib_module'
 require 'skippy/project'
+require 'skippy/sorted_set'
 
 class Skippy::ModuleManager
 

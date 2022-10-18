@@ -11,7 +11,7 @@ class Skippy::OSWin < Skippy::OSCommon
   SYSTEM_32BIT = ENV['ProgramFiles(x86)'].nil? && ENV['ProgramW6432'].nil?
   SYSTEM_64BIT = !SYSTEM_32BIT
 
-  PROGRAM_FILES_64BIT = File.expand_path(ENV['ProgramW6432'])
+  PROGRAM_FILES_64BIT = File.expand_path(ENV.fetch('ProgramW6432'))
 
   # @param [String] executable_path
   def launch_app(executable_path, *args)
@@ -49,10 +49,10 @@ class Skippy::OSWin < Skippy::OSCommon
   def program_files_paths
     paths = []
     if SYSTEM_64BIT
-      paths << File.expand_path(ENV['ProgramFiles(x86)'])
-      paths << File.expand_path(ENV['ProgramW6432'])
+      paths << File.expand_path(ENV.fetch('ProgramFiles(x86)'))
+      paths << File.expand_path(ENV.fetch('ProgramW6432'))
     else
-      paths << File.expand_path(ENV['ProgramFiles'])
+      paths << File.expand_path(ENV.fetch('ProgramFiles'))
     end
     paths
   end

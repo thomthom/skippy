@@ -113,9 +113,9 @@ class SkippyConfigTest < Skippy::Test
     Dir.mktmpdir do |dir|
       config_json = Pathname.new(dir).join('config.json')
       config = config_example
-      refute(config_json.exist?)
+      refute_predicate(config_json, :exist?)
       config.save_as(config_json)
-      assert(config_json.exist?)
+      assert_predicate(config_json, :exist?)
     end
   end
 
@@ -130,9 +130,9 @@ class SkippyConfigTest < Skippy::Test
     Dir.mktmpdir do |dir|
       config_json = Pathname.new(dir).join('config.json')
       config = config_example
-      refute(config_json.exist?)
+      refute_predicate(config_json, :exist?)
       config.export(config_json)
-      assert(config_json.exist?)
+      assert_predicate(config_json, :exist?)
       new_config = Skippy::Config.load(config_json)
       assert_equal(config, new_config)
     end

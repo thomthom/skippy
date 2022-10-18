@@ -11,7 +11,7 @@ class SkippyProjectTest < Skippy::Test
     test_path = Pathname.new(__dir__)
     project = Skippy::Project.new(test_path)
     assert_equal(test_path, project.path)
-    refute(project.exist?)
+    refute_predicate(project, :exist?)
     refute_path_exists(project.filename)
   end
 
@@ -31,10 +31,10 @@ class SkippyProjectTest < Skippy::Test
       test_path = Pathname.new(dir)
       project = Skippy::Project.new(test_path)
       assert_equal(test_path, project.path)
-      refute(project.exist?)
+      refute_predicate(project, :exist?)
       refute_path_exists(project.filename)
       project.save
-      assert(project.exist?)
+      assert_predicate(project, :exist?)
       assert_path_exists(project.filename)
     end
   end

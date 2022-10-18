@@ -1,0 +1,52 @@
+name: Tests
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
+jobs:
+  tests:
+    name: >-
+      OS ${{ matrix.os }} Ruby ${{ matrix.ruby }}
+    env:
+      CI: true
+
+    runs-on: ${{ matrix.os }}
+    if: |
+      !(   contains(github.event.pull_request.title,  '[ci skip]')
+        || contains(github.event.pull_request.title,  '[skip ci]'))
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ macos-11, macos-12, windows-2019, windows-2022 ]
+        ruby: [ 2.5, 2.7, 3.1 ]
+        include:
+          - { os: windows-2022 , ruby: ucrt  }
+        exclude:
+          # keep macos jobs to 5
+          - { os: macos-11 , ruby: 3.1 }
+
+    steps:
+      - name: repo checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: load ruby
+        uses: ruby/setup-ruby-pkgs@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+        timeout-minutes: 10
+
+      - name: test
+        timeout-minutes: 10
+        run: bundle exec rake test

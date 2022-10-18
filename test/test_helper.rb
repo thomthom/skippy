@@ -6,12 +6,8 @@ require 'skippy'
 require 'minitest/autorun'
 require "minitest/reporters"
 require 'pathname'
-require 'pry'
+# require 'pry' # TODO: What was this used for?
 require 'webmock/minitest'
-
-# AppVeyor reporter needs to be able to interact with localhost to report the
-# progress of the tests.
-WebMock.disable_net_connect!(allow_localhost: true)
 
 # Kludge: minitest-reporter depend on the `ansi` gem which hasn't been updated
 # for a very long time. It's expecting to use another `win32console` gem in

@@ -31,7 +31,3 @@ group :analysis do
   gem 'rubocop-performance', '~> 1.0', require: false
   gem 'rubocop-rake', '~> 0.6', require: false
 end
-
-group :ci do
-  gem 'appveyor-worker', '~> 0.2', require: false
-end

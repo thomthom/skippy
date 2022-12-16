@@ -164,6 +164,7 @@ Feature: Libraries
   Scenario: Uninstall library from git source
     Given I use a fixture named "project_with_lib"
     When I run `skippy lib:install ../../../fixtures/git-lib`
+    And I run `skippy lib:list`
     And I run `skippy lib:uninstall test-lib`
     And I run `skippy lib:list`
     Then the output should contain "Uninstalled library: test-lib (1.3.0)"

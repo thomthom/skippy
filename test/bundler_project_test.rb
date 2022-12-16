@@ -64,6 +64,7 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
     ]
   end
 
+  # Stub replacement for Gem::Specification#find_all_by_name
   def find_all_by_name_stub
     # puts [:def_find_all_by_name_stub, name]
     Proc.new do |name|
@@ -75,52 +76,55 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
   end
 
 
-  def test_that_it_can_list_available_project_libraries
-    skip
-    use_fixture('project_with_lib')
-
-    bundler_project = Skippy::BundlerProject.new(work_path)
-    # assert_equal(2, bundler_project.dependencies.size)
-    dependencies = bundler_project.dependencies
-    # p dependencies.first.class
-
-    dependencies.each { |dependency|
-      assert_kind_of(Bundler::LazySpecification, dependency)
-    }
-
-    names = dependencies.map(&:name).sort
-    expected = %w[
-      skippy-ex-lib
-      skippy-example
-    ]
-    assert_equal(expected, names)
-
-    full_names = dependencies.map(&:full_name).sort
-    expected = %w[
-      skippy-ex-lib-1.2.3
-      skippy-example-0.6.1
-    ]
-    assert_equal(expected, full_names)
-
-    versions = dependencies.map(&:version).sort
-    expected = [
-      Gem::Version.new('0.6.1'),
-      Gem::Version.new('1.2.3'),
-    ]
-    assert_equal(expected, versions)
-  end
-
   def test_that_it_can_list_available_global_libraries
     skip('TODO')
     # TODO:
   end
 
-  def test_that_it_can_list_available_project_gems
+  def test_that_it_can_list_available_project_libraries
+    skip('TODO')
+    # TODO:
+  end
+
+  def test_that_it_can_list_available_global_gems
+    skip('TODO')
+    # TODO:
+  end
+
+  def test_that_it_can_list_direct_gem_dependencies
     use_fixture('project_with_lib')
 
     gems = Gem::Specification.stub(:find_all_by_name, find_all_by_name_stub) do
       bundler_project = Skippy::BundlerProject.new(work_path)
-      bundler_project.gems
+      bundler_project.dependencies
+    end
+
+    gems.each { |gem|
+      assert_kind_of(Gem::Specification, gem)
+    }
+
+    data = {}
+    gems.each { |gem| data[gem.name] = gem }
+    expected = [
+      ['skippy-ex-lib', '1.2.3', true],
+      ['skippy-example', '0.6.1', true],
+    ]
+    expected.each { |name, version, exists|
+      gem = data[name]
+      refute_nil(gem)
+      assert_equal(name, gem.name)
+      assert_equal(version, gem.version.to_s)
+      assert_equal(exists, File.directory?(gem.gem_dir))
+    }
+    assert_equal(expected.size, gems.size)
+  end
+
+  def test_that_it_can_list_all_gem_dependencies
+    use_fixture('project_with_lib')
+
+    gems = Gem::Specification.stub(:find_all_by_name, find_all_by_name_stub) do
+      bundler_project = Skippy::BundlerProject.new(work_path)
+      bundler_project.all_dependencies
     end
 
     gems.each { |gem|
@@ -133,17 +137,19 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
       # puts "#{gem.name} - #{gem.version} (#{gem.gem_dir} - #{exists})"
       data[gem.name] = gem
     }
-    [
+    expected = [
       ['skippy-dep-lib', '4.5.6', true],
       ['skippy-ex-lib', '1.2.3', true],
       ['skippy-example', '0.6.1', true],
-    ].each { |name, version, exists|
+    ]
+    expected.each { |name, version, exists|
       gem = data[name]
       refute_nil(gem)
       assert_equal(name, gem.name)
       assert_equal(version, gem.version.to_s)
       assert_equal(exists, File.directory?(gem.gem_dir))
     }
+    assert_equal(expected.size, gems.size)
 
     # TODO: Check nested dependencies.
   end

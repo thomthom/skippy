@@ -108,7 +108,7 @@ class Skippy::LibraryManager
     raise Skippy::Project::ProjectNotSavedError unless project.exist?
 
     library = lib.is_a?(Skippy::Library) ? lib : find_library(lib)
-    raise Skippy::LibraryNotFound, 'Library not found' if library.nil?
+    raise Skippy::LibraryNotFound, "Library not found: #{lib}" if library.nil?
 
     # Uninstall modules first - using the module manager.
     vendor_path = project.modules.vendor_path
@@ -152,6 +152,8 @@ class Skippy::LibraryManager
       rescue Skippy::Library::LibraryNotFoundError => error
         # TODO: Revisit how to handle this.
         warn "Unable to load library: #{error.message}"
+        warn "Project: #{project.path}"
+        warn lib_config.inspect
         nil
       end
     }.compact

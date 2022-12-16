@@ -29,7 +29,7 @@ end
 
 group :integration_test do
   gem 'aruba', '~> 2.0'
-end unless IS_CI_ENVIRONMENT
+end
 
 # group :documentation do
 #   gem 'commonmarker', '~> 0.23'

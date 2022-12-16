@@ -43,6 +43,10 @@ jobs:
           bundler-cache: true
         timeout-minutes: 10
 
-      - name: Run tests
+      - name: Run unit tests
         timeout-minutes: 10
         run: bundle exec rake test
+
+      - name: Run Cucumber tests
+        timeout-minutes: 10
+        run: bundle exec cucumber

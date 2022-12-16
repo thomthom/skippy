@@ -88,7 +88,39 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
 
   def test_that_it_can_list_available_global_gems
     skip('TODO')
-    # TODO:
+    use_fixture('project_with_lib')
+
+    gems_path = Pathname.new(__dir__).parent.join('fixtures', 'gems')
+    # gems = Gem.stub(:dir, gems_path) do
+    #   bundler_project = Skippy::BundlerProject.new(work_path)
+    #   bundler_project.available_gems
+    # end
+    bundler_project = Skippy::BundlerProject.new(work_path)
+    gems = bundler_project.available_gems
+    gems.each { |spec| p [spec.name, spec.class] }
+
+    # Might be Bundler::StubSpecification
+    # gems.each { |gem|
+    #   assert_kind_of(Gem::Specification, gem)
+    # }
+
+    data = {}
+    gems.each { |gem| data[gem.name] = gem }
+    expected = [
+      ['skippy-dep-lib', '4.5.6', true],
+      ['skippy-dep-lib', '5.2.1', true],
+      ['skippy-ex-lib', '1.2.3', true],
+      ['skippy-example', '0.6.1', true],
+      ['skippy-other-lib', '4.5.6', true],
+    ]
+    expected.each { |name, version, exists|
+      gem = data[name]
+      refute_nil(gem, "Unable to find expected gem: #{name}")
+      assert_equal(name, gem.name)
+      assert_equal(version, gem.version.to_s)
+      assert_equal(exists, File.directory?(gem.gem_dir))
+    }
+    assert_equal(expected.size, gems.size)
   end
 
   def test_that_it_can_list_direct_gem_dependencies
@@ -111,7 +143,7 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
     ]
     expected.each { |name, version, exists|
       gem = data[name]
-      refute_nil(gem)
+      refute_nil(gem, "Unable to find expected gem: #{name}")
       assert_equal(name, gem.name)
       assert_equal(version, gem.version.to_s)
       assert_equal(exists, File.directory?(gem.gem_dir))
@@ -144,7 +176,7 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
     ]
     expected.each { |name, version, exists|
       gem = data[name]
-      refute_nil(gem)
+      refute_nil(gem, "Unable to find expected gem: #{name}")
       assert_equal(name, gem.name)
       assert_equal(version, gem.version.to_s)
       assert_equal(exists, File.directory?(gem.gem_dir))

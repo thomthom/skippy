@@ -29,6 +29,13 @@ class Skippy::BundlerProject
 
   # Returns a list of all the skippy library gems this project depends on.
   #
+  # @return [Array<Gem::Specification, Bundler::StubSpecification>]
+  def available_gems
+    Gem::Specification.select { |spec| spec.name.start_with?('skippy-') }
+  end
+
+  # Returns a list of all the skippy library gems this project depends on.
+  #
   # @return [Array<Gem::Specification>]
   def dependencies(nested: false)
     # puts

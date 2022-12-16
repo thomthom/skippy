@@ -124,7 +124,7 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
 
     gems = Gem::Specification.stub(:find_all_by_name, find_all_by_name_stub) do
       bundler_project = Skippy::BundlerProject.new(work_path)
-      bundler_project.all_dependencies
+      bundler_project.dependencies(nested: true)
     end
 
     gems.each { |gem|

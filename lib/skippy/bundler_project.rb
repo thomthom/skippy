@@ -27,11 +27,14 @@ class Skippy::BundlerProject
     # @modules = Skippy::ModuleManager.new(self)
   end
 
-  # Returns the direct dependencies of the project defined in `Gemfile`.
-  # This does not include nested dependencies.
+  # Returns a list of all the skippy library gems this project depends on.
   #
   # @return [Array<Gem::Specification>]
-  def dependencies
+  def dependencies(nested: false)
+    # puts
+    # puts @path
+    # puts Dir.glob("#{@path}/*").join("\n")
+
     lockfile_path = @path.join('Gemfile.lock')
     unless lockfile_path.exist?
       raise Skippy::LockFileMissing, lockfile_path
@@ -54,43 +57,11 @@ class Skippy::BundlerProject
 
       gem_spec = specs.last
       gem_specs << gem_spec
-    }
-    gem_specs.sort! { |a, b| a.name <=> b.name }
-    gem_specs
-  end
 
-  # Returns a list of all the skippy library gems this project depends on,
-  # including nested dependencies.
-  #
-  # @return [Array<Gem::Specification>]
-  def all_dependencies
-    # puts
-    # puts @path
-    # puts Dir.glob("#{@path}/*").join("\n")
-
-    # TODO: Reuse .dependencies
-
-    lockfile_path = File.join(@path, 'Gemfile.lock')
-    lockfile = Bundler.read_file(lockfile_path)
-    parser = Bundler::LockfileParser.new(lockfile)
-
-    gem_specs = [] # The project's gem specs.
-    parser.specs.each { |bundle_spec|
-      # All skippy lib gems must start with 'skippy-'.
-      next unless bundle_spec.name.start_with?('skippy-')
-
-      # Find the spec for the given spec an version
-      specs = Gem::Specification.find_all_by_name(bundle_spec.name)
-      gem = specs.find { |spec|
-        spec.version == bundle_spec.version
-      }
-      gem or raise Skippy::GemNotFoundError, "#{bundle_spec.name} (#{bundle_spec.version})"
-
-      gem_spec = specs.last
-      gem_specs << gem_spec
+      next unless nested
 
       # Check dependencies.
-      # TODO: Might be nested dependecies.
+      # TODO: Might be nested dependencies.
       bundle_spec.dependencies.each { |dependency|
         next unless dependency.name.start_with?('skippy-')
 

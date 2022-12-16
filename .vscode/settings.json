@@ -12,6 +12,11 @@
     "rubocop": true
   },
 
+  "rubyTestExplorer.debugCommand": "bundle exec rdebug-ide -I src -I test",
+  "rubyTestExplorer.minitestCommand": "bundle exec rake -I src -I test",
+  "rubyTestExplorer.minitestDirectory": "./test",
+  "rubyTestExplorer.logpanel": true,
+
   "[markdown]": {
     "editor.wordWrap": "bounded",
     "editor.wordWrapColumn": 80

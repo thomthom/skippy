@@ -35,6 +35,19 @@ class Skippy::BundlerProject
   #
   # @return [Array<Gem::Specification, Bundler::StubSpecification>]
   def available_gems
+    # https://github.com/rubygems/rubygems/blob/master/lib/rubygems/defaults.rb
+    # https://github.com/rubygems/rubygems/blob/master/lib/rubygems.rb
+    #
+    # https://github.com/rubygems/rubygems/blob/e70216910fd97b45d33949a838a6efc0fd058793/lib/rubygems/specification.rb#L964-L968
+    # https://github.com/rubygems/rubygems/blob/e70216910fd97b45d33949a838a6efc0fd058793/lib/rubygems/specification.rb#L816-L824
+    # https://github.com/rubygems/rubygems/blob/e70216910fd97b45d33949a838a6efc0fd058793/lib/rubygems/specification.rb#L790-L795
+    #
+    # Gem::Specification.dirs
+    # => ["C:/Users/Thomas/.gem/ruby/2.7.0/specifications", "C:/Ruby27-x64/lib/ruby/gems/2.7.0/specifications"]
+    #
+    # Gem::Specification.stubs_for('skippy').map { |spec| "#{spec.name} (#{spec.version})" }
+    #
+    # Gem::Specification.stubs.size
     Gem::Specification.select { |spec| spec.name.start_with?('skippy-') }
   end
 

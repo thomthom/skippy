@@ -39,7 +39,7 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
   # @param [String] name
   # @param [String] version
   # @return [Array<SpecificationStub>]
-  def spesification_stub(name, version)
+  def specification_stub(name, version)
     SpecificationStub.new(name, Gem::Version.new(version))
   end
 
@@ -54,22 +54,40 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
   #   end
   #
   # @return [Array<Gem::Specification>]
-  def spesification_stubs
+  def specification_stubs
     [
-      spesification_stub('example-gem', '2.5.6'),
-      spesification_stub('skippy-example', '0.6.1'),
-      spesification_stub('skippy-ex-lib', '1.2.3'),
-      spesification_stub('skippy-dep-lib', '4.5.6'),
-      spesification_stub('skippy', '0.4.0'),
+      specification_stub('example-gem', '2.5.6'),
+      specification_stub('skippy-example', '0.6.1'),
+      specification_stub('skippy-ex-lib', '1.2.3'),
+      specification_stub('skippy-dep-lib', '4.5.6'),
+      specification_stub('skippy', '0.4.0'),
     ]
+  end
+
+  def fixture_gem_stubs
+    base_dir = Pathname.new(__dir__).parent.join('fixtures', 'ruby-gems')
+    gems_dir = base_dir.join('gems')
+    spec_dir = base_dir.join('specifications')
+    pattern = spec_dir.join('*.gemspec').to_s
+    Dir.glob(pattern).map { |path|
+      # https://www.rubydoc.info/github/rubygems/rubygems/Gem/StubSpecification#initialize-instance_method
+      Gem::StubSpecification.new(path, base_dir.to_s, gems_dir.to_s, false)
+    }
+  end
+
+  # Stub replacement for Gem::Specification#each
+  def each_specification_stubs
+    proc do |&block|
+      fixture_gem_stubs.each { |spec| block.call(spec) }
+    end
   end
 
   # Stub replacement for Gem::Specification#find_all_by_name
   def find_all_by_name_stub
     # puts [:def_find_all_by_name_stub, name]
-    Proc.new do |name|
+    proc do |name|
       # puts [:find_all_by_name_stub, name]
-      spesification_stubs.select { |spesification|
+      specification_stubs.select { |spesification|
         spesification.name == name
       }
     end
@@ -118,25 +136,22 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
   end
 
   def test_that_it_can_list_available_global_gems
-    skip('TODO')
     use_fixture('project_with_lib')
 
-    gems_path = Pathname.new(__dir__).parent.join('fixtures', 'ruby-gems', 'gems')
-    # gems = Gem.stub(:dir, gems_path) do
-    #   bundler_project = Skippy::BundlerProject.new(work_path)
-    #   bundler_project.available_gems
-    # end
-    bundler_project = Skippy::BundlerProject.new(work_path)
-    gems = bundler_project.available_gems
-    gems.each { |spec| p [spec.name, spec.class] }
+    bundler_project = Gem::Specification.stub(:find_all_by_name, find_all_by_name_stub) do
+      Skippy::BundlerProject.new(work_path)
+    end
+    gems = Gem::Specification.stub(:each, each_specification_stubs) do
+      bundler_project.available_gems
+    end
 
-    # Might be Bundler::StubSpecification
+    # Might be Bundler::StubSpecification (?) or Gem::StubSpecification
     # gems.each { |gem|
     #   assert_kind_of(Gem::Specification, gem)
     # }
 
     data = {}
-    gems.each { |gem| data[gem.name] = gem }
+    gems.each { |gem| data[gem.full_name] = gem }
     expected = [
       ['skippy-dep-lib', '4.5.6', true],
       ['skippy-dep-lib', '5.2.1', true],
@@ -145,7 +160,8 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
       ['skippy-other-lib', '4.5.6', true],
     ]
     expected.each { |name, version, exists|
-      gem = data[name]
+      full_name = "#{name}-#{version}"
+      gem = data[full_name]
       refute_nil(gem, "Unable to find expected gem: #{name}")
       assert_equal(name, gem.name)
       assert_equal(version, gem.version.to_s)

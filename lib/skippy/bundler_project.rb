@@ -9,6 +9,9 @@ end
 
 class Skippy::BundlerProject
 
+  # https://stackoverflow.com/a/40098825
+  # https://willschenk.com/articles/2020/looking_at_gemfiles/
+
   # class LockFileParser < Bundler::LockfileParser
   #   attr_reader :sources, :dependencies, :specs, :platforms, :bundler_version, :ruby_version
   # end
@@ -34,6 +37,9 @@ class Skippy::BundlerProject
     # end
 
     # Bundler::LockfileError (You must use Bundler 2 or greater with this lockfile.)
+
+    lock_file = @path.join('Gemfile.lock')
+    context = Bundler::LockfileParser.new(Bundler.read_file(lock_file))
 
     # When running the tests in this project via `bundler exec` the
     # ENV["BUNDLE_GEMFILE"] will be set to the Gemfile of skippy - not the
@@ -66,81 +72,49 @@ class Skippy::BundlerProject
     ENV["BUNDLE_GEMFILE"] = original
   end
 
+  # Returns a list of all the skippy library gems this project depends on.
+  #
   # @return [Array<Gem::Specification>]
   def gems
-    # specs = Bundler.definition.locked_gems.specs
-    # p dependencies.map(&:full_name)
-    # p dependencies
-    puts JSON.pretty_generate(dependencies)
+    # puts
+    # puts @path
+    # puts Dir.glob("#{@path}/*").join("\n")
 
-    puts
-    # default_lockfile = Bundler.default_lockfile
-    puts @path
-    puts Dir.glob("#{@path}/*").join("\n")
-    # default_lockfile = Dir.chdir(@path.to_s) do
-    #   Bundler.default_lockfile
-    # end
-    # puts default_lockfile
-    # lockfile = File.read(default_lockfile)
     lockfile_path = File.join(@path, 'Gemfile.lock')
-    puts lockfile_path
-    lockfile = File.read(lockfile_path)
+    lockfile = Bundler.read_file(lockfile_path)
     parser = Bundler::LockfileParser.new(lockfile)
-    # p parser.specs
-    gem_specs = []
+
+    gem_specs = [] # The project's gem specs.
     parser.specs.each { |bundle_spec|
-      # puts "bundle_spec: #{bundle_spec.name}"
+      # All skippy lib gems must start with 'skippy-'.
       next unless bundle_spec.name.start_with?('skippy-')
 
-      # p [:dep, dependency.name, dependency.version]
+      # Find the spec for the given spec an version
       specs = Gem::Specification.find_all_by_name(bundle_spec.name)
-      # gem = specs.find { |spec| spec.version == dependency.version }
-      # TODO: find best match based on Bundle requirements.
       gem = specs.find { |spec|
-        # p [:version, spec.version, dependency.version, spec.version == dependency.version]
         spec.version == bundle_spec.version
       }
       gem or raise Skippy::GemNotFoundError, "#{bundle_spec.name} (#{bundle_spec.version})"
-      # gem or raise Skippy::GemNotFoundError, dependency.full_name
+
       gem_spec = specs.last
       gem_specs << gem_spec
 
+      # Check dependencies.
+      # TODO: Might be nested dependecies.
       bundle_spec.dependencies.each { |dependency|
         next unless dependency.name.start_with?('skippy-')
-        # puts "  dependency: #{dependency.name}"
-        specs = Gem::Specification.find_all_by_name(dependency.name)
-        # TODO: find best match based on Bundle requirements.
-        # gem = specs.find { |spec|
-        #   spec.version == dependency.version
-        # }
-        gem or raise Skippy::GemNotFoundError, "#{dependency.name} (#{dependency.version})"
-        gem = specs.last
 
-        gem_specs << gem
+        specs = Gem::Specification.find_all_by_name(dependency.name)
+        gem_dep = specs.find { |spec|
+          dependency.matches_spec?(spec)
+        }
+        gem_dep or raise Skippy::GemNotFoundError, "#{dependency.name} (#{dependency.version})"
+        gem_specs << gem_dep
       }
     }
     puts
     gem_specs.sort! { |a, b| a.name <=> b.name }
     gem_specs
-
-=begin
-    # result = []
-    dependencies.map { |dependency|
-      # p [:dep, dependency.name, dependency.version]
-      specs = Gem::Specification.find_all_by_name(dependency.name)
-      # gem = specs.find { |spec| spec.version == dependency.version }
-      # TODO: find best match based on Bundle requirements.
-      gem = specs.find { |spec|
-        # p [:version, spec.version, dependency.version, spec.version == dependency.version]
-        spec.version == dependency.version
-      }
-      gem or raise Skippy::GemNotFoundError, "#{dependency.name} (#{dependency.version})"
-      # gem or raise Skippy::GemNotFoundError, dependency.full_name
-      # gem = specs.last
-      # result << gem if gem
-    }
-    # result
-=end
   end
 
 end

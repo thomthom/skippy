@@ -22,10 +22,38 @@ require 'skippy/bundler_project'
 
 class SkippyBundlerProjectTest < Skippy::Test::Fixture
 
-  def spesification_stub(name, version)
-    Gem::Specification.new(name, Gem::Version.new(version))
+  class SpecificationStub < Gem::Specification
+
+    ##
+    # Returns the full path to the gems directory containing this spec's
+    # gem directory. eg: /usr/local/lib/ruby/1.8/gems
+    def gems_dir
+      # https://github.com/rubygems/rubygems/blob/aabb00d9b5a30aa4243f74644b527426d4c6f287/lib/rubygems/basic_specification.rb#L200
+      # TODO: Should this be a temp copy?
+      # TODO: Reuse the instance methods from Skippy::Test.
+      Pathname.new(__dir__).parent.join('fixtures', 'gems')
+    end
+
   end
 
+  # @param [String] name
+  # @param [String] version
+  # @return [Array<SpecificationStub>]
+  def spesification_stub(name, version)
+    SpecificationStub.new(name, Gem::Version.new(version))
+  end
+
+  # To avoid needing to install gems, this method can be used to return stubs
+  # for installed extensions.
+  #
+  # @example
+  #   gems = Gem::Specification.stub(:find_all_by_name, find_all_by_name_stub) do
+  #     bundler_project = Skippy::BundlerProject.new(work_path)
+  #     # gems = bundler_project.gems
+  #     bundler_project.gems
+  #   end
+  #
+  # @return [Array<Gem::Specification>]
   def spesification_stubs
     [
       spesification_stub('example-gem', '2.5.6'),
@@ -90,10 +118,8 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
   def test_that_it_can_list_available_project_gems
     use_fixture('project_with_lib')
 
-    # gems = nil
     gems = Gem::Specification.stub(:find_all_by_name, find_all_by_name_stub) do
       bundler_project = Skippy::BundlerProject.new(work_path)
-      # gems = bundler_project.gems
       bundler_project.gems
     end
 
@@ -101,15 +127,25 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
       assert_kind_of(Gem::Specification, gem)
     }
 
+    data = {}
     gems.each { |gem|
-      puts "#{gem.name} - #{gem.version} (#{gem.full_gem_path})"
+      # exists = File.directory?(gem.gem_dir) ? 'EXISTS' : 'MISSING'
+      # puts "#{gem.name} - #{gem.version} (#{gem.gem_dir} - #{exists})"
+      data[gem.name] = gem
+    }
+    [
+      ['skippy-dep-lib', '4.5.6', true],
+      ['skippy-ex-lib', '1.2.3', true],
+      ['skippy-example', '0.6.1', true],
+    ].each { |name, version, exists|
+      gem = data[name]
+      refute_nil(gem)
+      assert_equal(name, gem.name)
+      assert_equal(version, gem.version.to_s)
+      assert_equal(exists, File.directory?(gem.gem_dir))
     }
 
-    # p [:gems, gems.map(&:name), gems.map(&:version)]
-    # p [:gems, gems.map(&:full_gem_path)] # Check that path exists.
-    # TODO: Use gem_dir? (See basic_specification.rb)
-    # In the stubs - set the full_gem_path to the fixture path?
-    # TODO: Test nested dependencies
+    # TODO: Check nested dependencies.
   end
 
 end

@@ -63,10 +63,14 @@ class Skippy::Test < Minitest::Test
 
   private
 
+  # Returns the path to a named fixture in the project.
+  # @return [Pathname]
   def fixture(fixture_name)
     skippy_root.join('fixtures', fixture_name)
   end
 
+  # The root of the skippy project.
+  # @return [Pathname]
   def skippy_root
     Pathname.new(__dir__).parent
   end

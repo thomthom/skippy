@@ -1,4 +1,5 @@
 require 'skippy/error'
+require 'skippy/bundler_library_manager'
 
 module Skippy
 
@@ -16,11 +17,14 @@ class Skippy::BundlerProject
   #   attr_reader :sources, :dependencies, :specs, :platforms, :bundler_version, :ruby_version
   # end
 
+  attr_reader :libraries
+
   # @param [Pathname, String] path
   def initialize(path)
     require 'bundler'
 
     @path = Pathname.new(path)
+    @libraries = Skippy::BundlerLibraryManager.new(self)
     # @path = find_project_path(path) || Pathname.new(path)
     # @config = Skippy::Config.load(filename, defaults)
     # @libraries = Skippy::LibraryManager.new(self)

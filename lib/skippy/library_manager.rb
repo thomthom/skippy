@@ -31,7 +31,7 @@ class Skippy::LibraryManager
 
   # @param [Skippy::Project] project
   def initialize(project)
-    raise TypeError, 'expected a Project' unless project.is_a?(Skippy::Project)
+    raise TypeError, 'expected a Project' unless project.is_a?(Skippy::Project) || project.is_a?(Skippy::BundlerProject)
 
     @project = project
     @libraries = SortedSet.new(discover_libraries)

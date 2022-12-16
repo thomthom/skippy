@@ -82,6 +82,37 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
   end
 
   def test_that_it_can_list_available_project_libraries
+    # TODO: This should be part of LibraryManager.
+    use_fixture('project_with_lib')
+
+    libs = Gem::Specification.stub(:find_all_by_name, find_all_by_name_stub) do
+      bundler_project = Skippy::BundlerProject.new(work_path)
+      bundler_project.libraries.to_a
+    end
+
+    libs.each { |lib|
+      assert_kind_of(Skippy::Library, lib)
+    }
+
+    # Only expect direct dependencies. If the project want to use a
+    # sub-dependency that should be declared explicitly and not be relied on
+    # implicitly.
+    data = {}
+    libs.each { |lib| data[lib.name] = lib }
+    expected = [
+      ['ex-lib', '1.2.3'],
+      ['example-lib', '0.6.1'],
+    ]
+    expected.each { |name, version|
+      gem = data[name]
+      refute_nil(gem, "Unable to find expected library: #{name}")
+      assert_equal(name, gem.name)
+      assert_equal(version, gem.version.to_s)
+    }
+    assert_equal(expected.size, libs.size)
+  end
+
+  def test_that_it_can_list_used_project_library_modules
     skip('TODO')
     # TODO:
   end

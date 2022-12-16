@@ -31,7 +31,7 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
       # https://github.com/rubygems/rubygems/blob/aabb00d9b5a30aa4243f74644b527426d4c6f287/lib/rubygems/basic_specification.rb#L200
       # TODO: Should this be a temp copy?
       # TODO: Reuse the instance methods from Skippy::Test.
-      Pathname.new(__dir__).parent.join('fixtures', 'gems')
+      Pathname.new(__dir__).parent.join('fixtures', 'ruby-gems', 'gems')
     end
 
   end
@@ -121,7 +121,7 @@ class SkippyBundlerProjectTest < Skippy::Test::Fixture
     skip('TODO')
     use_fixture('project_with_lib')
 
-    gems_path = Pathname.new(__dir__).parent.join('fixtures', 'gems')
+    gems_path = Pathname.new(__dir__).parent.join('fixtures', 'ruby-gems', 'gems')
     # gems = Gem.stub(:dir, gems_path) do
     #   bundler_project = Skippy::BundlerProject.new(work_path)
     #   bundler_project.available_gems

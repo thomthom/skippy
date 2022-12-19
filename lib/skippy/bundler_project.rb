@@ -21,7 +21,7 @@ class Skippy::BundlerProject
 
   # @param [Pathname, String] path
   def initialize(path)
-    require 'bundler'
+    require 'bundler' # TODO: Use autoload?
 
     @path = Pathname.new(path)
     @libraries = Skippy::BundlerLibraryManager.new(self)

@@ -1,5 +1,13 @@
+# frozen_string_literal: true
+
 require 'skippy/error'
 require 'skippy/bundler_library_manager'
+
+# Lazy-load Bundler because it's slow (at least on Windows).
+#
+# Note issues with autoload:
+#   https://bugs.ruby-lang.org/issues/5653
+autoload(:Bundler, 'bundler')
 
 module Skippy
 
@@ -20,10 +28,10 @@ class Skippy::BundlerProject
   attr_reader :libraries
 
   # @param [Pathname, String] path
-  def initialize(path)
-    require 'bundler' # TODO: Use autoload?
-
+  # @param [Enumerable, #select, #find_all_by_name] gemspecs
+  def initialize(path, gemspecs: Gem::Specification)
     @path = Pathname.new(path)
+    @gemspecs = gemspecs
     @libraries = Skippy::BundlerLibraryManager.new(self)
     # @path = find_project_path(path) || Pathname.new(path)
     # @config = Skippy::Config.load(filename, defaults)
@@ -35,20 +43,7 @@ class Skippy::BundlerProject
   #
   # @return [Array<Gem::Specification, Bundler::StubSpecification>]
   def available_gems
-    # https://github.com/rubygems/rubygems/blob/master/lib/rubygems/defaults.rb
-    # https://github.com/rubygems/rubygems/blob/master/lib/rubygems.rb
-    #
-    # https://github.com/rubygems/rubygems/blob/e70216910fd97b45d33949a838a6efc0fd058793/lib/rubygems/specification.rb#L964-L968
-    # https://github.com/rubygems/rubygems/blob/e70216910fd97b45d33949a838a6efc0fd058793/lib/rubygems/specification.rb#L816-L824
-    # https://github.com/rubygems/rubygems/blob/e70216910fd97b45d33949a838a6efc0fd058793/lib/rubygems/specification.rb#L790-L795
-    #
-    # Gem::Specification.dirs
-    # => ["C:/Users/Thomas/.gem/ruby/2.7.0/specifications", "C:/Ruby27-x64/lib/ruby/gems/2.7.0/specifications"]
-    #
-    # Gem::Specification.stubs_for('skippy').map { |spec| "#{spec.name} (#{spec.version})" }
-    #
-    # Gem::Specification.stubs.size
-    Gem::Specification.select { |spec| spec.name.start_with?('skippy-') }
+    @gemspecs.select { |spec| spec.name.start_with?('skippy-') }
   end
 
   # Returns a list of all the skippy library gems this project depends on.
@@ -73,7 +68,7 @@ class Skippy::BundlerProject
       next unless bundle_spec.name.start_with?('skippy-')
 
       # Find the spec for the given spec an version
-      specs = Gem::Specification.find_all_by_name(bundle_spec.name)
+      specs = @gemspecs.find_all_by_name(bundle_spec.name)
       gem = specs.find { |spec|
         spec.version == bundle_spec.version
       }
@@ -89,7 +84,7 @@ class Skippy::BundlerProject
       bundle_spec.dependencies.each { |dependency|
         next unless dependency.name.start_with?('skippy-')
 
-        specs = Gem::Specification.find_all_by_name(dependency.name)
+        specs = @gemspecs.find_all_by_name(dependency.name)
         gem_dep = specs.find { |spec|
           dependency.matches_spec?(spec)
         }

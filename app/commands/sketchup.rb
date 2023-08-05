@@ -11,20 +11,49 @@ class Sketchup < Skippy::Command
   include Thor::Actions
 
   option :port, :type => :numeric, :default => 7000
-  desc 'debug VERSION', 'Start SketchUp with Ruby Debugger'
-  def debug(version)
+  option :rubyStartup, :type => :string, :default => ''
+  option :skpFile, :type => :string, :default => ''
+
+  desc 'debug VERSION [rubyStartup] [skpFile]', 'Start SketchUp with Ruby Debugger'
+  def debug(version, ruby_startup = '', skp_file = '')
     app = find_sketchup(version)
     unless app.can_debug
       raise Skippy::Error, "Debug library not installed for Sketchup #{version}"
     end
 
     arguments = ['-rdebug', %("ide port=#{options.port}")]
+
+    if ruby_startup != ''
+      if ruby_startup.end_with?('.skp')
+        skp_file = ruby_startup
+      else
+        arguments.append(['-RubyStartup', ruby_startup])
+      end
+    end
+
+    if skp_file != ''
+      arguments.append(skp_file)
+    end
+
     Skippy.os.launch_app(app.executable, *arguments)
   end
 
-  desc 'launch VERSION', 'Start SketchUp'
-  def launch(version)
+  desc 'launch VERSION [rubyStartup] [skpFile]', 'Start SketchUp'
+  def launch(version, ruby_startup = '')
     app = find_sketchup(version)
+
+    if ruby_startup != ''
+      if ruby_startup.end_with?('.skp')
+        skp_file = ruby_startup
+      else
+        arguments.append(['-RubyStartup', ruby_startup])
+      end
+    end
+
+    if skp_file != ''
+      arguments.append(skp_file)
+    end
+
     Skippy.os.launch_app(app.executable)
   end
 

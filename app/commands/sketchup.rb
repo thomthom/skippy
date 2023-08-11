@@ -42,6 +42,8 @@ class Sketchup < Skippy::Command
   def launch(version, ruby_startup = '')
     app = find_sketchup(version)
 
+    arguments = []
+
     if ruby_startup != ''
       if ruby_startup.end_with?('.skp')
         skp_file = ruby_startup
@@ -54,7 +56,7 @@ class Sketchup < Skippy::Command
       arguments.append(skp_file)
     end
 
-    Skippy.os.launch_app(app.executable)
+    Skippy.os.launch_app(app.executable, *arguments)
   end
 
   desc 'list', 'List all known SketchUp versions'

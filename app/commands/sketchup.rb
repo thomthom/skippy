@@ -39,7 +39,7 @@ class Sketchup < Skippy::Command
   end
 
   desc 'launch VERSION [rubyStartup] [skpFile]', 'Start SketchUp'
-  def launch(version, ruby_startup = '')
+  def launch(version, ruby_startup = '', skp_file = '')
     app = find_sketchup(version)
 
     arguments = []

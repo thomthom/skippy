@@ -27,17 +27,28 @@ class Skippy::OSWin < Skippy::OSCommon
     apps = []
     program_files_paths.each { |program_files|
       pattern = "#{program_files}/{@Last Software,Google,SketchUp}/*SketchUp *"
-      Dir.glob(pattern) { |path|
-        exe = File.join(path, 'SketchUp.exe')
+      Dir.glob(pattern) { |app_path|
+        ext_filename = 'SketchUp.exe'
+        exe = File.join(app_path, ext_filename)
+        path = app_path
+
+        # SketchUp 2025.0 changed the location of the executable.
+        unless File.exist?(exe)
+          path = File.join(app_path, 'SketchUp')
+          exe = File.join(path, ext_filename)
+        end
+
+        next unless File.exist?(exe)
+
         debug_dll = File.join(path, 'SURubyDebugger.dll')
-        version = sketchup_version_from_path(path)
+        version = sketchup_version_from_path(app_path)
         next unless version
 
         apps << Skippy::SketchUpApp.from_hash(
           executable: exe,
           version: version,
           can_debug: File.exist?(debug_dll),
-          is64bit: SYSTEM_64BIT && path.start_with?("#{PROGRAM_FILES_64BIT}/")
+          is64bit: SYSTEM_64BIT && app_path.start_with?("#{PROGRAM_FILES_64BIT}/")
         )
       }
     }
